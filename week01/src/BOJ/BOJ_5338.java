@@ -1,6 +1,6 @@
-package src;
+package src.BOJ;
 
-public class Boj5338 {
+public class BOJ_5338 {
     public static void main(String[] args) {
         System.out.println("       _.-;;-._");
         System.out.println("'-..-'|   ||   |");
