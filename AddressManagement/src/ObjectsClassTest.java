@@ -3,8 +3,8 @@ import java.util.Set;
 
 public class ObjectsClassTest {
     public static void main(String[] args) {
-        Person p1 = new Person("홍길동", 20);
-        Person p2 = new Person("홍길동", 20);
+        Person p1 = new Person("홍길동", 20, "집");
+        Person p2 = new Person("홍길동", 20, "집");
 
         // 두 객체의 해시 코드
         System.out.println(p1.hashCode()); // 54150093
