@@ -1,21 +1,20 @@
-package Shopping;
-
-import java.util.*;
-import java.time.*;
+package src.Shopping;
 
 public class User {
-    
+
     private String uid;
     private String password;
     private String address;
     private String tel;
 
-    public User() {}
-    
-    public User(String uid, String password) {
-    	this.uid = uid;
-    	this.password =password;
+    public User() {
     }
+
+    public User(String uid, String password) {
+        this.uid = uid;
+        this.password = password;
+    }
+
     public String getUid() {
         return uid;
     }

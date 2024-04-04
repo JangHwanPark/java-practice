@@ -1,26 +1,23 @@
-package Product;
-
-import java.util.*;
-import java.time.*;
-
+package src.Product;
 
 public class KeyBoard extends iProduct {
-    
+
     private String type;
     private String color;
 
-    public KeyBoard() {   	
-    	
+    public KeyBoard() {
+
     }
-    public KeyBoard(String maker, int totalquantity, int price) {  
-    	 
-    	setMaker(maker);
-    	setKind("KEYBOARD");
-    	setPrice(price);
-    	setTotalquantity(totalquantity);
-    	color ="Black";
+
+    public KeyBoard(String maker, int totalquantity, int price) {
+
+        setMaker(maker);
+        setKind("KEYBOARD");
+        setPrice(price);
+        setTotalquantity(totalquantity);
+        color = "Black";
     }
-    
+
     public String getType() {
         return type;
     }
@@ -36,10 +33,10 @@ public class KeyBoard extends iProduct {
     public void setColor(String color) {
         this.color = color;
     }
-    
+
     public void showitem() {
-    	System.out.println(kind + ":" + maker+  ":" + totalquantity +  ":" +price + "   color : " + color);
-   
+        System.out.println(kind + ":" + maker + ":" + totalquantity + ":" + price + "   color : " + color);
+
     }
 
 

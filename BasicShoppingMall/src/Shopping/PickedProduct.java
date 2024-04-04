@@ -1,30 +1,29 @@
-
-package Shopping;
-import java.util.*;
-import java.time.*;
+package src.Shopping;
 
 public class PickedProduct {
-   
+
     private int id;
     private int productid;
     private String itemname;
     private int price;
     private int quantity;
+
     public PickedProduct() {
     }
-    public PickedProduct(int productid,String itemname,int price, int quantity) {
-    	setProductid(productid);
-    	setItemname(itemname);
-    	setPrice(price);
-    	setQuantity(quantity);
-    	
-    	showPickedProduct();
+
+    public PickedProduct(int productid, String itemname, int price, int quantity) {
+        setProductid(productid);
+        setItemname(itemname);
+        setPrice(price);
+        setQuantity(quantity);
+
+        showPickedProduct();
     }
-    
+
     public void showPickedProduct() {
-    	System.out.println(productid+ " : " +itemname+ " : " +price+ " : " +quantity);
+        System.out.println(productid + " : " + itemname + " : " + price + " : " + quantity);
     }
-    
+
     public int getId() {
         return id;
     }

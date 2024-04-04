@@ -1,13 +1,7 @@
-package Product;
-
-import java.util.*;
-import java.time.*;
-
-
-import Shopping.ShoppingBasket;
+package src.Product;
 
 public abstract class iProduct {
-    
+
     protected int pid;
     protected String kind;
     protected int totalquantity;
@@ -16,7 +10,7 @@ public abstract class iProduct {
     protected String year;
     protected String itemname;
 
-  
+
     public int getPid() {
         return pid;
     }
@@ -73,6 +67,6 @@ public abstract class iProduct {
         this.itemname = itemname;
     }
 
-    public abstract void showitem() ;
+    public abstract void showitem();
 
 }

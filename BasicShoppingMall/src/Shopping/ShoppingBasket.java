@@ -1,35 +1,43 @@
-package Shopping;
-import java.util.*;
-import java.time.*;
+package src.Shopping;
+
+import java.util.Vector;
 
 public class ShoppingBasket {
-    
+
     private int sbid;
-    private String uid;   
+    private String uid;
     private String date;
     private boolean payment;
     private int amount;
-    private Vector<PickedProduct> shoppingList = new Vector<PickedProduct>();
+    private final Vector<PickedProduct> shoppingList = new Vector<PickedProduct>();
 
-    public ShoppingBasket() {}
-    public ShoppingBasket(String uid) {
-          this.uid = uid;
+    public ShoppingBasket() {
     }
+
+    public ShoppingBasket(String uid) {
+        this.uid = uid;
+    }
+
     public int getSbid() {
         return sbid;
     }
+
     public String getUid() {
         return uid;
     }
+
     public String getDate() {
         return date;
     }
+
     private boolean isPayment() {
         return payment;
     }
+
     public int getAmount() {
         return amount;
     }
+
     public void setSbid(int sbid) {
         this.sbid = sbid;
     }
@@ -51,43 +59,43 @@ public class ShoppingBasket {
     }
 
     public void addProduct(PickedProduct p) {
-    	shoppingList.add(p);
+        shoppingList.add(p);
     }
-    
+
     public void pushBuyKey() {
-    	if(!isPayment())
-    		payment = true;
+        if (!isPayment())
+            payment = true;
     }
-    
+
     public void showShoppingList() {
-    	System.out.println("»ç¿ëÀÚ :" + getUid());
-    	for( PickedProduct pk : shoppingList) {
-    		pk.showPickedProduct(); 
-    	}
-    
+        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ :" + getUid());
+        for (PickedProduct pk : shoppingList) {
+            pk.showPickedProduct();
+        }
+
     }
-    
+
     public void showPayment() {
-    	System.out.println("amount :" + amount + "   payment: " + payment);
+        System.out.println("amount :" + amount + "   payment: " + payment);
     }
-    
+
     public void showDate() {
-   
+
     }
-    
+
     public void cancelBuy() {
-    
+
     }
-   
+
     public void showAmount() {
-    	int Amount=0;
-    	int price;
-    	int quantity;
-    	for( PickedProduct pk : shoppingList) {
-    		Amount = Amount + pk.getPrice() * pk.getQuantity();
-    	}
-    	this.amount = Amount ;
-    	System.out.println("Amount = " + amount);
+        int Amount = 0;
+        int price;
+        int quantity;
+        for (PickedProduct pk : shoppingList) {
+            Amount = Amount + pk.getPrice() * pk.getQuantity();
+        }
+        this.amount = Amount;
+        System.out.println("Amount = " + amount);
     }
 
 }
