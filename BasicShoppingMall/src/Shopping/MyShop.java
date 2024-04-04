@@ -1,18 +1,14 @@
-﻿package src.Shopping;
+package src.Shopping;
 import src.Product.*;
-
 import java.util.Vector;
 
 
 public class MyShop {
-
     private ProductList pl;
-
     private ShoppingBasket currentSBasket;
     private User currentUser;
-
-    private final Vector<User> Users = new Vector<User>();
-    private final Vector<ShoppingBasket> Sbs = new Vector<ShoppingBasket>();
+    private final Vector<User> Users = new Vector<>();
+    private final Vector<ShoppingBasket> Sbs = new Vector<>();
 
     // private  ProductList Pl;
 
@@ -141,8 +137,8 @@ public class MyShop {
 
         // 모든 사용자 장바구니 보기
         System.out.println("----------모든 사용자 쇼핑리스트-------------");
-//    	u = selectUser(1);
-//    	setCurrentUser(u);    	
+    	// u = selectUser(1);
+    	// setCurrentUser(u);
 
         for (ShoppingBasket sb : Sbs) {
 
@@ -230,7 +226,7 @@ public class MyShop {
     }
 
     public Vector<ShoppingBasket> selectShoppingBasket(String uid) {
-        Vector<ShoppingBasket> userBasket = new Vector<ShoppingBasket>();
+        Vector<ShoppingBasket> userBasket = new Vector<>();
         for (ShoppingBasket sb : Sbs) {
             if (uid.equals(sb.getUid())) {
                 userBasket.add(sb);
