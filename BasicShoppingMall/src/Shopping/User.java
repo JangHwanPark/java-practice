@@ -1,20 +1,24 @@
 package src.Shopping;
 
 public class User {
-
     private String uid;
     private String password;
     private String address;
     private String tel;
 
-    public User() {
-    }
+    /**
+     * 기본 생성자.<br>
+     * {@code User} 객체를 생성할 때 특별한 초기화 작업 없이 객체를 생성합니다.
+     */
+    public User() {}
 
+    /** Todo User Constructors*/
     public User(String uid, String password) {
         this.uid = uid;
         this.password = password;
     }
 
+    // Getter
     public String getUid() {
         return uid;
     }
@@ -31,6 +35,7 @@ public class User {
         return tel;
     }
 
+    // Setter
     public void setUid(String uid) {
         this.uid = uid;
     }
@@ -46,5 +51,4 @@ public class User {
     public void setTel(String tel) {
         this.tel = tel;
     }
-
 }

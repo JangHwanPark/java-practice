@@ -16,7 +16,8 @@ public class KeyBoard extends iProduct {
 
     /**
      * 매개변수를 받는 생성자.<br>
-     * 주어진 매개변수로 키보드 객체의 상태를 초기화합니다. 기본 색상은 "Black"으로 설정됩니다.
+     * 주어진 매개변수와 setter 메소드를 이용해 private 키보드 객체의 상태를 초기화합니다.<br>
+     * 기본 색상은 "Black"으로 설정됩니다.
      *
      * @param maker 키보드의 제조사
      * @param totalquantity 키보드의 총 수량
@@ -30,6 +31,7 @@ public class KeyBoard extends iProduct {
         this.color = "Black"; // 기본 색상 설정
     }
 
+    // Getter
     /**
      * 키보드의 타입을 반환합니다.
      *
@@ -48,6 +50,7 @@ public class KeyBoard extends iProduct {
         return color;
     }
 
+    // Setter
     /**
      * 키보드의 타입을 설정합니다.
      *
@@ -66,6 +69,7 @@ public class KeyBoard extends iProduct {
         this.color = color;
     }
 
+    // View
     /**
      * 키보드 상품의 상세 정보를 콘솔에 출력합니다.<br>
      * 상품 종류, 제조사, 총 수량, 가격 및 색상을 포함한 정보를 출력합니다.

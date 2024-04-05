@@ -1,9 +1,10 @@
 package src.Shopping;
-
 import java.util.Vector;
 
+/**
+ * {@link ShoppingBasket} - 사용자별 장바구니 인스턴스를 생성하는 클래스 입니다.<br>
+ * Todo ShoppingBasket 작성*/
 public class ShoppingBasket {
-
     private int sbid;
     private String uid;
     private String date;
@@ -11,13 +12,18 @@ public class ShoppingBasket {
     private int amount;
     private final Vector<PickedProduct> shoppingList = new Vector<PickedProduct>();
 
-    public ShoppingBasket() {
-    }
+    /**
+     * 기본 생성자.<br>
+     * {@code ShoppingBasket} 객체를 생성할 때 특별한 초기화 작업 없이 객체를 생성합니다.
+     */
+    public ShoppingBasket() {}
 
+    /** Todo ShoppingBasket 생성자 작성 */
     public ShoppingBasket(String uid) {
         this.uid = uid;
     }
 
+    // Getter
     public int getSbid() {
         return sbid;
     }
@@ -38,6 +44,7 @@ public class ShoppingBasket {
         return amount;
     }
 
+    // Setter
     public void setSbid(int sbid) {
         this.sbid = sbid;
     }
@@ -58,25 +65,25 @@ public class ShoppingBasket {
         this.amount = amount;
     }
 
+    // Business
     public void addProduct(PickedProduct p) {
         shoppingList.add(p);
     }
 
     public void pushBuyKey() {
-        if (!isPayment())
-            payment = true;
+        if (!isPayment()) payment = true;
     }
 
+    // View
     public void showShoppingList() {
-        System.out.println("����� :" + getUid());
+        System.out.println("사용자 아이디: " + getUid());
         for (PickedProduct pk : shoppingList) {
             pk.showPickedProduct();
         }
-
     }
 
     public void showPayment() {
-        System.out.println("amount :" + amount + "   payment: " + payment);
+        System.out.println("amount: " + amount + "\n" + "payment: " + payment);
     }
 
     public void showDate() {
@@ -94,8 +101,8 @@ public class ShoppingBasket {
         for (PickedProduct pk : shoppingList) {
             Amount = Amount + pk.getPrice() * pk.getQuantity();
         }
+
         this.amount = Amount;
         System.out.println("Amount = " + amount);
     }
-
 }

@@ -1,10 +1,10 @@
 package src.Product;
 
 public class Monitor extends iProduct {
-
     private String size;
     private String type;
 
+    /** Todo Monitor 작성 */
     public Monitor(String maker, int totalquantity, int price) {
         setMaker(maker);
         setKind("MONITOR");
@@ -12,6 +12,7 @@ public class Monitor extends iProduct {
         setTotalquantity(totalquantity);
     }
 
+    // Getter
     public String getSize() {
         return size;
     }
@@ -20,6 +21,7 @@ public class Monitor extends iProduct {
         return type;
     }
 
+    // Setter
     public void setSize(String size) {
         this.size = size;
     }
@@ -28,10 +30,8 @@ public class Monitor extends iProduct {
         this.type = type;
     }
 
+    // View
     public void showitem() {
         System.out.println(kind + ":" + maker + ":" + totalquantity + ":" + price);
-
     }
-
-
 }
