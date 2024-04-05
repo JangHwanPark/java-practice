@@ -3,8 +3,6 @@ package src.Product;
 /**
  * {@link Monitor} 클래스는 {@link iProduct} 추상 클래스를 상속받아 구현된 클래스입니다.<br>
  * 이 클래스는 모니터에 대한 정보를 관리합니다, 모니터의 크기와 유형(예: LCD, LED 등)을 포함합니다.
- *
- * @author 사용자
  */
 public class Monitor extends iProduct {
     private String size;
