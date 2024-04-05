@@ -58,6 +58,8 @@ public class MyShop {
 
     /** User u - {@link #selectUser}사용자중 한명을 현재 사용자로선택 */
     public void run() {
+        // TODO: 하드코딩 개선 예정
+        // TODO: View, Controller 분리 예정
         User u = selectUser(0);
         setCurrentUser(u);
 
@@ -69,6 +71,9 @@ public class MyShop {
 
         //상품선택 1
         System.out.println("상품선택 1");
+        for (int i = 2; i < 4; i++) {
+            System.out.println(i);
+        }
         iProduct pt = pickupitem(pl);
         PickedProduct PickedProduct = new PickedProduct(pt.getPid(), pt.getMaker(), pt.getPrice(), 2);
         getCurrentSBasket().addProduct(PickedProduct);
@@ -165,6 +170,7 @@ public class MyShop {
      * 상품 생성 및 사용자 생성을 포함합니다.
      */
     public void setup() {
+        // TODO: 하드코딩 개선 예정
         ProductList pl = new ProductList();
         setPl(pl);
 
