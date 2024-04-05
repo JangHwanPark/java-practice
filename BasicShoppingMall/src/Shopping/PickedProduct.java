@@ -5,8 +5,8 @@ package src.Shopping;
  * Todo PickedProduct*/
 public class PickedProduct {
     private int id;
-    private int productid;
-    private String itemname;
+    private int productId;
+    private String itemName;
     private int price;
     private int quantity;
 
@@ -20,14 +20,14 @@ public class PickedProduct {
      * 매개변수를 받는 생성자.<br>
      * 주어진 매개변수와 setter 메소드를 이용해 private 객체의 상태를 초기화 합니다.
      *
-     * @param productid 선택한 상품 아이디
-     * @param itemname 선택한 상품 이름
+     * @param productId 선택한 상품 아이디
+     * @param itemName 선택한 상품 이름
      * @param price 결제할 상품 가격
      * @param quantity 선택한 수량
      */
-    public PickedProduct(int productid, String itemname, int price, int quantity) {
-        setProductid(productid);
-        setItemname(itemname);
+    public PickedProduct(int productId, String itemName, int price, int quantity) {
+        setProductId(productId);
+        setItemName(itemName);
         setPrice(price);
         setQuantity(quantity);
         showPickedProduct();
@@ -38,7 +38,7 @@ public class PickedProduct {
         System.out.println("--------------------------------------------------");
         System.out.printf("%-10s | %-12s | %-9s | %s\n", "Product ID", "Product Name", "Price (원)", "Quantity");
         System.out.println("--------------------------------------------------");
-        System.out.printf("%-10d | %-12s | %-9d | %d\n", productid, itemname, price, quantity);
+        System.out.printf("%-10d | %-12s | %-9d | %d\n", productId, itemName, price, quantity);
     }
 
     // Getter
@@ -46,12 +46,12 @@ public class PickedProduct {
         return id;
     }
 
-    public int getProductid() {
-        return productid;
+    public int getProductId() {
+        return productId;
     }
 
-    public String getItemname() {
-        return itemname;
+    public String getItemName() {
+        return itemName;
     }
 
     public int getPrice() {
@@ -67,12 +67,12 @@ public class PickedProduct {
         this.id = id;
     }
 
-    public void setProductid(int productid) {
-        this.productid = productid;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public void setItemname(String itemname) {
-        this.itemname = itemname;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public void setPrice(int price) {

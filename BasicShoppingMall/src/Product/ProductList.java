@@ -77,7 +77,7 @@ public class ProductList {
      * 현재 저장된 모든 상품 목록을 출력합니다.<br>
      * 각 상품은 상품이 제공하는 showitem 메서드를 통해 출력됩니다.
      */
-    public void showProductlist() {
+    public void showProductList() {
         for (iProduct p : productList) {
             p.showitem();
         }

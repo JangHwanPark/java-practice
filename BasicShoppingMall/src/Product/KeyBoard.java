@@ -1,7 +1,7 @@
 package src.Product;
 
 /**
- * {@code KeyBoard} 클래스는 {@code iProduct}의 구현체로, 키보드 상품 정보를 나타냅니다.
+ * {@code KeyBoard} 클래스는 {@code iProduct}의 구현체로, 키보드 상품 정보를 나타냅니다.<br>
  * 이 클래스는 키보드의 타입과 색상 정보를 추가로 관리합니다.
  */
 public class KeyBoard extends iProduct {

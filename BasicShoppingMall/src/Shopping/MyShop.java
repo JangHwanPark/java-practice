@@ -4,6 +4,7 @@ import java.util.Vector;
 
 /**
  * {@link MyShop} - 인스턴스를 생성하고 생성된 인스턴스를 출력합니다. (CLI, GUI - 미구현)<br>
+ * 사용자와 상품 목록 관리, 장바구니 기능을 제공합니다.
  * */
 public class MyShop {
     private ProductList pl;
@@ -11,9 +12,9 @@ public class MyShop {
     private User currentUser;
     private final Vector<User> Users = new Vector<>();
     private final Vector<ShoppingBasket> Sbs = new Vector<>();
-
     // private  ProductList Pl;
 
+    // Getter
     public ProductList getPl() {
         return pl;
     }
@@ -34,6 +35,7 @@ public class MyShop {
         return currentUser;
     }
 
+    // Setter
     public void setPl(ProductList pl) {
         this.pl = pl;
     }
@@ -54,21 +56,20 @@ public class MyShop {
         this.currentUser = currentUser;
     }
 
-
+    /** User u - {@link #selectUser}사용자중 한명을 현재 사용자로선택 */
     public void run() {
-        //사용자중 한명을 현재 사용자로선택
         User u = selectUser(0);
         setCurrentUser(u);
 
         //장바구시 생성
-        ShoppingBasket mysb = generateShoppingBasket(getCurrentUser().getUid()); // 메소드를 이용한 간접접근
+        ShoppingBasket mySb = generateShoppingBasket(getCurrentUser().getUid()); // 메소드를 이용한 간접접근
 
         //현재 장바구니로 설정
-        setCurrentSBasket(mysb); //currentSBasket
+        setCurrentSBasket(mySb); //currentSBasket
 
         //상품선택 1
+        System.out.println("상품선택 1");
         iProduct pt = pickupitem(pl);
-        //public PickedProduct(int productid,String itemname,int price, int quantity)
         PickedProduct PickedProduct = new PickedProduct(pt.getPid(), pt.getMaker(), pt.getPrice(), 2);
         getCurrentSBasket().addProduct(PickedProduct);
 
@@ -82,7 +83,7 @@ public class MyShop {
         PickedProduct PickedProduct2 = new PickedProduct(pt.getPid(), pt.getMaker(), pt.getPrice(), 4);
         getCurrentSBasket().addProduct(PickedProduct2);
 
-        System.out.println("---------- 쇼핑 리스트 -------------");
+        System.out.println("\n---------- 쇼핑 리스트 -------------");
         getCurrentSBasket().showShoppingList();
         getCurrentSBasket().showAmount();
         getCurrentSBasket().pushBuyKey();
@@ -92,15 +93,14 @@ public class MyShop {
         u = selectUser(1);
         setCurrentUser(u);
 
-        mysb = generateShoppingBasket(getCurrentUser().getUid());
+        mySb = generateShoppingBasket(getCurrentUser().getUid());
 
         //현재 장바구니로 설정
-        setCurrentSBasket(mysb); //currentSBasket
+        setCurrentSBasket(mySb); //currentSBasket
 
-        System.out.println("------- 상품 선택 ----------------");
+        System.out.println("\n------- 상품 선택 ----------------");
         //상품선택 1
         pt = pickupitem(pl);
-        //public PickedProduct(int productid,String itemname,int price, int quantity)
         PickedProduct = new PickedProduct(pt.getPid(), pt.getMaker(), pt.getPrice(), 10);
         getCurrentSBasket().addProduct(PickedProduct);
 
@@ -119,14 +119,14 @@ public class MyShop {
         PickedProduct2 = new PickedProduct(pt.getPid(), pt.getMaker(), pt.getPrice(), 10);
         getCurrentSBasket().addProduct(PickedProduct2);
 
-        System.out.println("---------- 쇼핑 리스트 -------------");
+        System.out.println("\n---------- 쇼핑 리스트 -------------");
         getCurrentSBasket().showShoppingList();
         getCurrentSBasket().showAmount();
         getCurrentSBasket().pushBuyKey();
         getCurrentSBasket().showPayment();
 
         // 첫번째 사용자 장바구니 보기
-        System.out.println("---------- 첫번째 사용자 쇼핑리스트 -------------");
+        System.out.println("\n---------- 첫번째 사용자 쇼핑리스트 -------------");
         u = selectUser(0);
         setCurrentUser(u);
 
@@ -140,7 +140,7 @@ public class MyShop {
         }
 
         // 모든 사용자 장바구니 보기
-        System.out.println("---------- 모든 사용자 쇼핑리스트 -------------");
+        System.out.println("\n---------- 모든 사용자 쇼핑리스트 -------------");
     	// u = selectUser(1);
     	// setCurrentUser(u);
 
@@ -160,6 +160,10 @@ public class MyShop {
         return pl.selectItems(id);
     }
 
+    /**
+     * 초기 설정을 위한 메서드입니다.<br>
+     * 상품 생성 및 사용자 생성을 포함합니다.
+     */
     public void setup() {
         ProductList pl = new ProductList();
         setPl(pl);
@@ -182,19 +186,19 @@ public class MyShop {
             dispitem.showitem();
 
         System.out.println("--------- 전체 상품리스트 보기 --------------");
-        pl.showProductlist();
+        pl.showProductList();
 
         System.out.println("--------- KEYBOARD 상품리스트 보기 --------------");
         ProductList pKeyboard = pl.getItems("KEYBOARD");
-        pKeyboard.showProductlist();
+        pKeyboard.showProductList();
 
         System.out.println("-------- MAINBOARD 상품리스트 보기 ---------------");
         ProductList pMainBoards = pl.getItems("MAINBOARD");
-        pMainBoards.showProductlist();
+        pMainBoards.showProductList();
 
         System.out.println("------- MONITOR 상품리스트 보기 ----------------");
         ProductList pMonitor = pl.getItems("MONITOR");
-        pMonitor.showProductlist();
+        pMonitor.showProductList();
 
         //사용자 생성
         User u1 = new User("kim", "1234");
@@ -207,21 +211,41 @@ public class MyShop {
         setUsers(u3);
     }
 
-    // 장바구니
+    /**
+     * generateShoppingBasket - 사용자에게 맞는 장바구니를 생성하고 관리하는 메서드입니다.<br>
+     * 추상화 원칙을 적용하여, 사용자 ID에 기반한 장바구니 생성의 복잡성을 숨깁니다.
+     *
+     * @param uid 사용자 ID
+     * @return 생성된 장바구니
+     */
     public ShoppingBasket generateShoppingBasket(String uid) {
-        ShoppingBasket mysb = new ShoppingBasket(uid);
+        ShoppingBasket mySb = new ShoppingBasket(uid);
 
         //장바구니 등록
-        setSbs(mysb);
-        return mysb;
+        setSbs(mySb);
+        return mySb;
     }
 
-    // 유저 검색 (id)
-    public User selectUser(int id) {
-        User u = Users.elementAt(id);
+    /**
+     * 사용자 목록에서 주어진 인덱스에 해당하는 사용자를 선택합니다.<br>
+     * selectUser 는 캡슐화를 통해 사용자 목록의 접근을 제어하고,벡터의 인덱스를 통해 접근 합니다.
+     *
+     * @param index 사용자 목록에서의 위치를 나타내는 인덱스
+     * @return 선택된 사용자 객체. 인덱스가 범위를 벗어난 경우, IndexOutOfBoundsException을 발생시킬 수 있습니다.
+     */
+    public User selectUser(int index) {
+        User u = Users.elementAt(index);
         return u;
     }
-    
+
+    /**
+     * 사용자 ID를 기준으로 사용자 목록에서 사용자를 찾아 반환합니다.<br>
+     * 이 메서드는 사용자의 고유 식별자(ID)를 이용하여 사용자를 선택하는 방식으로, 캡슐화를 활용하여
+     * 사용자 목록의 직접적인 접근을 제어합니다.
+     *
+     * @param id 사용자의 고유 식별자(ID)를 나타내는 문자열
+     * @return 해당 ID를 가진 사용자 객체. 해당 ID의 사용자가 목록에 없을 경우 null을 반환합니다.
+     */
     public User selectUser(String id) {
         for (User u : Users) {
             if (id.equals(u.getUid()))
@@ -229,7 +253,14 @@ public class MyShop {
         }
         return null;
     }
-    
+
+
+    /**
+     * 특정 사용자의 모든 장바구니를 검색합니다.
+     *
+     * @param uid 사용자 ID
+     * @return 해당 사용자의 장바구니 목록
+     */
     public Vector<ShoppingBasket> selectShoppingBasket(String uid) {
         Vector<ShoppingBasket> userBasket = new Vector<>();
         for (ShoppingBasket sb : Sbs) {
@@ -260,7 +291,5 @@ public class MyShop {
     }
 
     // GUI Interface
-    private void GUIrun() {
-
-    }
+    private void GUIrun() {}
 }
