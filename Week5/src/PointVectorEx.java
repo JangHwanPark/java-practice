@@ -1,3 +1,5 @@
+package src;
+
 import java.util.Vector;
 
 class Point {

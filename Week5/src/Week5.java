@@ -1,7 +1,8 @@
-import java.sql.Array;
+package src;
+
 import java.util.Vector;
 
-public class Main {
+public class Week5 {
     public static void main(String[] args) {
         int integer = 123; // Integer i = 123;
         System.out.println(integer);
@@ -14,7 +15,7 @@ public class Main {
         System.out.println(s + ": " + System.identityHashCode(s));
 
         // Vector get 메소드 -> 주소값 리턴
-        Vector<Integer> v = new Vector<Integer>();
+        Vector<Integer> v = new Vector<>();
         for (int i = 0; i < 10; i++) v.add(i);
         for (int i = 0; i < v.size(); i++) {
             System.out.println(v.get(i) + ": " + System.identityHashCode(v.get(i)));
