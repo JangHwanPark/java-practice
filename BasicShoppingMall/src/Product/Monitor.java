@@ -19,7 +19,7 @@ public class Monitor extends iProduct {
         setMaker(maker);
         setKind("MONITOR");
         setPrice(price);
-        setTotalquantity(totalQuantity);
+        setTotalQuantity(totalQuantity);
     }
 
     // Getter
@@ -61,11 +61,11 @@ public class Monitor extends iProduct {
     }
 
     // View
-    public void showitem() {
+    public void showItem() {
         System.out.println("==== Monitor Information ====");
         System.out.println("Kind: " + kind);
         System.out.println("Maker: " + maker);
-        System.out.println("Quantity: " + totalquantity);
+        System.out.println("Quantity: " + totalQuantity);
         System.out.println("Price: " + price);
         System.out.println("Size: " + size);
         System.out.println("Type: " + type);

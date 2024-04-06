@@ -23,11 +23,11 @@ public class KeyBoard extends iProduct {
      * @param totalquantity 키보드의 총 수량
      * @param price 키보드의 가격
      */
-    public KeyBoard(String maker, int totalquantity, int price) {
+    public KeyBoard(String maker, int totalQuantity, int price) {
         setMaker(maker);
         setKind("KEYBOARD"); // 상품 종류는 "KEYBOARD"로 고정
         setPrice(price);
-        setTotalquantity(totalquantity);
+        setTotalQuantity(totalQuantity);
         this.color = "Black"; // 기본 색상 설정
     }
 
@@ -74,7 +74,7 @@ public class KeyBoard extends iProduct {
      * 키보드 상품의 상세 정보를 콘솔에 출력합니다.<br>
      * 상품 종류, 제조사, 총 수량, 가격 및 색상을 포함한 정보를 출력합니다.
      */
-    public void showitem() {
-        System.out.println(kind + ":" + maker + ":" + totalquantity + ":" + price + "   color : " + color);
+    public void showItem() {
+        System.out.println(kind + ":" + maker + ":" + totalQuantity + ":" + price + "   color : " + color);
     }
 }

@@ -1,5 +1,6 @@
 package src.Shopping;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link ShoppingBasket} - 사용자별 장바구니 인스턴스를 생성하는 클래스 입니다.<br>
@@ -10,7 +11,7 @@ public class ShoppingBasket {
     private String date;
     private boolean payment;
     private int amount;
-    private final Vector<PickedProduct> shoppingList = new Vector<>();
+    private final List<PickedProduct> shoppingList = new ArrayList<>();
 
     /**
      * 기본 생성자.<br>
@@ -87,6 +88,8 @@ public class ShoppingBasket {
      * 총 금액과 결제 방식을 출력합니다.
      */
     public void showPayment() {
+        // 결제 상태에 따라 Paid, Not.. 출력
+        // String paymentStatus = payment ? "Paid" : "Not Paid";
         System.out.println("==== Payment Information ====");
         System.out.println("Total Amount: " + amount);
         System.out.println("Payment Method: " + payment);
@@ -114,5 +117,13 @@ public class ShoppingBasket {
         this.amount = totalAmount;
         System.out.println("\n\n==== Total Shopping Amount ====");
         System.out.println("Total Amount: " + totalAmount + " (Currency Unit)");
+    }
+
+    /**
+     * 장바구니에 담긴 상품 목록을 반환합니다.
+     * @return 상품 목록
+     */
+    public List<PickedProduct> getProducts() {
+        return new ArrayList<>(shoppingList);
     }
 }

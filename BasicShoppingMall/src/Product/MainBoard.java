@@ -20,7 +20,7 @@ public class MainBoard extends iProduct {
         setMaker(maker);
         setKind("MAINBOARD");
         setPrice(price);
-        setTotalquantity(totalQuantity);
+        setTotalQuantity(totalQuantity);
         cpu = "i6"; // set default cpu
     }
 
@@ -81,11 +81,11 @@ public class MainBoard extends iProduct {
     }
 
     // View
-    public void showitem() {
+    public void showItem() {
         System.out.println("==== MainBoard Information ====");
         System.out.println("Maker: " + maker);
         System.out.println("Type: " + kind);
-        System.out.println("Quantity: " + totalquantity);
+        System.out.println("Quantity: " + totalQuantity);
         System.out.println("Price: " + price);
         System.out.println("CPU: " + cpu);
 

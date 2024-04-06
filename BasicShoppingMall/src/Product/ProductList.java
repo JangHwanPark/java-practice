@@ -1,5 +1,7 @@
 package src.Product;
-import java.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 상품 목록을 관리하는 클래스입니다.<br>
@@ -9,8 +11,8 @@ import java.util.Vector;
  */
 public class ProductList {
     static private int spid = 0; // 모든 상품에 고유하게 할당될 상품 ID
-    private ProductList itemlist; // 특정 조건을 만족하는 상품 목록을 임시로 저장할 필드
-    private final Vector<iProduct> productList = new Vector<>(); // 상품 목록을 저장하는 Vector
+    private ProductList itemList; // 특정 조건을 만족하는 상품 목록을 임시로 저장할 필드
+    private final List<iProduct> productList = new ArrayList<>(); // 상품 목록을 저장하는 Vector
 
     // Getter
     /**
@@ -18,7 +20,7 @@ public class ProductList {
      *
      * @return 현재 저장된 모든 상품이 담긴 Vector
      */
-    public Vector<iProduct> getProductList() {
+    public List<iProduct> getProductList() {
         return productList;
     }
 
@@ -29,8 +31,8 @@ public class ProductList {
      *
      * @param itemlist 복사할 상품 목록 인스턴스
      */
-    public void setitemtlist(ProductList itemlist) {
-        this.itemlist = itemlist;
+    public void setItemList(ProductList itemList) {
+        this.itemList = itemList;
     }
 
     // Business
@@ -53,13 +55,13 @@ public class ProductList {
      * @return 필터링된 상품 목록
      */
     public ProductList getItems(String kind) {
-        itemlist = new ProductList();
+        itemList = new ProductList();
         for (iProduct p : productList) {
             if (kind.equals(p.getKind())) {
-                itemlist.productList.add(p);
+                itemList.productList.add(p);
             }
         }
-        return itemlist;
+        return itemList;
     }
 
     /**
@@ -69,7 +71,7 @@ public class ProductList {
      * @return 일치하는 ID를 가진 상품, 존재하지 않으면 null
      */
     public iProduct selectItems(int id) {
-        return productList.elementAt(id);
+        return productList.get(id);
     }
 
     // View
@@ -79,7 +81,7 @@ public class ProductList {
      */
     public void showProductList() {
         for (iProduct p : productList) {
-            p.showitem();
+            p.showItem();
         }
     }
 }
