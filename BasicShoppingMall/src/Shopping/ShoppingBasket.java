@@ -108,15 +108,13 @@ public class ShoppingBasket {
      * showAmount - 쇼핑리스트 내 모든 상품의 총 금액을 계산하고 출력하는 메서드입니다.<br>
      * 각 상품의 가격과 수량을 곱한 값을 모두 더하여 총 금액을 계산합니다.
      */
-    public void showAmount() {
+    public int showAmount() {
         int totalAmount = 0;
         for (PickedProduct pk : shoppingList) {
             totalAmount += pk.getPrice() * pk.getQuantity();
         }
-
-        this.amount = totalAmount;
-        System.out.println("\n\n==== Total Shopping Amount ====");
-        System.out.println("Total Amount: " + totalAmount + " (Currency Unit)");
+        return totalAmount;
+        //this.amount = totalAmount;
     }
 
     /**

@@ -74,8 +74,12 @@ public class MyShop {
         productList.addProduct(new KeyBoard("신세계", 5000, 150));
         productList.addProduct(new Monitor("sk", 130000, 40));
         productList.addProduct(new Monitor("Ansan", 130000, 40));
+        
+        // Monitor 클래스를 업캐스팅하여 출력하는 GamingMonitor 클래스
         productList.addProduct(new GamingMonitor("LG", 130000, 40, "49", 120, 4, "커브드"));
-        productList.showProductList();
+        
+        // 전체 출력
+        // productList.showProductList();
     }
 
     /**
@@ -97,93 +101,48 @@ public class MyShop {
         initUsers();
     }
 
-    // 로직 실행 메서드
-    /** User u - {@link #selectUserByIndex}사용자중 한명을 현재 사용자로선택 */
-    public void run() {
-        selectUserByIndex(0); // 사용자 선택
-        selectProductsForCurrentUser(); // 상품 선택, 장바구니 생성
-        viewShoppingBasketForUser(currentUser.getUid()); // n 번째 사용자의 장바구니 정보 출력
+    // 비즈니스 로직, 장바구니 데이터 가져오기
+    public List<ShoppingBasket> getShoppingBasketsForUser(String uid) {
+        return selectShoppingBasket(uid);
+    }
 
-        // 모든 사용자 장바구니 보기
-        viewAllShoppingBaskets();
+    public List<ShoppingBasket> getAllShoppingBaskets() {
+        return new ArrayList<>(shoppingBaskets);
     }
 
     /**
-     * 사용자 ID를 기반으로 해당 사용자의 모든 장바구니 정보를 조회한 후, {@link #displayShoppingBasket(ShoppingBasket)} 메서드를 호출하여 각 장바구니의 상세 내용을 출력합니다.
+     * 특정 사용자의 모든 장바구니를 검색합니다.
      *
-     * @param uid 표시할 사용자의 ID. 이 ID에 해당하는 사용자의 모든 장바구니 정보가 표시됩니다.
-     * @see #selectShoppingBasket(String) 사용자 ID에 따른 장바구니 정보 조회
-     * @see #displayShoppingBasket(ShoppingBasket) 장바구니 상세 정보 출력
+     * @param uid 사용자 ID
+     * @return 해당 사용자의 장바구니 목록
      */
-    private void viewShoppingBasketForUser(String uid) {
-        System.out.println("\n---------- " + uid + "의 쇼핑리스트 -------------");
-        List<ShoppingBasket> uBaskets = selectShoppingBasket(uid);
-        for (ShoppingBasket basket : uBaskets) {
-            displayShoppingBasket(basket);
+    public List<ShoppingBasket> selectShoppingBasket(String uid) {
+        List<ShoppingBasket> userBasket = new ArrayList<>();
+        for (ShoppingBasket shoppingBasket : shoppingBaskets) {
+            if (uid.equals(shoppingBasket.getUid())) userBasket.add(shoppingBasket);
         }
+        return userBasket;
     }
 
+    // Todo: 추후 입력값을 받아 장바구니에 추가하도록 수정 예정
     /**
-     * 시스템에 등록된 모든 장바구니 정보를 순회하며, {@link #displayShoppingBasket(ShoppingBasket)} 메서드를 호출하여 모든 사용자 장바구니의 상세 내용을 출력합니다.
-     *
-     * @see #displayShoppingBasket(ShoppingBasket) 장바구니 상세 정보 출력
+     * 사용자 ID를 받아 새로운 장바구니를 생성하고, 지정된 수량의 무작위 상품을 장바구니에 추가합니다.
+     * @param uid 사용자 ID
+     * @param quantities 각 상품을 장바구니에 추가할 수량의 배열
+     * @return 생성된 장바구니
      */
-    private void viewAllShoppingBaskets() {
-        System.out.println("\n---------- 모든 사용자 쇼핑리스트 -------------");
-        for (ShoppingBasket basket : shoppingBaskets) {
-            displayShoppingBasket(basket);
-        }
-    }
+    public ShoppingBasket setupShoppingBasketForUser(String uid, int[] quantities) {
+        ShoppingBasket shoppingBasket = new ShoppingBasket(uid);
+        this.shoppingBaskets.add(shoppingBasket); // 장바구니 등록
 
-    /**
-     * 주어진 장바구니 객체의 상세 정보를 화면에 표시합니다.
-     * 이 메서드는 장바구니에 담긴 각 상품의 정보(상품명, 수량, 가격 등)와,
-     * 장바구니의 총 금액을 사용자에게 보여줍니다.
-     *
-     * @param basket 표시할 장바구니 객체
-     */
-    private void displayShoppingBasket(ShoppingBasket basket) {
-        System.out.println("장바구니 ID: " + basket.getUid());
-        System.out.println("================================");
+        for (int quantity : quantities) {
+            iProduct product = pickupItem(productList);
+            PickedProduct pickedProduct = new PickedProduct(product.getPid(), product.getMaker(), product.getPrice(), quantity);
 
-        // 장바구니에 담긴 각 상품 정보 출력
-        List<PickedProduct> products = basket.getProducts();
-        for (PickedProduct product : products) {
-            System.out.println("상품명: " + product.getItemName() + ", 수량: " + product.getQuantity() + ", 가격: " + product.getPrice());
+            shoppingBasket.addProduct(pickedProduct);
         }
 
-        // 장바구니 총액 계산 및 출력
-        int totalAmount = 0;
-        for (PickedProduct product : products) {
-            totalAmount += product.getPrice() * product.getQuantity();
-        }
-        System.out.println("장바구니 총 금액: " + totalAmount + "원");
-        System.out.println("================================\n");
-    }
-
-
-    // 상품을 선택하고 장바구니에 추가하는 메서드
-    private void selectProductsForCurrentUser() {
-        ShoppingBasket shoppingBasket = generateShoppingBasket(currentUser.getUid());
-        setCurrentSBasket(shoppingBasket);
-
-        // 장바구니에 추가 addRandomProductToBasket 호출
-        addRandomProductToBasket(2);
-        addRandomProductToBasket(3);
-        addRandomProductToBasket(4);
-    }
-
-    /**
-     * 지정된 수량만큼 무작위 상품을 현재 장바구니에 추가합니다.<br>
-     * 캡슐화 원칙을 적용하여 장바구니에 상품을 추가하는 프로세스를 추상화 하며, {@link #pickupItem(ProductList)}
-     * 메서드를 사용하여 {@link ProductList}에서 무작위 상품을 선택합니다.
-     *
-     * @param quantity 추가할 상품의 수량. 이 값에 따라 장바구니에 추가될 상품의 개수가 결정됨
-     */
-    private void addRandomProductToBasket(int quantity) {
-        iProduct product = pickupItem(productList);
-        PickedProduct pickedProduct = new PickedProduct(product.getPid(), product.getMaker(), product.getPrice(), quantity);
-        currentSBasket.addProduct(pickedProduct);
+        return shoppingBasket;
     }
 
     /**
@@ -197,18 +156,6 @@ public class MyShop {
         int max = productList.getProductList().size();
         int id = (int) (Math.random() * max);
         return productList.selectItems(id);
-    }
-
-    /**
-     * @param uid 사용자 ID
-     * @return 생성된 장바구니
-     */
-    public ShoppingBasket generateShoppingBasket(String uid) {
-        ShoppingBasket mySb = new ShoppingBasket(uid);
-
-        //장바구니 등록
-        setSbs(mySb);
-        return mySb;
     }
 
     /**
@@ -242,26 +189,10 @@ public class MyShop {
         return null;
     }
 
-    /**
-     * 특정 사용자의 모든 장바구니를 검색합니다.
-     *
-     * @param uid 사용자 ID
-     * @return 해당 사용자의 장바구니 목록
-     */
-    public List<ShoppingBasket> selectShoppingBasket(String uid) {
-        List<ShoppingBasket> userBasket = new ArrayList<>();
-        for (ShoppingBasket shoppingBasket : shoppingBaskets) {
-            if (uid.equals(shoppingBasket.getUid())) userBasket.add(shoppingBasket);
-        }
-        return userBasket;
-    }
-
     // 메인 함수
     public static void main(String[] args) {
-        MyShop myshop = new MyShop();
-        myshop.setup();
-        myshop.run();   // 다른 객체를 테스트하기 위한 메소드  사용자 인터페이스가 없음
-        //	myshop.CLIrun(); // CLI 인터페이스
-        //	myshop.GUIrun(); // GUI 인터페이스
+        ViewCLI viewCLI = new ViewCLI(new MyShop());
+        viewCLI.start(); // CLI 애플리케이션 시작
+        //	viewGLI.start(); // GUI 인터페이스
     }
 }

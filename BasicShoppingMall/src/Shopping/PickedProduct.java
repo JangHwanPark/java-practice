@@ -30,15 +30,8 @@ public class PickedProduct {
         setItemName(itemName);
         setPrice(price);
         setQuantity(quantity);
-        showPickedProduct();
-    }
-
-    /** 사용자가 선택한 제품을 출력합니다. */
-    public void showPickedProduct() {
-        System.out.println("--------------------------------------------------");
-        System.out.printf("%-10s | %-12s | %-9s | %s\n", "Product ID", "Product Name", "Price (원)", "Quantity");
-        System.out.println("--------------------------------------------------");
-        System.out.printf("%-10d | %-12s | %-9d | %d\n", productId, itemName, price, quantity);
+        // View
+        // showPickedProduct();
     }
 
     // Getter
@@ -81,5 +74,14 @@ public class PickedProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    /** 사용자가 선택한 제품을 출력합니다. */
+    public void showPickedProduct() {
+        System.out.println("--------------------------------------------------");
+        System.out.printf("%-10s | %-12s | %-9s | %s\n", "Product ID", "Product Name", "Price (원)", "Quantity");
+        System.out.println("--------------------------------------------------");
+        System.out.printf("%-10d | %-12s | %-9d | %d\n", productId, itemName, price, quantity);
+        System.out.println("--------------------------------------------------");
     }
 }
