@@ -53,6 +53,11 @@ public class ServiceUser {  // 비즈니스로직 - 사용자 등록, 로그인
         return false;
     }
 
+    // 사용자 입력값에 대한 유효성 검사 (당장은 아이디만)
+    public boolean isValidUserID(String uid) {
+        return findUserById(uid) != null;
+    }
+
     // Note: Find
     /**
      * @param index 사용자 목록에서의 위치를 나타내는 인덱스

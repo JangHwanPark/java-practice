@@ -12,6 +12,8 @@ public class ScannerUtil {
 
     // 정수 입력 유틸 함수
     public static int getIntegerScanner(String text) {
+        CLIColor.printColor(text, "white");
+
         // 입력값이 정수가 아니면 오류메세지 출력
         while (!scanner.hasNextInt()) {
             scanner.next();
