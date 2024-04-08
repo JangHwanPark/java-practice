@@ -41,7 +41,6 @@ public class ViewCLI {
             System.out.println("아래 메뉴를 선택해주세요.");
             System.out.println("=".repeat(32));
             System.out.println("""
-                    0번은 선택하지 마시오. (디버깅중)
                     0. 로그인 | 회원가입
                     1. 상품 선택
                     2. 상품 추가
@@ -54,7 +53,7 @@ public class ViewCLI {
             System.out.print("Admin: ");
 
             // Todo: 사용자 등록 및 검색
-            switch (ScannerUtil.getIntegerScanner()) {
+            switch (ScannerUtil.getIntegerScanner("메뉴 선택 > ")) {
                 case 0:
                     showShinInOrRegister();       // 0 - 로그인 회원가입 선택
                     break;
@@ -88,10 +87,12 @@ public class ViewCLI {
     }
 
     public void showShinInOrRegister() {
-        System.out.println("1. 로그인");
-        System.out.println("2. 회원가입");
-        System.out.print("User: ");
-        int isRunning = ScannerUtil.getIntegerScanner();
+        System.out.println("""
+                1. 로그인
+                2. 회원가입
+                """);
+        // System.out.print("User: ");
+        int isRunning = ScannerUtil.getIntegerScanner("메뉴 선택 > ");
         switch (isRunning) {
             case 1:
                 showSingIn(); // 로그인
@@ -106,11 +107,8 @@ public class ViewCLI {
 
     public void showSingIn() { // 0.1 - 로그인
         System.out.println("=============== 로그인 =================");
-        System.out.println("아이디: ");  // 아이디 입력
-        String uid = ScannerUtil.getStringScanner();
-
-        System.out.println("비밀번호: "); // 비밀번호 입력
-        String password = ScannerUtil.getStringScanner();
+        String uid = ScannerUtil.getStringScanner("아이디: "); // 아이디 입력
+        String password = ScannerUtil.getStringScanner("비밀번호: "); // 비밀번호 입력
 
         boolean loginSuccess = currentUser.signInUser(uid, password);
         if (loginSuccess) System.out.print(uid + "님이 로그인하셨습니다.");
@@ -119,15 +117,11 @@ public class ViewCLI {
     
     public void showRegister() { // 0.2 - 회원가입
         System.out.println("=============== 회원가입 =================");
-        System.out.print("아이디를 입력하세요: "); // 아이디 입력
-        String uid = ScannerUtil.getStringScanner();
-
-        System.out.print("비밀번호를 입력하세요: "); // 비밀번호 입력
-        String password = ScannerUtil.getStringScanner();
+        String uid = ScannerUtil.getStringScanner("아이디: "); // 아이디 입력
+        String password = ScannerUtil.getStringScanner("비밀번호: "); // 비밀번호 입력
 
         // ServiceUser의 createUser 메서드를 호출하여 회원가입 시도
         boolean registrationSuccess = currentUser.createUser(uid, password);
-
         if (registrationSuccess) System.out.println("회원가입이 완료되었습니다.");
         else System.out.println("회원가입에 실패했습니다.");
     }
@@ -136,8 +130,7 @@ public class ViewCLI {
         String uid;
 
         while (true) {
-            System.out.print("아이디 입력: ");
-            uid = ScannerUtil.getStringScanner();
+            uid = ScannerUtil.getStringScanner("아이디: ");
             System.out.println("\nDebuglog 입력값: " + uid);  // Debuglog
 
             if (currentUser.findUserById(uid) != null) {
@@ -151,17 +144,13 @@ public class ViewCLI {
 
     public void showAddProductUserBasket() {  // 1 - 사용자 장바구니에 상품 추가
         String userId = inputForValidUserID();
-        System.out.print("장바구니에 추가할 상품의 개수를 입력하세요: ");
-        int numOfProduct = ScannerUtil.getIntegerScanner();
+        int numOfProduct = ScannerUtil.getIntegerScanner("장바구니에 추가할 상품의 개수를 입력하세요: ");
         int[] productIds = new int[numOfProduct];
         int[] quantities = new int[numOfProduct];
 
         for (int i = 0; i < numOfProduct; i++) {
-            System.out.print((i + 1) + " 번째 상품 ID를 입력하세요: "); // 상품 종류
-            productIds[i] = ScannerUtil.getIntegerScanner();
-
-            System.out.print((i + 1) + " 번째 상품 수량을 입력하세요: "); // 상품 개수
-            quantities[i] = ScannerUtil.getIntegerScanner();
+            productIds[i] = ScannerUtil.getIntegerScanner((i + 1) + " 번째 상품 ID를 입력하세요: "); // 상품 종류
+            quantities[i] = ScannerUtil.getIntegerScanner((i + 1) + " 번째 상품 수량을 입력하세요: "); // 상품 개수
         }
 
         myShop.createShoppingBasketForUser(userId, productIds, quantities);
@@ -170,14 +159,10 @@ public class ViewCLI {
 
     public void showAddProducts() { // 2 - 새로운 상품 등록
         System.out.println("----------------[ 상품 등록 ]---------------");
-        System.out.print("카테고리: ");
-        String category = ScannerUtil.getStringScanner();
-        System.out.print("상품명: ");
-        String name = ScannerUtil.getStringScanner();
-        System.out.print("가격: ");
-        int price = ScannerUtil.getIntegerScanner();
-        System.out.print("재고: ");
-        int quantity = ScannerUtil.getIntegerScanner();
+        String category = ScannerUtil.getStringScanner("카테고리: ");
+        String name = ScannerUtil.getStringScanner("상품명: ");
+        int price = ScannerUtil.getIntegerScanner("가격: ");
+        int quantity = ScannerUtil.getIntegerScanner("재고: ");
         
         // 상품 추가 및 추가한 상품 출력
         myShop.addProducts(category, name, price, quantity);

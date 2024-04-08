@@ -1,8 +1,6 @@
 package src.Service;
 
 import src.Shopping.User;
-import src.Utils.ScannerUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,16 +34,12 @@ public class ServiceUser {  // 비즈니스로직 - 사용자 등록, 로그인
     // Fixme: 추후 주소, 폰번 추가
     public boolean createUser(String uid, String password) { // 회원 가입
         for (User user : users) { // 아이디 중복 검사
-            if (user.getUserId().equals(uid)) {
-                System.out.println("이미 사용중인 아이디 입니다.");
-                return false;
-            }
+            if (user.getUserId().equals(uid)) return false;
         }
 
         // setUser 메서드를 통해 리스트에 사용자 객체 추가
         User newUser = new User(uid, password);
         setUser(newUser);
-        System.out.println("회원가입이 완료되었습니다.");
         return true;
     }
     
@@ -68,10 +62,8 @@ public class ServiceUser {  // 비즈니스로직 - 사용자 등록, 로그인
         // 인덱스 유효성 검사
         if (index >= 0 && index < users.size()) {
             currentUser = users.get(index);
-            System.out.println("선택 인덱스: " + currentUser.getUserId()); // Debuglog
             return currentUser;
         } else {
-            System.out.println("없는 인덱스: " + index); // Debuglog
             return null;
         }
     }
