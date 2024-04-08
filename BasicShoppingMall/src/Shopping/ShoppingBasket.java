@@ -114,4 +114,13 @@ public class ShoppingBasket {
         return totalAmount;
         //this.amount = totalAmount;
     }
+
+    // Obj 클래스 오버라이딩 (toString)
+    @Override
+    public String toString() {
+        return "ShoppingBasket - " +
+                "userId: " + userId +
+                "payment: " + payment +
+                "amount: " + amount;
+    }
 }

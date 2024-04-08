@@ -1,6 +1,7 @@
 package src.Shopping;
 import src.Product.iProduct;
 import src.Product.*;
+import src.Service.ServiceUser;
 import src.View.ViewCLI;
 
 import java.util.ArrayList;
@@ -14,21 +15,21 @@ public class MyShop {
     // Field
     private ProductList productList;
     private ShoppingBasket currentSBasket;
-    private User currentUser;
-    
-    // 벡터 -> 어레이 리스트로 변경
-    private final List<User> users = new ArrayList<>();
+    private ServiceUser currentUser; // User 비즈니스 로직
+
     private final List<ShoppingBasket> shoppingBaskets = new ArrayList<>();
+
+    public MyShop() {
+        this.currentUser = new ServiceUser();
+    }
 
     // Note: ProductList Getter
     public ProductList getProductList() {
         return productList;
     }
 
-    // Note: ShoppingBasket Getter
-    // Note: MyShop 클래스 내 모든 장바구니 데이터 가져오기
-    public List<ShoppingBasket> getAllShoppingBaskets() {
-        return new ArrayList<>(shoppingBaskets);
+    public void setProductList(ProductList productList) {
+        this.productList = productList;
     }
 
     // Note: MyShop 클래스 내 특정 id에 해당하는 장바구니 데이터 가져오기
@@ -36,30 +37,8 @@ public class MyShop {
         return shoppingBaskets.get(id);
     }
 
-    /**
-     * 현재 장바구니 가져오기 (getCurrentsBasket)<br>
-     * {@link #createShoppingBasketForUser}메소드에서 사용
-     */
     public ShoppingBasket getCurrentsBasket() {
         return currentSBasket;
-    }
-
-    // Note: User Getter
-    public User getUser(int id) {
-        return users.get(id);
-    }
-
-    /**
-     * 현재 사용자 정보 가져오기 (getCurrentsBasket)<br>
-     * {@link #createShoppingBasketForUser}메소드에서 사용
-     */
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    // Note: ProductList Setter
-    public void setProductList(ProductList productList) {
-        this.productList = productList;
     }
 
     // Note: ShoppingBasket Setter
@@ -71,25 +50,15 @@ public class MyShop {
         this.currentSBasket = currentSBasket;
     }
 
-    // Note: User Setter
-    public void setUser(User user) {
-        this.users.add(user);
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    // Note: init Product
-    // Hack: Scanner 사용 예정
+    // Todo: initProducts - Dummy Data
     /**
      * {@code initProducts} 메서드는 상품 객체의 집합을 초기화하며 다형성을 통해, 여러 타입의 상품 객체가 {@link ProductList} 타입으로 업캐스팅되어 하나의 상품 리스트로 관리할 수 있습니다.
      */
-    private void initProducts() {
+    public void initProducts() {
         ProductList productList = new ProductList();
         setProductList(productList);
         
-        // 상품 생성 및 등록
+        // 상품 생성 및 등록 (Default Value)
         productList.addProduct(new KeyBoard("Samsung", 12000, 50));
         productList.addProduct(new Monitor("LG", 200000, 40));
         productList.addProduct(new MainBoard("Intel", 500000, 20));
@@ -100,44 +69,27 @@ public class MyShop {
         
         // Monitor 클래스를 업캐스팅하여 출력하는 GamingMonitor 클래스
         productList.addProduct(new GamingMonitor("LG", 130000, 40, "49", 120, 4, "커브드"));
-        
-        // Test: 전체 출력
-        // productList.showProductList();
     }
 
-    // Note: init User
-    // Hack: Scanner 사용 예정
-    /**
-     * {@code initUsers}메서드는 각 사용자의 데이터(아이디, 비밀번호)를 캡슐화하고,
-     * 외부로부터의 접근을 제한하여 데이터의 안전성을 보장하며 {@link User}객체를 초기화합니다.
-     */
-    private void initUsers() {
-        // 사용자 등록
-        setUser(new User("kim", "1234"));
-        setUser(new User("Lee", "5678"));
-        setUser(new User("박뇬성", "1111"));
-
-        // 기본 사용자 선택
-        User t = findUserById(0);
-        setCurrentUser(t);
-        // User t1 = findUserById(1);
-        // setCurrentUser(t1);
-        // User t2 = findUserById(2);
-        // setCurrentUser(t2);
-    }
-
-    // Fixme: 스캐너 작업 끝나면 삭제 예정 (setup())
-    /**
-     * {@code setup}초기 설정을 위한 메서드입니다.<br>
-     * {@link #initProducts()}와 {@link #initUsers()}메서드를 순차적으로 호출합니다.
-     */
-    public void setup() {
-        initProducts();
-        initUsers();
+    // 사용자 입력을 받아 새로운 상품 객체 생성
+    public void addProducts(String category, String name, int price, int quantity) {
+        switch (category.toLowerCase()) {
+            case "keyboard":
+                productList.addProduct(new KeyBoard(name, price, quantity));
+                break;
+            case "monitor":
+                productList.addProduct(new Monitor(name, price, quantity));
+                break;
+            case "mainboard":
+                productList.addProduct(new MainBoard(name, price, quantity));
+                break;
+            default:
+                System.out.println("지원하지 않는 상품 카테고리입니다.");
+                break;
+        }
     }
 
     // Note: Create Products
-    // Hack: 추후 입력값을 받아 장바구니에 추가하도록 수정 예정
     /**
      * 사용자 ID에 해당하는 쇼핑바구니를 검색하거나, 없을 경우 새로운 쇼핑바구니를 생성합니다.<br>
      * 다형성의 이용해 입력에 따라 다른 기능을 제공합니다.
@@ -237,44 +189,9 @@ public class MyShop {
         return userBasket;
     }
 
-    /**
-     * 사용자 목록에서 인덱스에 해당하는 사용자를 선택합니다.
-     *
-     * @param index 사용자 목록에서의 위치를 나타내는 인덱스
-     * @return 선택된 사용자 객체. 인덱스가 범위를 벗어난 경우, IndexOutOfBoundsException을 발생시킬 수 있습니다.
-     */
-    public User findUserById(int index) {
-        // 인덱스 유효성 검사
-        if (index >= 0 && index < users.size()) {
-            currentUser = users.get(index);
-            System.out.println("선택: " + currentUser.getUid()); // 디버깅 로그
-            return currentUser;
-        } else {
-            System.out.println("없는 인덱스: " + index); // 유효하지 않은 인덱스
-            return null;
-        }
-    }
-
-    /**
-     * 사용자 ID를 기준으로 사용자 목록에서 사용자를 찾아 반환합니다.
-     *
-     * @param id 사용자의 고유 식별자(ID)를 나타내는 문자열
-     * @return 해당 ID를 가진 사용자 객체. 해당 ID의 사용자가 목록에 없을 경우 null을 반환합니다.
-     */
-    public User findUserById(String id) {
-        for (User user : users) {
-            if (id.equals(user.getUid())) return user;
-        }
-        return null;
-    }
-
     // Note: Main Fn
     public static void main(String[] args) {
-        // Test
-        PickedProduct product = new PickedProduct(1, "Keyboard", 10000, 2);
-        System.out.println(product.toString());
-
-        ViewCLI viewCLI = new ViewCLI(new MyShop());
+        ViewCLI viewCLI = new ViewCLI(new MyShop(), new ServiceUser());
         viewCLI.start(); // CLI 애플리케이션 시작
         // viewGLI.start(); // GUI 인터페이스
     }

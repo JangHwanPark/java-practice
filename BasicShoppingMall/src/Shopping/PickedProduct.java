@@ -75,13 +75,13 @@ public class PickedProduct {
         this.quantity = quantity;
     }
 
-    // tostr 오버라이드해서 객체를 문자열로 리턴
+    // Obj 클래스 오버라이딩 (toString - 객체 문자열로 리턴)
     @Override
     public String toString() {
-        return "--------------------------------------------------\n" +
-                "제품아이디: " + productId +
-                " 상품명: " + itemName +
-                ", 수량: " + quantity +
-                ", 가격: " + price + "원";
+        return "------------------------------------------\n" +
+                "상품 아이디: " + productId + "\n" +
+                "상품명: " + itemName + "\n" +
+                "수량: " + quantity + "\n" +
+                "가격: " + price + "원";
     }
 }

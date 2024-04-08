@@ -1,6 +1,6 @@
 package src.Shopping;
 
-public class User {
+public class User { // 단일 사용자 - 사용자 정보 관리
     private String uid;
     private String password;
     private String address;
@@ -24,7 +24,7 @@ public class User {
 
     // Fixme: 회원가입때 사용할것
     // Getter
-    public String getUid() {
+    public String getUserId() {
         return uid;
     }
 
@@ -41,22 +41,23 @@ public class User {
     }
 
     // Setter
-    public void setUid(String uid) {
+    public void setUid(String uid) { // 아이디 설정
         this.uid = uid;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) { // 비밀번호 설정
         this.password = password;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address) { // 주소 설정
         this.address = address;
     }
 
-    public void setTel(String tel) {
+    public void setTel(String tel) { // 전화번호 설정
         this.tel = tel;
     }
-    
+
+    // Obj 클래스 오버라이딩 (equals, toString)
     @Override
     public boolean equals(Object object) {
         // 자기 자신(객체)랑 비교
@@ -68,5 +69,13 @@ public class User {
         // 인자로 받은값을 User 타입으로 캐스팅 후 비교하려는 두 객체가 같은 uid 값인지 비교
         User user = (User) object;
         return uid.equals(user.uid);
+    }
+
+    @Override
+    public String toString() {
+        return "uid: " + uid + "\n" +
+                "password: " + password + "\n" +
+                "address: " + address + "\n" +
+                "tel: " + tel;
     }
 }
