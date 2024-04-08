@@ -56,4 +56,8 @@ public class ServiceProducts {
     public void showProductList() {
         productList.showProductList();
     }
+
+    public iProduct findItems(int id) {
+        return productList.findItems(id);
+    }
 }

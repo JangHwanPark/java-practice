@@ -1,6 +1,7 @@
 package src.View;
 
 import src.Service.ServiceProducts;
+import src.Service.ServiceShoppingBasket;
 import src.Service.ServiceUser;
 import src.Shopping.MyShop;
 import src.Shopping.PickedProduct;
@@ -8,35 +9,35 @@ import src.Shopping.ShoppingBasket;
 import src.Shopping.User;
 import src.Utils.CLIColor;
 import src.Utils.ScannerUtil;
+
 import java.util.List;
 
 // Note: CLI Interface
 public class ViewCLI {
-    private final MyShop myShop;
-    private final ServiceUser currentUser;
+    private MyShop myShop;
     private ServiceProducts serviceProducts;
+    private ServiceUser serviceUser;
+    private ServiceShoppingBasket serviceShoppingBasket;
     private String sessionId = null; // 사용자 아이디 저장
 
-    /**
-     * 매개변수를 받는 생성자
-     *
-     * @param myShop 상점 정보를 가지고있는 객체
-     */
-    public ViewCLI(MyShop myShop) {
-        this.myShop = myShop;
-        this.currentUser = new ServiceUser();
+    public ViewCLI() { // MyShop 인스턴스를 직접 생성
         this.serviceProducts = new ServiceProducts();
+        this.serviceUser = new ServiceUser();
+        this.serviceShoppingBasket = new ServiceShoppingBasket(this.serviceProducts); // ServiceShoppingBasket이 ServiceProducts에 의존
+
+        // 생성된 서비스 인스턴스들을 이용해 MyShop 인스턴스 생성
+        this.myShop = new MyShop(serviceProducts, serviceUser, serviceShoppingBasket);
     }
 
     public void start() {
         // Test: 더미 데이터 설정 및 출력
-        myShop.initProducts();
+        serviceProducts.initDefaultProducts();
         serviceProducts.showProductList(); // MyShop.class <- ProductList.class
         CLIColor.printColorln("""
                 initUsers, initProducts 메서드가 호출되었습니다.
                 테스트 데이터 설정이 완료되었습니다.
                 """, "red");
-        System.out.println("더미 데이터 사용자 정보: " + currentUser.getUser(0));
+        System.out.println("더미 데이터 사용자 정보: " + serviceUser.getUser(0));
 
         boolean isRunning = true;
         while (isRunning) { // Main Menu
@@ -46,12 +47,12 @@ public class ViewCLI {
 
             // 세션이 존재한다면 이름 출력
             if (sessionId != null) {
-                User user = currentUser.findUserById(sessionId);
+                User user = serviceUser.findUserById(sessionId);
                 if (user != null) {
                     CLIColor.printColorln("\t\t\t\t" + user.getUserId() + "님 안녕하세요.", "red");
                 }
             }
-            
+
             System.out.println("\t\t\t 메뉴를 선택 하세요.");
             CLIColor.printColorln("=".repeat(42), "blue");
             CLIColor.printColorln("""
@@ -81,7 +82,7 @@ public class ViewCLI {
                     System.out.println("이용해 주셔서 감사합니다.");
                     break;
                 default:
-                    CLIColor.printColorln("잘못된 옵션입니다. 다시 입력해 주세요." , "red");
+                    CLIColor.printColorln("잘못된 옵션입니다. 다시 입력해 주세요.", "red");
             }
         }
     }
@@ -103,7 +104,7 @@ public class ViewCLI {
             case 3:
                 break;
             default:
-                CLIColor.printColorln("잘못된 옵션입니다. 다시 입력해 주세요." , "red");
+                CLIColor.printColorln("잘못된 옵션입니다. 다시 입력해 주세요.", "red");
         }
     }
 
@@ -112,12 +113,11 @@ public class ViewCLI {
         String uid = ScannerUtil.getStringScanner("아이디: "); // 아이디 입력
         String password = ScannerUtil.getStringScanner("비밀번호: "); // 비밀번호 입력
 
-        boolean loginSuccess = currentUser.signInUser(uid, password);
+        boolean loginSuccess = serviceUser.signInUser(uid, password);
         if (loginSuccess) {
             sessionId = uid;
             CLIColor.printColorln(uid + "님이 로그인하셨습니다.", "yellow");
-        }
-        else CLIColor.printColorln("System: 아이디 또는 비밀번호가 잘못되었습니다.", "red");
+        } else CLIColor.printColorln("System: 아이디 또는 비밀번호가 잘못되었습니다.", "red");
     }
 
     public void showRegister() { // 0.2 - 회원가입
@@ -126,7 +126,7 @@ public class ViewCLI {
         String password = ScannerUtil.getStringScanner("비밀번호: "); // 비밀번호 입력
 
         // ServiceUser의 createUser 메서드를 호출하여 회원가입 시도
-        boolean registrationSuccess = currentUser.createUser(uid, password);
+        boolean registrationSuccess = serviceUser.createUser(uid, password);
         if (registrationSuccess) System.out.println("회원가입이 완료되었습니다.");
         else CLIColor.printColorln("System: 회원가입에 실패했습니다.", "red");
     }
@@ -135,7 +135,7 @@ public class ViewCLI {
         String uid;
         while (true) {
             uid = ScannerUtil.getStringScanner("아이디: ");
-            if (currentUser.isValidUserID(uid)) return uid;
+            if (serviceUser.isValidUserID(uid)) return uid;
             else CLIColor.printColorln("System: 사용자가 존재하지 않습니다.", "red");
         }
     }
@@ -165,7 +165,7 @@ public class ViewCLI {
             case 5:
                 break;
             default:
-                CLIColor.printColorln("잘못된 옵션입니다. 다시 입력해 주세요." , "red");
+                CLIColor.printColorln("잘못된 옵션입니다. 다시 입력해 주세요.", "red");
         }
     }
 
@@ -198,7 +198,8 @@ public class ViewCLI {
 
     public void showFindProducts() { // 상품 조회
         CLIColor.printColorln("----------------[ 상품 조회 ]---------------", "blue");
-        System.out.print("조회할 상품 ID : ");
+        int productId = ScannerUtil.getIntegerScanner("조회할 상품 ID : ");
+        System.out.println(serviceProducts.findItems(productId));
     }
 
     public void showDeletedProducts() { // Fixme: 상품 삭제
@@ -215,6 +216,7 @@ public class ViewCLI {
     }
 
     // Note: ShoppingBasket View
+
     /**
      * @param sessionId 로그인한 사용자의 고유 ID
      */
@@ -242,8 +244,8 @@ public class ViewCLI {
         System.out.println("총 결제 금액: " + totalAmount + "원");
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ViewCLI viewCLI = new ViewCLI();
         viewCLI.start(); // CLI 애플리케이션 시작
-    }*/
+    }
 }

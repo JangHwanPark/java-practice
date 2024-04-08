@@ -3,7 +3,6 @@ import src.Product.iProduct;
 import src.Service.ServiceProducts;
 import src.Service.ServiceShoppingBasket;
 import src.Service.ServiceUser;
-import src.View.ViewCLI;
 import java.util.List;
 
 /**
@@ -22,23 +21,13 @@ public class MyShop {
         this.serviceShoppingBasket = serviceShoppingBasket;
     }
 
-    /*// Note: MyShop 클래스 내 특정 id에 해당하는 장바구니 데이터 가져오기
-    public ShoppingBasket getShoppingBasket(int id) {
-        return shoppingBaskets.get(id);
+    public ServiceUser getCurrentUser() { // currentUser에 대한 참조를 반환
+        return currentUser;
     }
 
-    public ShoppingBasket getCurrentsBasket() {
-        return currentSBasket;
+    public ServiceProducts getServiceProducts() { // currentUser에 대한 참조를 반환
+        return serviceProducts;
     }
-
-    // Note: ShoppingBasket Setter
-    public void setShoppingBasket(ShoppingBasket sbs) {
-        this.shoppingBaskets.add(sbs);
-    }
-
-    public void setCurrentSBasket(ShoppingBasket currentSBasket) {
-        this.currentSBasket = currentSBasket;
-    }*/
 
     // 상품 초기화 - 더미 데이터로 상품 추가
     public void initProducts() {
@@ -79,15 +68,5 @@ public class MyShop {
      */
     public List<ShoppingBasket> findShoppingBasket(String uid) {
         return serviceShoppingBasket.findShoppingBasketByUserId(uid);
-    }
-
-    // Note: Main Fn
-    public static void main(String[] args) {
-        MyShop myShop = new MyShop(new ServiceProducts(), new ServiceUser(),
-                new ServiceShoppingBasket(new ServiceProducts()));
-        // Test
-        ViewCLI viewCLI = new ViewCLI(myShop);
-        viewCLI.start(); // CLI 애플리케이션 시작
-        // viewGLI.start(); // GUI 인터페이스
     }
 }
