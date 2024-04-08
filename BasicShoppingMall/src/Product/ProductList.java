@@ -1,7 +1,4 @@
 package src.Product;
-
-import src.Product1.iProduct1;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,9 +74,7 @@ public class ProductList {
         return productList.get(id);
     }
 
-    /**
-     * 입력된 ID를 가진 상품을 반환하며, 상품이 없다면 Null을 반환
-     */
+    /** 입력된 ID를 가진 상품을 반환하며, 상품이 없다면 Null을 반환 */
     public iProduct findProductById(int id) {
         for (iProduct product : this.productList) {
             if (product.getPid() == id) return product;

@@ -1,6 +1,10 @@
 ## All
 - [x] 로그인
 - 로그아웃
+- 비즈니스로직 분리 (MyShop.class)
+  - ServiceUser.class
+  - ServiceProducts.class
+  - ServiceShoppingBasket.class
 
 ## Admin
 - [x] 상품 등록

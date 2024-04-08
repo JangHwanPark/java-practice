@@ -1,5 +1,6 @@
 package src.View;
 
+import src.Service.ServiceProducts;
 import src.Service.ServiceUser;
 import src.Shopping.MyShop;
 import src.Shopping.PickedProduct;
@@ -13,6 +14,7 @@ import java.util.List;
 public class ViewCLI {
     private final MyShop myShop;
     private final ServiceUser currentUser;
+    private ServiceProducts serviceProducts;
     private String sessionId = null; // 사용자 아이디 저장
 
     /**
@@ -20,15 +22,16 @@ public class ViewCLI {
      *
      * @param myShop 상점 정보를 가지고있는 객체
      */
-    public ViewCLI(MyShop myShop, ServiceUser currentUser) {
+    public ViewCLI(MyShop myShop) {
         this.myShop = myShop;
-        this.currentUser = currentUser;
+        this.currentUser = new ServiceUser();
+        this.serviceProducts = new ServiceProducts();
     }
 
     public void start() {
         // Test: 더미 데이터 설정 및 출력
         myShop.initProducts();
-        myShop.getProductList().showProductList(); // MyShop.class <- ProductList.class
+        serviceProducts.showProductList(); // MyShop.class <- ProductList.class
         CLIColor.printColorln("""
                 initUsers, initProducts 메서드가 호출되었습니다.
                 테스트 데이터 설정이 완료되었습니다.
@@ -41,12 +44,14 @@ public class ViewCLI {
             CLIColor.printColorln("│\t\t\t [안산대학교 쇼핑몰]\t\t\t │", "blue");
             CLIColor.printColorln("└----------------------------------------┘", "blue");
 
+            // 세션이 존재한다면 이름 출력
             if (sessionId != null) {
                 User user = currentUser.findUserById(sessionId);
                 if (user != null) {
                     CLIColor.printColorln("\t\t\t\t" + user.getUserId() + "님 안녕하세요.", "red");
                 }
             }
+            
             System.out.println("\t\t\t 메뉴를 선택 하세요.");
             CLIColor.printColorln("=".repeat(42), "blue");
             CLIColor.printColorln("""
@@ -139,17 +144,17 @@ public class ViewCLI {
     public void showProductsView() {
         CLIColor.printColorln("""
                 1. 신규 상품 등록
-                2. 상품 조회
+                2. 상품 검색
                 3. 상품 삭제
                 4. 상품 정보 수정
                 5. 메인메뉴 이동
                 """, "purple");
         switch (ScannerUtil.getIntegerScanner("메뉴 선택: ")) {
             case 1:
-                showFindProducts();     // 신규 상품 등록
+                showAddProducts();      // 신규 상품 등록
                 break;
             case 2:
-                showAddProducts();      // 상품 조회
+                showFindProducts();      // 상품 검색
                 break;
             case 3:
                 showDeletedProducts();  // 상품 삭제
@@ -187,7 +192,7 @@ public class ViewCLI {
         int quantity = ScannerUtil.getIntegerScanner("재고: ");
 
         // 상품 추가 및 추가한 상품 출력
-        myShop.addProducts(category, name, price, quantity);
+        serviceProducts.addProducts(category, name, price, quantity);
         System.out.println(name + " 상품이 추가되었습니다.");
     }
 
@@ -236,4 +241,9 @@ public class ViewCLI {
         int totalAmount = basket.showAmount();
         System.out.println("총 결제 금액: " + totalAmount + "원");
     }
+
+    /*public static void main(String[] args) {
+        ViewCLI viewCLI = new ViewCLI();
+        viewCLI.start(); // CLI 애플리케이션 시작
+    }*/
 }
