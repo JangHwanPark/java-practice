@@ -20,15 +20,12 @@ public class MyShop {
     private final List<User> users = new ArrayList<>();
     private final List<ShoppingBasket> shoppingBaskets = new ArrayList<>();
 
-    // Note: Getter
+    // Note: ProductList Getter
     public ProductList getProductList() {
         return productList;
     }
 
-    public User getUsers(int id) {
-        return users.get(id);
-    }
-
+    // Note: ShoppingBasket Getter
     // Note: MyShop 클래스 내 모든 장바구니 데이터 가져오기
     public List<ShoppingBasket> getAllShoppingBaskets() {
         return new ArrayList<>(shoppingBaskets);
@@ -47,6 +44,11 @@ public class MyShop {
         return currentSBasket;
     }
 
+    // Note: User Getter
+    public User getUser(int id) {
+        return users.get(id);
+    }
+
     /**
      * 현재 사용자 정보 가져오기 (getCurrentsBasket)<br>
      * {@link #createShoppingBasketForUser}메소드에서 사용
@@ -55,21 +57,23 @@ public class MyShop {
         return currentUser;
     }
 
-    // Note: Setter
+    // Note: ProductList Setter
     public void setProductList(ProductList productList) {
         this.productList = productList;
     }
 
-    public void setUsers(User user) {
-        this.users.add(user);
-    }
-
+    // Note: ShoppingBasket Setter
     public void setShoppingBasket(ShoppingBasket sbs) {
         this.shoppingBaskets.add(sbs);
     }
 
     public void setCurrentSBasket(ShoppingBasket currentSBasket) {
         this.currentSBasket = currentSBasket;
+    }
+
+    // Note: User Setter
+    public void setUser(User user) {
+        this.users.add(user);
     }
 
     public void setCurrentUser(User currentUser) {
@@ -109,9 +113,9 @@ public class MyShop {
      */
     private void initUsers() {
         // 사용자 등록
-        setUsers(new User("kim", "1234"));
-        setUsers(new User("Lee", "5678"));
-        setUsers(new User("박뇬성", "1111"));
+        setUser(new User("kim", "1234"));
+        setUser(new User("Lee", "5678"));
+        setUser(new User("박뇬성", "1111"));
 
         // 기본 사용자 선택
         User t = findUserById(0);
@@ -266,9 +270,9 @@ public class MyShop {
 
     // Note: Main Fn
     public static void main(String[] args) {
+        // Test
         PickedProduct product = new PickedProduct(1, "Keyboard", 10000, 2);
         System.out.println(product.toString());
-
 
         ViewCLI viewCLI = new ViewCLI(new MyShop());
         viewCLI.start(); // CLI 애플리케이션 시작

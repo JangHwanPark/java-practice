@@ -48,6 +48,14 @@ public class ShoppingBasket {
         return amount;
     }
 
+    /**
+     * 장바구니에 담긴 상품 목록을 반환합니다.
+     * @return 상품 목록
+     */
+    public List<PickedProduct> getProducts() {
+        return new ArrayList<>(shoppingList);
+    }
+
     // Setter
     public void setShoppingBasketId(int shoppingBasketId) {
         this.shoppingBasketId = shoppingBasketId;
@@ -105,13 +113,5 @@ public class ShoppingBasket {
         }
         return totalAmount;
         //this.amount = totalAmount;
-    }
-
-    /**
-     * 장바구니에 담긴 상품 목록을 반환합니다.
-     * @return 상품 목록
-     */
-    public List<PickedProduct> getProducts() {
-        return new ArrayList<>(shoppingList);
     }
 }

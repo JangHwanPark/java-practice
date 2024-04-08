@@ -56,4 +56,17 @@ public class User {
     public void setTel(String tel) {
         this.tel = tel;
     }
+    
+    @Override
+    public boolean equals(Object object) {
+        // 자기 자신(객체)랑 비교
+        if (this == object) return true;
+
+        // null 검사, 클래스의 타입 비교
+        if (object == null || getClass() != object.getClass()) return false;
+
+        // 인자로 받은값을 User 타입으로 캐스팅 후 비교하려는 두 객체가 같은 uid 값인지 비교
+        User user = (User) object;
+        return uid.equals(user.uid);
+    }
 }

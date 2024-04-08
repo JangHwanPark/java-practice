@@ -3,28 +3,29 @@ package src.View;
 import src.Shopping.MyShop;
 import src.Shopping.PickedProduct;
 import src.Shopping.ShoppingBasket;
-
+import src.Utils.ScannerUtil;
 import java.util.List;
-import java.util.Scanner;
 
-// CLI Interface
+// Note: CLI Interface
 // Todo : 중복 로직(메서드) 삭제 예정
 public class ViewCLI {
-    private final Scanner scanner;
     private final MyShop myShop;
 
+    /**
+     * 매개변수를 받는 생성자
+     * @param myShop 상점 정보를 가지고있는 객체
+     */
     public ViewCLI(MyShop myShop) {
-        this.scanner = new Scanner(System.in);
         this.myShop = myShop;
     }
 
     public void start() {
         // 초기 데이터 설정 (더미데이터)
         myShop.setup();
-        System.out.println("setup() 메서드가 호출되었습니다.");
-        System.out.println("데이터 설정이 완료되었습니다.");
+        System.out.println("setup() 메서드가 호출되었습니다.\n" +
+                "데이터 설정이 완료되었습니다.");
+
         boolean isRunning = true;
-        //showAllShoppingBasketsDetails();
         while (isRunning) {
         System.out.println("\n========== Ansan Mall ==========");
             System.out.println("아래 메뉴를 선택해주세요.");
@@ -33,15 +34,13 @@ public class ViewCLI {
             System.out.println("2. 사용자 검색");
             System.out.println("3. 상품 추가 및 삭제");
             System.out.println("4. 상품 검색");
-            System.out.println("5. 사용자별 장바구니 조회");
-            System.out.println("6. 생성된 장바구니 조회");
-            System.out.println("7. 종료");
+            System.out.println("5. 장바구니");
+            System.out.println("6. 종료");
             System.out.println("=".repeat(32));
             System.out.print("User: ");
-            int choice = scanner.nextInt();
 
             // Todo: 사용자 등록 및 검색
-            switch (choice) {
+            switch (ScannerUtil.getIntegerScanner()) {
                 case 1:
                     showInitUserBasket();
                     break;
@@ -54,12 +53,26 @@ public class ViewCLI {
                     showFindProducts();
                     break;
                 case 5:
-                    showUserShoppingBaskets("kim");
+                    // 장바구니 검색을 위한 사용자 아이디 입력 로직.
+                    boolean isValidUid = false;
+                    String uid = "";
+                    while (!isValidUid) {
+                        // Issue: 아이디 입력전 else 문으로 컨티뉴되는 문제 발생중 
+                        System.out.print("아이디 입력: ");
+                        uid = ScannerUtil.getStringScanner();
+                        
+                        // getCurrentUser 메소드가 User 타입이라 형변환 필요 없음
+                        // 두개의 객체가 같은지 보는게 아닌 동등성을 보기위해 오버라이드 사용
+                        // 메모리 주소가 다른 두개의 똑같은 객체
+                        if (uid.equals(myShop.getCurrentUser().getUid())) {
+                            isValidUid = true;
+                        } else {
+                            System.out.println("존재하지 않는 사용자 입니다.");
+                        }
+                    }
+                    showUserShoppingBaskets(uid);
                     break;
                 case 6:
-                    showAllShoppingBaskets();
-                    break;
-                case 7:
                     isRunning = false;
                     System.out.println("이용해 주셔서 감사합니다.");
                     break;
@@ -70,7 +83,6 @@ public class ViewCLI {
     }
 
     // case1
-    /** {@link MyShop#createShoppingBasketForUser(String, int[])} 사용 */
     public void showInitUserBasket() {
         //System.out.print("사용자 ID 입력: ");
         //String uid = scanner.next(); // 사용자 ID 입력 받음
@@ -109,11 +121,6 @@ public class ViewCLI {
         for (ShoppingBasket basket : uBaskets) {
             showShoppingBasket(basket);
         }
-    }
-
-    // 5. 생성된 모든 장바구니 조회
-    public void showAllShoppingBaskets() {
-        System.out.println("\n======= 생성된 장바구니 목록 =======");
     }
 
     // case 6
