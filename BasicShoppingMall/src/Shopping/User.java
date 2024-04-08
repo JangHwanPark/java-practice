@@ -12,12 +12,17 @@ public class User {
      */
     public User() {}
 
-    /** Todo User Constructors*/
+    /**
+     * 매개변수를 받는 생성자
+     * @param uid 사용자 아이디
+     * @param password 사용자 비밀번호
+     */
     public User(String uid, String password) {
         this.uid = uid;
         this.password = password;
     }
 
+    // Fixme: 회원가입때 사용할것
     // Getter
     public String getUid() {
         return uid;

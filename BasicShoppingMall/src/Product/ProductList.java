@@ -1,5 +1,7 @@
 package src.Product;
 
+import src.Product1.iProduct1;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +12,11 @@ import java.util.List;
  * 각 상품에는 고유 ID(pid)가 할당되며, 이 ID는 상품이 목록에 추가될 때 자동으로 생성됩니다.
  */
 public class ProductList {
-    static private int spid = 0; // 모든 상품에 고유하게 할당될 상품 ID
+    static private int productId = 0; // 모든 상품에 고유하게 할당될 상품 ID
     private ProductList itemList; // 특정 조건을 만족하는 상품 목록을 임시로 저장할 필드
     private final List<iProduct> productList = new ArrayList<>(); // 상품 목록을 저장하는 Vector
 
-    // Getter
+    // Note: ProductList Getter
     /**
      * 저장된 상품 목록을 반환합니다.
      *
@@ -24,18 +26,18 @@ public class ProductList {
         return productList;
     }
 
-    // Setter
+    // Note: ProductList Setter
     /**
      * 상품 목록을 설정합니다.<br>
      * 주로 다른 상품 목록 인스턴스로부터 상품 목록을 복사할 때 사용됩니다.
      *
-     * @param itemlist 복사할 상품 목록 인스턴스
+     * @param itemList 복사할 상품 목록 인스턴스
      */
     public void setItemList(ProductList itemList) {
         this.itemList = itemList;
     }
 
-    // Business
+    // Note: ProductList Business
     /**
      * 새로운 상품을 목록에 추가합니다.<br>
      * 추가되는 상품에는 고유 ID가 자동으로 할당됩니다.
@@ -44,8 +46,8 @@ public class ProductList {
      */
     public void addProduct(iProduct p) {
         productList.add(p);
-        p.pid = spid;
-        spid++;
+        p.pid = productId;
+        productId++;
     }
 
     /**
@@ -64,24 +66,30 @@ public class ProductList {
         return itemList;
     }
 
+    // Note: find
     /**
      * 지정된 ID를 가진 상품을 반환합니다.
      *
      * @param id 검색할 상품의 ID
      * @return 일치하는 ID를 가진 상품, 존재하지 않으면 null
      */
-    public iProduct selectItems(int id) {
+    public iProduct findItems(int id) {
         return productList.get(id);
     }
 
-    // View
     /**
-     * 현재 저장된 모든 상품 목록을 출력합니다.<br>
-     * 각 상품은 상품이 제공하는 showitem 메서드를 통해 출력됩니다.
+     * 입력된 ID를 가진 상품을 반환하며, 상품이 없다면 Null을 반환
      */
+    public iProduct findProductById(int id) {
+        for (iProduct product : this.productList) {
+            if (product.getPid() == id) return product;
+        }
+        return null;
+    }
+
     public void showProductList() {
-        for (iProduct p : productList) {
-            p.showItem();
+        for(iProduct product : productList) {
+            product.showItem();
         }
     }
 }

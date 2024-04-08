@@ -2,7 +2,7 @@ package src.Shopping;
 
 /**
  * {@link PickedProduct} - 사용자가 선택한 제품의 인스턴스를 생성하는 클래스 입니다.<br>
- * Todo PickedProduct*/
+ */
 public class PickedProduct {
     private int id;
     private int productId;
@@ -30,8 +30,7 @@ public class PickedProduct {
         setItemName(itemName);
         setPrice(price);
         setQuantity(quantity);
-        // View
-        // showPickedProduct();
+        // showPickedProduct(); // View
     }
 
     // Getter
@@ -76,12 +75,13 @@ public class PickedProduct {
         this.quantity = quantity;
     }
 
-    /** 사용자가 선택한 제품을 출력합니다. */
-    public void showPickedProduct() {
-        System.out.println("--------------------------------------------------");
-        System.out.printf("%-10s | %-12s | %-9s | %s\n", "Product ID", "Product Name", "Price (원)", "Quantity");
-        System.out.println("--------------------------------------------------");
-        System.out.printf("%-10d | %-12s | %-9d | %d\n", productId, itemName, price, quantity);
-        System.out.println("--------------------------------------------------");
+    // tostr 오버라이드해서 객체를 문자열로 리턴
+    @Override
+    public String toString() {
+        return "--------------------------------------------------\n" +
+                "제품아이디: " + productId +
+                " 상품명: " + itemName +
+                ", 수량: " + quantity +
+                ", 가격: " + price + "원";
     }
 }

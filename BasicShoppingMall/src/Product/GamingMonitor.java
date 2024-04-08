@@ -13,18 +13,16 @@ public class GamingMonitor extends Monitor {
      * GamingMonitor 객체의 생성자입니다.<br>
      * 게이밍 모니터의 상세 사양을 초기화합니다.
      *
-     * @param maker 제조사
+     * @param maker         제조사
      * @param totalQuantity 총 수량
-     * @param price 가격
-     * @param size 모니터의 크기 (예: "27인치")
-     * @param type 모니터의 유형 (예: "LED")
-     * @param refreshRate 최대 주사율 (Hz)
-     * @param resSpeed 응답 속도 (ms)
-     * @param panelForm 패널 형태 (예: "평면", "커브드")
+     * @param price         가격
+     * @param size          모니터의 크기 (예: "27인치")
+     * @param type          모니터의 유형 (예: "LED")
+     * @param refreshRate   최대 주사율 (Hz)
+     * @param resSpeed      응답 속도 (ms)
+     * @param panelForm     패널 형태 (예: "평면", "커브드")
      */
-    public GamingMonitor(String maker, int totalQuantity, int price, String size, int refreshRate,
-                         int resSpeed,
-                         String panelForm) {
+    public GamingMonitor(String maker, int totalQuantity, int price, String size, int refreshRate, int resSpeed, String panelForm) {
         super(maker, totalQuantity, price);
         setSize(size);
         this.refreshRate = refreshRate;
@@ -68,10 +66,4 @@ public class GamingMonitor extends Monitor {
         System.out.println("Panel Form: " + panelForm);
         System.out.println("=============================");
     }
-
-//    @Test
-//    // 업캐스팅 테스트
-//    public void testUpcasting() {
-//        System.out.println("실행되면 안됨");
-//    }
 }

@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link ShoppingBasket} - 사용자별 장바구니 인스턴스를 생성하는 클래스 입니다.<br>
- * Todo ShoppingBasket 작성*/
+ * {@link ShoppingBasket} - 사용자별 장바구니 인스턴스를 생성하는 클래스 입니다.
+ */
 public class ShoppingBasket {
-    private int sbId;
-    private String uid;
+    private int shoppingBasketId;
+    private String userId;
     private String date;
     private boolean payment;
     private int amount;
@@ -19,18 +19,21 @@ public class ShoppingBasket {
      */
     public ShoppingBasket() {}
 
-    /** Todo ShoppingBasket 생성자 작성 */
-    public ShoppingBasket(String uid) {
-        this.uid = uid;
+    /**
+     * 매개변수를 받는 생성자
+     * @param userId 사용자 아이디
+     */
+    public ShoppingBasket(String userId) {
+        this.userId = userId;
     }
 
     // Getter
-    public int getSbId() {
-        return sbId;
+    public int getShoppingBasketId() {
+        return shoppingBasketId;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUserid() {
+        return userId;
     }
 
     public String getDate() {
@@ -46,12 +49,12 @@ public class ShoppingBasket {
     }
 
     // Setter
-    public void setSbId(int sbId) {
-        this.sbId = sbId;
+    public void setShoppingBasketId(int shoppingBasketId) {
+        this.shoppingBasketId = shoppingBasketId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUserid(String userId) {
+        this.userId = userId;
     }
 
     public void setDate(String date) {
@@ -76,33 +79,20 @@ public class ShoppingBasket {
     }
 
     // View
-    public void showShoppingList() {
-        System.out.println("사용자 아이디: " + getUid());
-        for (PickedProduct pk : shoppingList) {
-            pk.showPickedProduct();
-        }
-    }
-
     /**
      * showPayment - 결제 정보를 보여주는 메서드입니다.<br>
      * 총 금액과 결제 방식을 출력합니다.
      */
     public void showPayment() {
-        // 결제 상태에 따라 Paid, Not.. 출력
-        // String paymentStatus = payment ? "Paid" : "Not Paid";
         System.out.println("==== Payment Information ====");
         System.out.println("Total Amount: " + amount);
         System.out.println("Payment Method: " + payment);
         System.out.println("=============================");
     }
 
-    public void showDate() {
+    public void showDate() {}
 
-    }
-
-    public void cancelBuy() {
-
-    }
+    public void cancelBuy() {}
 
     /**
      * showAmount - 쇼핑리스트 내 모든 상품의 총 금액을 계산하고 출력하는 메서드입니다.<br>
