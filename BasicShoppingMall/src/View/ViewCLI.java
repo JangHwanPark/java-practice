@@ -49,7 +49,7 @@ public class ViewCLI {
             if (sessionId != null) {
                 User user = serviceUser.findUserById(sessionId);
                 if (user != null) {
-                    CLIColor.printColorln("\t\t\t\t" + user.getUserId() + "님 안녕하세요.", "red");
+                    CLIColor.printColorln("\t\t\t" + user.getUserId() + "님 안녕하세요.", "red");
                 }
             }
 
@@ -221,9 +221,11 @@ public class ViewCLI {
      * @param sessionId 로그인한 사용자의 고유 ID
      */
     public void showUserShoppingBaskets(String sessionId) {
-        List<ShoppingBasket> uBaskets = myShop.findShoppingBasket(sessionId);
-        CLIColor.printColorln("\n============ [ " + sessionId + "의 장바구니 ] ============", "blue");
-        for (ShoppingBasket basket : uBaskets) showShoppingBasket(basket);
+        if (sessionId != null) {
+            CLIColor.printColorln("\n============ [ " + sessionId + "의 장바구니 ] ============", "blue");
+            List<ShoppingBasket> uBaskets = myShop.findShoppingBasket(sessionId);
+            for (ShoppingBasket basket : uBaskets) showShoppingBasket(basket);
+        } else CLIColor.printColorln("로그인후 접근 가능합니다.", "red");
     }
 
     /**
