@@ -1,5 +1,6 @@
 package src.Service;
 import src.Product.*;
+import src.Utils.CLIColor;
 
 public class ServiceProducts {
     private ProductList productList;
@@ -48,7 +49,15 @@ public class ServiceProducts {
         }
     }
 
-    // 같은 이름을 쓰지만 오버라이딩 XX
+    // 상품 삭제
+    public void deleteProducts(int productId) {
+        CLIColor.printColorln("입력된 상품 아이디: " + productId, "red");
+
+        // 리스트에 접근해서 아이디랑 비교한다음 일치하는거 팝
+        productList.findItems(productId);
+    }
+
+    // Fixme: 같은 이름을 쓰지만 오버라이딩 XX / 리팩토링 예정
     public iProduct findProductById(int id) {
         return productList.findProductById(id);
     }

@@ -204,7 +204,8 @@ public class ViewCLI {
 
     public void showDeletedProducts() { // Fixme: 상품 삭제
         CLIColor.printColorln("----------------[ 상품 삭제 ]---------------", "blue");
-        System.out.print("삭제할 상품 ID : ");
+        int productId = ScannerUtil.getIntegerScanner("삭제할 상품 ID : ");
+        serviceProducts.deleteProducts(productId);
     }
 
     public void showChangeProducts() {    // Fixme: 상품 정보 수정
