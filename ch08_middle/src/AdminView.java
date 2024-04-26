@@ -1,9 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class AdminView extends JFrame {
     Container con;
     JPanel centerPanel;
+    
+    // 생성자
     public AdminView() {
         initFrame("Admin View");
         configContent();
@@ -26,34 +29,30 @@ public class AdminView extends JFrame {
         con.setBackground(Color.CYAN);
     }
 
-    // 좌측 버튼 패널 추가
-    public void createButtonPanel() {
-        // GridBagLayout을 가진 JPanel을 생성
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // 간격 설정
+    // 중앙 패널 테이블 더미데이터 생성
+    public Object[][] createRandomData(int rows, int columns) {
+        Random random = new Random(); // Random 객체 생성
+        Object[][] data = new Object[rows][columns];
 
-        // 버튼을 생성하고 크기를 설정
-        JButton changeButton = new JButton("정보 변경");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        buttonPanel.add(changeButton, gbc);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                // 각 셀에 랜덤한 값을 할당
+                // 예를 들어, 정수 범위를 0~99로 설정
+                data[i][j] = "Data" + (i+1) + "-" + (j+1) + ": " + random.nextInt(100);
+            }
+        }
 
-        JButton registerButton = new JButton("정보 등록");
-        gbc.gridy = 1;
-        buttonPanel.add(registerButton, gbc);
+        return data;
+    }
 
-        JButton deleteButton = new JButton("정보 삭제");
-        gbc.gridy = 2;
-        buttonPanel.add(deleteButton, gbc);
+    public String[] createDataTitle(int columns) {
+        String[] column = new String[columns];
 
-        JButton exitButton = new JButton("종료");
-        gbc.gridy = 3;
-        buttonPanel.add(exitButton, gbc);
+        for (int i = 0; i < columns; i++) {
+            column[i] = "이름 " + (i + 1);
+        }
 
-        // 패널을 컨테이너에 추가
-        con.add(buttonPanel, BorderLayout.WEST);
+        return column;
     }
 
     // 중앙 패널 추가 (사용자 정보, 검색 필드, 테이블)
@@ -66,16 +65,11 @@ public class AdminView extends JFrame {
         createInputPanel(centerPanel);
 
         // 테이블 데이터와 컬럼 이름을 위한 임시 데이터
-        String[] columnNames = {"Column 1", "Column 2", "Column 3", "Column 4"};
-        Object[][] data = {
-                {"Data1-1", "Data1-2", "Data1-3", "Data1-4"},
-                {"Data2-1", "Data2-2", "Data2-3", "Data2-4"},
-                {"Data3-1", "Data3-2", "Data3-3", "Data3-4"},
-                // 더 많은 데이터...
-        };
+        String[] columnNames = createDataTitle(7);
+        Object[][] randomData = createRandomData(50, 7);
 
         // 테이블 생성
-        JTable table = new JTable(data, columnNames);
+        JTable table = new JTable(randomData, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
         centerPanel.add(scrollPane, BorderLayout.CENTER); // 테이블을 중앙에 추가
 
@@ -86,7 +80,20 @@ public class AdminView extends JFrame {
         centerPanel.setBackground(Color.black);
     }
 
+    // 버튼 패널 추가
+    public void createButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
+        String[] buttonArray = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
+        for (String btnStr : buttonArray) {
+            JButton button = new JButton(btnStr);
+            buttonPanel.add(button);
+        }
+
+        con.add(buttonPanel, BorderLayout.SOUTH);
+    }
+    
     public void createInputPanel(JPanel centerPanel) {
         // 입력 패널 생성
         JPanel inputPanel = new JPanel();
@@ -102,10 +109,6 @@ public class AdminView extends JFrame {
 
         // DebugLog
         inputPanel.setBackground(Color.yellow);
-    }
-
-    public void createShowUserPanel() {
-
     }
 
     // View 실행
