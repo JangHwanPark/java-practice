@@ -1,50 +1,111 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class AdminView extends JFrame {
+    Container con;
+    JPanel centerPanel;
     public AdminView() {
         initFrame("Admin View");
         configContent();
-        createAndAddPanel();
+        createButtonPanel();
+        createCenterPanel();
+        setVisible(true);
     }
 
     // 기본 설정
     public void initFrame(String title) {
         setTitle(title);
-        setSize(800, 600);
+        setSize(1200, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
     }
 
     // 컨텐트팬 설정
     public void configContent() {
-        Container con = getContentPane();
+        con = getContentPane();
         con.setLayout(new BorderLayout(50, 30));
         con.setBackground(Color.CYAN);
     }
 
-    // 좌측 패널 설정
-    public void createAndAddPanel() {
-        // 버튼 레이블
-        String[] labels = {"사용자 정보 변경", "사용자 등록", "사용자 삭제", "프로그램 종료"};
-        ArrayList<JButton> buttons = new ArrayList<>();
+    // 좌측 버튼 패널 추가
+    public void createButtonPanel() {
+        // GridBagLayout을 가진 JPanel을 생성
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // 간격 설정
 
-        for (String label : labels) {
-            JButton button = new JButton(label);
-            button.setPreferredSize(new Dimension(200, 50));
-            buttons.add(button);
-        }
+        // 버튼을 생성하고 크기를 설정
+        JButton changeButton = new JButton("정보 변경");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        buttonPanel.add(changeButton, gbc);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JButton registerButton = new JButton("정보 등록");
+        gbc.gridy = 1;
+        buttonPanel.add(registerButton, gbc);
 
-        for (JButton button : buttons) {
-            panel.add(button);
-        }
+        JButton deleteButton = new JButton("정보 삭제");
+        gbc.gridy = 2;
+        buttonPanel.add(deleteButton, gbc);
 
-        panel.setBackground(Color.RED);
-        getContentPane().add(panel, BorderLayout.WEST);
+        JButton exitButton = new JButton("종료");
+        gbc.gridy = 3;
+        buttonPanel.add(exitButton, gbc);
+
+        // 패널을 컨테이너에 추가
+        con.add(buttonPanel, BorderLayout.WEST);
+    }
+
+    // 중앙 패널 추가 (사용자 정보, 검색 필드, 테이블)
+    public void createCenterPanel() {
+        // 중앙 패널 생성
+        centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+        // 상단 입력 패널 추가
+        createInputPanel(centerPanel);
+
+        // 테이블 데이터와 컬럼 이름을 위한 임시 데이터
+        String[] columnNames = {"Column 1", "Column 2", "Column 3", "Column 4"};
+        Object[][] data = {
+                {"Data1-1", "Data1-2", "Data1-3", "Data1-4"},
+                {"Data2-1", "Data2-2", "Data2-3", "Data2-4"},
+                {"Data3-1", "Data3-2", "Data3-3", "Data3-4"},
+                // 더 많은 데이터...
+        };
+
+        // 테이블 생성
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        centerPanel.add(scrollPane, BorderLayout.CENTER); // 테이블을 중앙에 추가
+
+        // 메인 컨테이너에 중앙 패널 추가
+        con.add(centerPanel, BorderLayout.CENTER);
+
+        // DebugLog
+        centerPanel.setBackground(Color.black);
+    }
+
+
+    public void createInputPanel(JPanel centerPanel) {
+        // 입력 패널 생성
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BorderLayout());
+        JComboBox<String> comboBox = new JComboBox<>(new String[]{"Dropdown"});
+        JTextField textField = new JTextField(20);
+        JButton searchButton = new JButton("검색");
+
+        inputPanel.add(comboBox, BorderLayout.WEST);
+        inputPanel.add(textField, BorderLayout.CENTER);
+        inputPanel.add(searchButton, BorderLayout.EAST);
+        centerPanel.add(inputPanel, BorderLayout.NORTH);
+
+        // DebugLog
+        inputPanel.setBackground(Color.yellow);
+    }
+
+    public void createShowUserPanel() {
+
     }
 
     // View 실행
