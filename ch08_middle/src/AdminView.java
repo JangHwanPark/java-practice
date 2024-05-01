@@ -1,6 +1,7 @@
 package src;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Random;
 
@@ -8,7 +9,6 @@ public class AdminView extends JFrame {
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
     private static final int EXAM_TABLE_ROWS = 50;
     private static final int EXAM_TABLE_COLUMNS = 7;
-    private static final Color DEBUG_BACKGROUND_COLOR = Color.CYAN;
 
     // 생성자
     public AdminView() {
@@ -19,8 +19,7 @@ public class AdminView extends JFrame {
 
         // 컨텐트팬 설정
         Container con = getContentPane();
-        con.setLayout(new BorderLayout(50, 30));
-        con.setBackground(DEBUG_BACKGROUND_COLOR);
+        con.setLayout(new BorderLayout(0, 0));
 
         // 각 패널 생성 및 추가
         con.add(createButtonPanel(), BorderLayout.WEST);
@@ -31,48 +30,54 @@ public class AdminView extends JFrame {
         setVisible(true);
     }
 
+    // 중앙 패널 생성
     private JPanel createCenterPanel() {
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         centerPanel.add(createInputPanel(), BorderLayout.NORTH);
         centerPanel.add(new JScrollPane(createTable()), BorderLayout.CENTER);
-
-        // DebugLog
-        centerPanel.setBackground(Color.BLACK);
         return centerPanel;
     }
 
+    // 테이블 생성
     private JTable createTable() {
         String[] columnNames = createColumnTitles(EXAM_TABLE_COLUMNS);
         Object[][] randomData = createRandomData(EXAM_TABLE_ROWS, EXAM_TABLE_COLUMNS);
+        JPanel tablePanel = new JPanel();
         JTable table = new JTable(randomData, columnNames);
+        tablePanel.add(table);
 
         // JTable의 모든 컬럼을 프레임 크기에 맞추도록 설정
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
         return table;
     }
 
+    // 버튼 패널 생성
     private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 20));
-        for (String label : BUTTON_LABELS) {
-            buttonPanel.add(createButton(label));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20)); // 공통 패딩
+
+        for (int i = 0; i < BUTTON_LABELS.length; i++) {
+            JButton button = new JButton(BUTTON_LABELS[i]);
+            button.setMaximumSize(new Dimension(150, 50));
+            button.setAlignmentX(Component.LEFT_ALIGNMENT);
+            buttonPanel.add(button);
+
+            // 마지막 버튼에는 간격 추가하지 않음
+            if (i < BUTTON_LABELS.length - 1) {
+                buttonPanel.add(Box.createVerticalStrut(30)); // 버튼 사이에 10 픽셀 간격 추가
+            }
         }
         return buttonPanel;
     }
 
-    private JButton createButton(String label) {
-        return new JButton(label);
-    }
-
+    // 입력 패널 생성
     private JPanel createInputPanel() {
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(new JComboBox<>(new String[]{"Dropdown"}), BorderLayout.WEST);
         inputPanel.add(new JTextField(20), BorderLayout.CENTER);
-        inputPanel.add(createButton("검색"), BorderLayout.EAST);
-
-        // DebugLog
-        inputPanel.setBackground(Color.YELLOW);
+        inputPanel.add(new JButton("검색"), BorderLayout.EAST);
         return inputPanel;
     }
 
@@ -91,6 +96,7 @@ public class AdminView extends JFrame {
         return data;
     }
 
+    // 테이블 컬럼 제목 생성
     private String[] createColumnTitles(int columns) {
         String[] columnTitles = new String[columns];
         for (int i = 0; i < columns; i++) {
