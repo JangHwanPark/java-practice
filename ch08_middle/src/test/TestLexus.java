@@ -2,9 +2,6 @@ package src.test;
 
 import org.junit.Test;
 import src.models.Lexus;
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertNotNull;
 
 public class TestLexus {
