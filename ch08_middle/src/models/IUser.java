@@ -3,6 +3,7 @@ package models;
 import java.time.LocalDateTime;
 
 public abstract class IUser {
+    private int userId;
     // 사용자 필드
     private String name;
     private String email;
@@ -11,7 +12,8 @@ public abstract class IUser {
     private String role;
 
     // 생성자
-    public IUser(String name, String email, String phone, String address, String role) {
+    public IUser(int userId, String name, String email, String phone, String address, String role) {
+        this.userId = userId;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -20,6 +22,10 @@ public abstract class IUser {
     }
 
     // 게터 (Getters)
+    public int getUserId() {
+        return userId;
+    }
+
     public String getName() {
         return name;
     }
@@ -41,6 +47,10 @@ public abstract class IUser {
     }
 
     // 세터 (Setters)
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
