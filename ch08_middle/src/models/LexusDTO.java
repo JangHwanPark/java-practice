@@ -1,6 +1,6 @@
 package src.models;
 
-public class Lexus {
+public class LexusDTO {
     private String carId;
     private String make;
     private String model;
@@ -9,7 +9,7 @@ public class Lexus {
     private String vin;
 
     // Constructors
-    public Lexus(String carId, String make, String model, int year, String color, String vin) {
+    public LexusDTO(String carId, String make, String model, int year, String color, String vin) {
         this.carId = carId;
         this.make = make;
         this.model = model;

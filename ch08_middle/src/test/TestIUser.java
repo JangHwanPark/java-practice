@@ -1,16 +1,16 @@
 package src.test;
 
 import org.junit.Test;
-import src.models.AdminUser;
-import src.models.Customer;
+import src.models.AdminUserDTO;
+import src.models.CustomerDTO;
 import static org.junit.Assert.*;
 
 public class TestIUser {
     @Test
     public void createIUserInstance() {
-        AdminUser adminUser = new AdminUser(100001,"admin01", "admin01@ansan.ac.kr", "010-1111-1111","ansan","admin");
+        AdminUserDTO adminUser = new AdminUserDTO(100001,"admin01", "admin01@ansan.ac.kr", "010-1111-1111","ansan","admin");
 
-        Customer customer = new Customer(100002,"customer01", "customer01@ansan.ac.kr", "010-2222-2222","ansan",
+        CustomerDTO customer = new CustomerDTO(100002,"customer01", "customer01@ansan.ac.kr", "010-2222-2222","ansan",
                 "customer");
 
         // 객체 생성 검증
