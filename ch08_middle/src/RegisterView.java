@@ -1,5 +1,6 @@
 package src;
 
+import src.components.InputPanelComponent;
 import src.controller.ResisterController;
 import src.models.AdminUserDTO;
 
@@ -9,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class RegisterView {
-    private JTextField nameField, emailField, phoneField, addressField;
+    private InputPanelComponent nameField, emailField, phoneField, addressField;
     private ResisterController controller;
 
     private JFrame frame;
@@ -31,7 +32,7 @@ public class RegisterView {
 
     private void initializeFrame() {
         frame = new JFrame("회원가입");
-        frame.setSize(400, 600);
+        frame.setSize(400, 430);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
     }
@@ -39,31 +40,46 @@ public class RegisterView {
     private void initializeComponents() {
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(createPadding(60, 30, 30, 30));
+        panel.setBorder(new EmptyBorder(20, 30, 20, 30));
+        panel.setBackground(new Color(245, 245, 245));  // 밝은 회색 배경
 
-        nameField = new JTextField();
-        emailField = new JTextField();
-        phoneField = new JTextField();
-        addressField = new JTextField();
+        // 폰트 설정
+        Font font = new Font("맑은 고딕", Font.PLAIN, 14);
+
+        nameField = new InputPanelComponent("이름: ", 200, 20, 10, font);
+        emailField = new InputPanelComponent("이메일: ", 200, 20, 10, font);
+        phoneField = new InputPanelComponent("전화번호: ", 200, 20, 10, font);
+        addressField = new InputPanelComponent("주소: ", 200, 20, 10, font);
+
         signUpButton = new JButton("회원가입");
+        signUpButton.setFont(font);
+        signUpButton.setBackground(new Color(100, 149, 237));  // 코발트 블루
+        signUpButton.setForeground(Color.WHITE);
     }
 
     private void layoutComponents() {
-        String[] labels = {"이름", "비밀번호", "이메일", "학번"};
-        JTextField[] fields = {nameField, emailField, phoneField, addressField};
-        int[] paddings = {50, 30, 40, 50};
-
-        for (int i = 0; i < labels.length; i++) {
-            panel.add(createInputPanel(labels[i] + ": ", paddings[i], fields[i]));
-            panel.add(createVerticalSpacing(50));
-        }
-
+        panel.add(nameField);
+        panel.add(createVerticalSpacing(15));
+        panel.add(emailField);
+        panel.add(createVerticalSpacing(15));
+        panel.add(phoneField);
+        panel.add(createVerticalSpacing(15));
+        panel.add(addressField);
         panel.add(createVerticalSpacing(20));
-        panel.add(new JCheckBox("서비스의 이용 약관 또는 개인정보 처리방침에 동의합니다."));
-        panel.add(new JCheckBox("관리자 권한 부여"));
+
+        // 체크박스
+        JCheckBox termsCheckBox = new JCheckBox("서비스의 이용 약관 동의");
+        termsCheckBox.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        panel.add(termsCheckBox);
+        panel.add(createVerticalSpacing(10));
+
+        JCheckBox adminCheckBox = new JCheckBox("관리자 권한 부여");
+        adminCheckBox.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        panel.add(adminCheckBox);
         panel.add(createVerticalSpacing(20));
+
         panel.add(signUpButton);
-        panel.add(createVerticalSpacing(50));
+        panel.add(createVerticalSpacing(30));
 
         frame.add(panel);
     }
@@ -77,6 +93,7 @@ public class RegisterView {
     }
 
     private void onSubmit() {
+        // 컨트롤러 메소드 호출을 위해 사용자 입력값을 가져옴
         String name = nameField.getText();
         String email = emailField.getText();
         String phone = phoneField.getText();
@@ -94,28 +111,6 @@ public class RegisterView {
         JOptionPane.showMessageDialog(frame, "회원가입 ok");
     }
 
-    private JPanel createInputPanel(String labelText, int rightPadding, JTextField textField) {
-        JPanel inputPanel = new JPanel(new BorderLayout());
-        inputPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
-
-        JLabel label = new JLabel(labelText);
-        label.setBorder(new EmptyBorder(0, 0, 0, rightPadding));
-        
-        // 인풋창 크기 설정
-        setTextFieldSize(textField, 200, 20);
-
-        // 레이웃 설정 및 인자로 받은 텍스트 필드 사용
-        inputPanel.add(label, BorderLayout.WEST);
-        inputPanel.add(textField, BorderLayout.CENTER);
-        return inputPanel;
-    }
-
-    private void setTextFieldSize(JTextField textField, int width, int height) {
-        Dimension size = new Dimension(width, height);
-        textField.setPreferredSize(size);
-        textField.setMinimumSize(size);
-        textField.setMaximumSize(size);
-    }
 
     private Component createVerticalSpacing(int height) {
         return Box.createVerticalStrut(height);
