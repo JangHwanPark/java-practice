@@ -111,13 +111,8 @@ public class RegisterView {
         JOptionPane.showMessageDialog(frame, "회원가입 ok");
     }
 
-
     private Component createVerticalSpacing(int height) {
         return Box.createVerticalStrut(height);
-    }
-
-    private Border createPadding(int top, int left, int bottom, int right) {
-        return new EmptyBorder(top, left, bottom, right);
     }
 
     public static void main(String[] args) {

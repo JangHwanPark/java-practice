@@ -38,6 +38,7 @@ public class ResisterController {
         if (validateUserInput(name, email, phone, address)) {
             userModel.setName(name);
             userModel.setEmail(email);
+
             userModel.setPhone(phone);
             userModel.setAddress(address);
             userModel.setRole("admin");

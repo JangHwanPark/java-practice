@@ -50,8 +50,12 @@ public class LoginView extends JFrame {
         gbc.gridwidth = 2; // 버튼을 두 칼럼에 걸쳐 배치
         panel.add(loginButton, gbc);
 
-
         setVisible(true);
+    }
+
+    private void onSubmit() {
+        // 로그인 버튼 클릭 시 이벤트 처리
+
     }
 
     // View 실행
