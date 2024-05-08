@@ -4,11 +4,11 @@ import src.models.AdminUserDTO;
 
 import javax.swing.*;
 
-public class ResisterController {
+public class RegisterController {
     private final AdminUserDTO userModel;
 
     // 생성자
-    public ResisterController(AdminUserDTO userModel) {
+    public RegisterController(AdminUserDTO userModel) {
         this.userModel = userModel;
     }
 

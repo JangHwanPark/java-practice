@@ -5,25 +5,27 @@ import src.controller.LoginController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginView extends JFrame {
     private InputPanelComponent nameField, emailField;
     private LoginController controller;
     private JButton loginButton;
     private JPanel panel;
+    private JLabel registerLink;
 
     public LoginView() {
         setTitle("로그인");
-        setSize(500, 300);
+        setSize(350, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        /* ******************** 패널 생성 ******************** */
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-
-        // 컨텐트팬에 패널 추가
         getContentPane().add(panel);
 
-        // 기본 설정
+        /* ******************** 라벨 설정 ******************** */
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10); // 각 구성 요소 사이의 여백
 
@@ -51,6 +53,13 @@ public class LoginView extends JFrame {
         gbc.gridy = 1;
         panel.add(passwordField, gbc);
 
+        // 회원가입 링크
+        registerLink = new JLabel("회원가입");
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        panel.add(registerLink, gbc);
+
         // 로그인 버튼
         loginButton = new JButton("로그인");
         gbc.gridx = 0;
@@ -64,14 +73,26 @@ public class LoginView extends JFrame {
     }
 
     private void bindEventHandlers() {
-            // 로그인 버튼 클릭 시 이벤트 처리
-        loginButton.addActionListener(e -> onSubmit());
-     }
-
-    private void onSubmit() {
         // 로그인 버튼 클릭 시 이벤트 처리
-        System.out.println("로그인 버튼 클릭됨");
+        loginButton.addActionListener(e -> onSubmit());
 
+        // 회원가입 버튼 클릭 시 이벤트 처리
+        registerLink.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                onClickRegister();
+            }
+        });
+    }
+    private void onClickRegister() {
+        System.out.println("회원가입 링크 클릭됨");
+        new RegisterView();
+        setVisible(false);
+    }
+
+    /* *************** 로그인 버튼 클릭 시 이벤트 처리 ****************/
+    private void onSubmit() {
+        System.out.println("로그인 버튼 클릭됨");
         String name = nameField.getText();
         String email = emailField.getText();
         controller.loginUser(name, email);

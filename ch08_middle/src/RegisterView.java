@@ -1,87 +1,112 @@
 package src;
 
 import src.components.InputPanelComponent;
-import src.controller.ResisterController;
+import src.controller.RegisterController;
 import src.models.AdminUserDTO;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class RegisterView {
-    private InputPanelComponent nameField, emailField, phoneField, addressField;
-    private ResisterController controller;
-
-    private JFrame frame;
-    private JPanel panel;
+    /* ******************** 필드 ******************** */
+    private final InputPanelComponent[] inputFields;
+    private final RegisterController controller;
+    private final JFrame frame;
     private JButton signUpButton;
 
+    /* ******************** 생성자 ******************** */
     public RegisterView() {
-        // 모델과 컨트롤러 생성
+        /* *************** 모델과 컨트롤러 객체 생성 *************** */
         AdminUserDTO userModel = new AdminUserDTO(0, "", "", "", "", "");
-        controller = new ResisterController(userModel);
+        controller = new RegisterController(userModel);
 
-        // 회원가입 메소드 호출
-        initializeFrame();
-        initializeComponents();
-        layoutComponents();
-        bindEventHandlers();
-        finalizeFrame();
-    }
-
-    private void initializeFrame() {
+        /* *************** 회원가입 View 생성 *************** */
         frame = new JFrame("회원가입");
         frame.setSize(400, 430);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-    }
 
-    private void initializeComponents() {
-        panel = new JPanel();
+        /* ******************** 패널 설정 ******************** */
+        JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
-        panel.setBackground(new Color(245, 245, 245));  // 밝은 회색 배경
+        panel.setBackground(new Color(245, 245, 245));
 
-        // 폰트 설정
+        /* ******************** 폰트 설정 ******************** */
         Font font = new Font("맑은 고딕", Font.PLAIN, 14);
 
-        nameField = new InputPanelComponent("이름: ", 200, 20, 10, font);
-        emailField = new InputPanelComponent("이메일: ", 200, 20, 10, font);
-        phoneField = new InputPanelComponent("전화번호: ", 200, 20, 10, font);
-        addressField = new InputPanelComponent("주소: ", 200, 20, 10, font);
+        /* ******************** 입력 필드 ******************** */
+        String[] labels = {"이름: ", "이메일: ", "전화번호: ", "주소: "};
+        inputFields  = new InputPanelComponent[labels.length];
+        for (int i = 0; i < labels.length; i++) {
+            inputFields[i] = new InputPanelComponent(labels[i], 200, 30, 10, font);
+        }
+
+        /* ******************** 버튼 ******************** */
+        signUpButton = new JButton("회원가입");
+        signUpButton.setFont(font);
+        signUpButton.setBackground(new Color(100, 149, 237));
+        signUpButton.setForeground(Color.WHITE);
+
+        /* ******************** 레이아웃 설정 ******************** */
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        for (InputPanelComponent field : inputFields) {
+            panel.add(field, gbc);
+            gbc.gridy++;
+        }
+
+        // 체크 박스 설정
+        String[] checkBokLabels = {"서비스의 이용 약관 동의", "관리자 권한 부여"};
+        for (String checkBokLabel : checkBokLabels) {
+            JCheckBox checkBox = new JCheckBox(checkBokLabel);
+            checkBox.setFont(font);
+            panel.add(checkBox, gbc);
+            gbc.gridy++;
+        }
 
         signUpButton = new JButton("회원가입");
         signUpButton.setFont(font);
-        signUpButton.setBackground(new Color(100, 149, 237));  // 코발트 블루
+        signUpButton.setBackground(new Color(100, 149, 237));
         signUpButton.setForeground(Color.WHITE);
-    }
-
-    private void layoutComponents() {
-        panel.add(nameField);
-        panel.add(createVerticalSpacing(15));
-        panel.add(emailField);
-        panel.add(createVerticalSpacing(15));
-        panel.add(phoneField);
-        panel.add(createVerticalSpacing(15));
-        panel.add(addressField);
-        panel.add(createVerticalSpacing(20));
-
-        // 체크박스
-        JCheckBox termsCheckBox = new JCheckBox("서비스의 이용 약관 동의");
-        termsCheckBox.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        panel.add(termsCheckBox);
-        panel.add(createVerticalSpacing(10));
-
-        JCheckBox adminCheckBox = new JCheckBox("관리자 권한 부여");
-        adminCheckBox.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        panel.add(adminCheckBox);
-        panel.add(createVerticalSpacing(20));
-
-        panel.add(signUpButton);
-        panel.add(createVerticalSpacing(30));
+        panel.add(signUpButton, gbc);
 
         frame.add(panel);
+        frame.setVisible(true);
+
+        /* ******************** 이벤트 호출 ******************** */
+        bindEventHandlers();
+        finalizeFrame();
+    }
+
+    private void onSubmit() {
+        /* ********** 컨트롤러 메소드 호출을 위해 사용자 입력값을 가져옴 ********** */
+        for (InputPanelComponent field : inputFields) {
+            System.out.println(field.getText() + " " + field.getText());
+        }
+        String name = inputFields[0].getText();
+        String email = inputFields[1].getText();
+        String phone = inputFields[2].getText();
+        String address = inputFields[3].getText();
+
+        // DebugLog
+        printUser(name, email, phone, address);
+
+        /* ********** 컨트롤러의 메소드를 호출하여 사용자 등록 처리 ********** */
+        controller.resisterUser(name, email, phone, address, "admin");
+        int response = JOptionPane.showConfirmDialog(frame, "회원가입 ok");
+
+        /* ********** 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동 ********** */
+        if (response == JOptionPane.YES_OPTION) {
+            frame.dispose();    // 프레임 종료
+            new LoginView().setVisible(true);
+        }
     }
 
     private void bindEventHandlers() {
@@ -92,29 +117,16 @@ public class RegisterView {
         frame.setVisible(true);
     }
 
-    private void onSubmit() {
-        // 컨트롤러 메소드 호출을 위해 사용자 입력값을 가져옴
-        String name = nameField.getText();
-        String email = emailField.getText();
-        String phone = phoneField.getText();
-        String address = addressField.getText();
-
+    public void printUser(String name, String email, String phone, String address) {
         // 사용자 입력을 콘솔에 출력
         System.out.println("사용자 입력 정보");
         System.out.println("이름: " + name);
         System.out.println("이메일: " + email);
         System.out.println("전화번호: " + phone);
         System.out.println("주소: " + address);
-
-        // 컨트롤러의 메소드를 호출하여 사용자 등록 처리
-        controller.resisterUser(name, email, phone, address, "admin");
-        JOptionPane.showMessageDialog(frame, "회원가입 ok");
     }
 
-    private Component createVerticalSpacing(int height) {
-        return Box.createVerticalStrut(height);
-    }
-
+    // Test
     public static void main(String[] args) {
         new RegisterView();
     }
