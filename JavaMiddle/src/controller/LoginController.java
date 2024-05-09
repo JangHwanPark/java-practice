@@ -1,12 +1,12 @@
 package controller;
 
-import models.AdminUserDTO;
+import models.AdminDTO;
 import javax.swing.*;
 
 public class LoginController {
-    private final AdminUserDTO userModel;
+    private final AdminDTO userModel;
 
-    public LoginController(AdminUserDTO userModel) {
+    public LoginController(AdminDTO userModel) {
         this.userModel = userModel;
     }
 

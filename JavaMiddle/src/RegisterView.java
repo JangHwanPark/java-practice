@@ -1,5 +1,5 @@
 import controller.RegisterController;
-import models.AdminUserDTO;
+import models.AdminDTO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +15,7 @@ public class RegisterView {
     /* ******************** 생성자 ******************** */
     public RegisterView() {
         /* *************** 모델과 컨트롤러 객체 생성 *************** */
-        AdminUserDTO userModel = new AdminUserDTO(0, "", "", "", "", "");
+        AdminDTO userModel = new AdminDTO(0, "", "", "", "", "");
         controller = new RegisterController(userModel);
 
         /* *************** 회원가입 View 생성 *************** */

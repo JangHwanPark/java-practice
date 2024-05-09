@@ -1,14 +1,14 @@
 package controller;
 
 
-import models.AdminUserDTO;
+import models.AdminDTO;
 import javax.swing.*;
 
 public class RegisterController {
-    private final AdminUserDTO userModel;
+    private final AdminDTO userModel;
 
     // 생성자
-    public RegisterController(AdminUserDTO userModel) {
+    public RegisterController(AdminDTO userModel) {
         this.userModel = userModel;
     }
 

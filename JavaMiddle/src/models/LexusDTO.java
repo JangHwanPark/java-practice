@@ -1,7 +1,7 @@
 package models;
 
 public class LexusDTO {
-    private String carId;
+    private String product_id;
     private String make;
     private String model;
     private int year;
@@ -9,8 +9,8 @@ public class LexusDTO {
     private String vin;
 
     // Constructors
-    public LexusDTO(String carId, String make, String model, int year, String color, String vin) {
-        this.carId = carId;
+    public LexusDTO(String product_id, String make, String model, int year, String color, String vin) {
+        this.product_id = product_id;
         this.make = make;
         this.model = model;
         this.year = year;
@@ -19,12 +19,12 @@ public class LexusDTO {
     }
 
     // Getters and Setters
-    public String getCarId() {
-        return carId;
+    public String getProductId() {
+        return product_id;
     }
 
-    public void setCarId(String carId) {
-        this.carId = carId;
+    public void setProductId(String product_id) {
+        this.product_id = product_id;
     }
 
     public String getMake() {
@@ -71,7 +71,7 @@ public class LexusDTO {
     @Override
     public String toString() {
         return "Car{" +
-                "carId='" + carId + '\'' +
+                "  product_id='" + product_id + '\'' +
                 ", make='" + make + '\'' +
                 ", model='" + model + '\'' +
                 ", year=" + year +
