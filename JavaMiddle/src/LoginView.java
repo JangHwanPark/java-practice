@@ -1,7 +1,4 @@
-package src;
-
-import src.components.InputPanelComponent;
-import src.controller.LoginController;
+import controller.LoginController;
 
 import javax.swing.*;
 import java.awt.*;

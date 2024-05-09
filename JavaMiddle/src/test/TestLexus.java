@@ -1,7 +1,7 @@
-package src.test;
+package test;
 
+import models.LexusDTO;
 import org.junit.Test;
-import src.models.LexusDTO;
 import static org.junit.Assert.assertNotNull;
 
 public class TestLexus {

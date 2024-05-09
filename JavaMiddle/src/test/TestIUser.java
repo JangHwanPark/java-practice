@@ -1,8 +1,8 @@
-package src.test;
+package test;
 
+import models.AdminUserDTO;
+import models.CustomerDTO;
 import org.junit.Test;
-import src.models.AdminUserDTO;
-import src.models.CustomerDTO;
 import static org.junit.Assert.*;
 
 public class TestIUser {

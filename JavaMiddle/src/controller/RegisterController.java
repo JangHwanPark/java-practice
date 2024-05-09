@@ -1,7 +1,7 @@
-package src.controller;
+package controller;
 
-import src.models.AdminUserDTO;
 
+import models.AdminUserDTO;
 import javax.swing.*;
 
 public class RegisterController {

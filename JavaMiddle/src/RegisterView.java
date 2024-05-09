@@ -1,13 +1,9 @@
-package src;
-
-import src.components.InputPanelComponent;
-import src.controller.RegisterController;
-import src.models.AdminUserDTO;
+import controller.RegisterController;
+import models.AdminUserDTO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class RegisterView {
     /* ******************** 필드 ******************** */
