@@ -1,3 +1,6 @@
+package view;
+
+import view.components.InputPanelComponent;
 import controller.RegisterController;
 import models.AdminDTO;
 
@@ -34,7 +37,7 @@ public class RegisterView {
         Font font = new Font("맑은 고딕", Font.PLAIN, 14);
 
         /* ******************** 입력 필드 ******************** */
-        String[] labels = {"이름: ", "이메일: ", "전화번호: ", "주소: "};
+        String[] labels = {"이름: ", "이메일: ", "전화번호: ", "주소: ", "비밀번호: "};
         inputFields  = new InputPanelComponent[labels.length];
         for (int i = 0; i < labels.length; i++) {
             inputFields[i] = new InputPanelComponent(labels[i], 200, 30, 10, font);
@@ -90,12 +93,13 @@ public class RegisterView {
         String email = inputFields[1].getText();
         String phone = inputFields[2].getText();
         String address = inputFields[3].getText();
+        String password = inputFields[4].getText();
 
         // DebugLog
         printUser(name, email, phone, address);
 
         /* ********** 컨트롤러의 메소드를 호출하여 사용자 등록 처리 ********** */
-        controller.resisterUser(name, email, phone, address, "admin");
+        controller.registerUser(name, email, phone, address, password, "admin");
         int response = JOptionPane.showConfirmDialog(frame, "회원가입 ok");
 
         /* ********** 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동 ********** */
@@ -120,10 +124,5 @@ public class RegisterView {
         System.out.println("이메일: " + email);
         System.out.println("전화번호: " + phone);
         System.out.println("주소: " + address);
-    }
-
-    // Test
-    public static void main(String[] args) {
-        new RegisterView();
     }
 }

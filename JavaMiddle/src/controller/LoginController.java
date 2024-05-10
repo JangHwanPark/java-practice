@@ -4,7 +4,7 @@ import models.AdminDTO;
 import javax.swing.*;
 
 public class LoginController {
-    private final AdminDTO userModel;
+    private AdminDTO userModel;
 
     public LoginController(AdminDTO userModel) {
         this.userModel = userModel;
@@ -25,9 +25,17 @@ public class LoginController {
     }
 
     public void loginUser(String email, String name) {
-        if (validateUserInput(name, email)) {
-            userModel.setEmail(email);
-            userModel.setName(name);
+        // 임시 테스트 사용자
+
+        AdminDTO testUser = new AdminDTO(1, "Test User", "a1", "123-456-7890", "123 Test Street", "admin");
+
+        if (validateUserInput(email, name)) {
+            if (email.equals(testUser.getEmail()) && name.equals("1234")) { // 테스트용 비밀번호
+                userModel = testUser;
+                JOptionPane.showMessageDialog(null, "로그인 성공!", "로그인 성공", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

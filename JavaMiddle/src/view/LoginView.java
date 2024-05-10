@@ -1,3 +1,6 @@
+package view;
+
+import view.components.InputPanelComponent;
 import controller.LoginController;
 
 import javax.swing.*;
@@ -6,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LoginView extends JFrame {
-    private InputPanelComponent nameField, emailField;
+    //private InputPanelComponent emailField;
+    private JTextField  emailField;
+    private JPasswordField passwordField;
     private LoginController controller;
     private JButton loginButton;
     private JPanel panel;
@@ -33,7 +38,7 @@ public class LoginView extends JFrame {
         panel.add(emailLabel, gbc);
 
         // 이메일 필드
-        JTextField emailField = new JTextField(20);
+        emailField = new JTextField(20);
         gbc.gridx = 1;
         gbc.gridy = 0;
         panel.add(emailField, gbc);
@@ -45,7 +50,7 @@ public class LoginView extends JFrame {
         panel.add(passwordLabel, gbc);
 
         // 비밀번호 필드
-        JPasswordField passwordField = new JPasswordField(20);
+        passwordField = new JPasswordField(20);
         gbc.gridx = 1;
         gbc.gridy = 1;
         panel.add(passwordField, gbc);
@@ -90,14 +95,13 @@ public class LoginView extends JFrame {
     /* *************** 로그인 버튼 클릭 시 이벤트 처리 ****************/
     private void onSubmit() {
         System.out.println("로그인 버튼 클릭됨");
+        // Note: 이메일과 비밀번호를 입력받아 로그인 처리하는 로직이 필요
+        /*String email = emailField.getText();
         String name = nameField.getText();
-        String email = emailField.getText();
-        controller.loginUser(name, email);
-        JOptionPane.showMessageDialog(panel, "로그인 성공");
-    }
+        controller.loginUser(email, name);*/
 
-    // View 실행
-    public static void main(String[] args) {
-        new LoginView();
+        JOptionPane.showMessageDialog(panel, "로그인 성공");
+        new AdminView();
+        setVisible(false);
     }
 }
