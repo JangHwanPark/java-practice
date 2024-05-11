@@ -15,8 +15,6 @@ import static dao.CustomerDAO.selectCustomerAll;
 
 public class AdminView extends IView {
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
-    private static final int EXAM_TABLE_ROWS = 50;
-    private static final int EXAM_TABLE_COLUMNS = 7;
 
     /* *************** 생성자 *************** */
     public AdminView() {
@@ -31,8 +29,7 @@ public class AdminView extends IView {
     }
 
     @Override
-    protected void addComponents() {
-    }
+    protected void addComponents() {}
 
 
     /* *************** 중앙 패널 생성 *************** */
@@ -54,7 +51,7 @@ public class AdminView extends IView {
             JOptionPane.showMessageDialog(null, "전체 사용자 조회 작업이 완료되었습니다.");
         } catch (SQLException e) {
             e.getStackTrace();
-            JOptionPane.showMessageDialog(null, "오류 발생");
+            JOptionPane.showMessageDialog(null, "데이터 조회중 오류가 발생했습니다.");
             return null;
         }
 
@@ -78,18 +75,23 @@ public class AdminView extends IView {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20)); // 공통 패딩
 
-        for (int i = 0; i < BUTTON_LABELS.length; i++) {
-            JButton button = new JButton(BUTTON_LABELS[i]);
-            button.setMaximumSize(new Dimension(150, 50));
-            button.setAlignmentX(Component.LEFT_ALIGNMENT);
-            buttonPanel.add(button);
-
-            // 마지막 버튼에는 간격 추가하지 않음
-            if (i < BUTTON_LABELS.length - 1) {
-                buttonPanel.add(Box.createVerticalStrut(30)); // 버튼 사이에 10 픽셀 간격 추가
-            }
+        for (String BUTTON_LABEL : BUTTON_LABELS) {
+            buttonPanel.add(createButton(BUTTON_LABEL));
+            buttonPanel.add(Box.createVerticalStrut(30)); // 버튼 사이에 10 픽셀 간격 추가
         }
+
+        // 마지막 버튼 간격 제거 및 반환
+        buttonPanel.remove(buttonPanel.getComponentCount() - 1);
         return buttonPanel;
+    }
+
+
+    /* *************** 버튼 생성 *************** */
+    private JButton createButton(String label) {
+        JButton button = new JButton(label);
+        button.setMaximumSize(new Dimension(150, 50));
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return button;
     }
 
 
