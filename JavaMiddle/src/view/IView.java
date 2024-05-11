@@ -15,10 +15,10 @@ public abstract class IView extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         getContentPane().add(mainPanel);
         initComponents();  // 컴포넌트 초기화
-        addComponents();  // 패널에 컴포넌트 추가
+        //addComponents();  // 패널에 컴포넌트 추가
         setVisible(true);
     }
 
     protected abstract void initComponents();
-    protected abstract void addComponents();
+    //protected abstract void addComponents();
 }

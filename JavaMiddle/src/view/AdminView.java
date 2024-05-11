@@ -7,6 +7,7 @@ import utils.DummyData;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -28,8 +29,8 @@ public class AdminView extends IView {
         mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
     }
 
-    @Override
-    protected void addComponents() {}
+    /*@Override
+    protected void addComponents() {}*/
 
 
     /* *************** 중앙 패널 생성 *************** */
@@ -76,8 +77,12 @@ public class AdminView extends IView {
         buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20)); // 공통 패딩
 
         for (String BUTTON_LABEL : BUTTON_LABELS) {
-            buttonPanel.add(createButton(BUTTON_LABEL));
+            JButton button = createButton(BUTTON_LABEL);
+            button.addActionListener(createActionListener(BUTTON_LABEL));
+
+            buttonPanel.add(button);
             buttonPanel.add(Box.createVerticalStrut(30)); // 버튼 사이에 10 픽셀 간격 추가
+            System.out.println(BUTTON_LABEL);
         }
 
         // 마지막 버튼 간격 제거 및 반환
@@ -92,6 +97,33 @@ public class AdminView extends IView {
         button.setMaximumSize(new Dimension(150, 50));
         button.setAlignmentX(Component.LEFT_ALIGNMENT);
         return button;
+    }
+
+
+    /* *************** 버튼 액션 리스너 생성 *************** */
+    private ActionListener createActionListener(String label) {
+        return e -> {
+            switch (label) {
+                case "정보 등록":
+                    JOptionPane.showMessageDialog(null, "정보 등록 버튼 클릭");
+                    break;
+                case "정보 변경":
+                    JOptionPane.showMessageDialog(null, "정보 변경 버튼 클릭");
+                    break;
+                case "정보 삭제":
+                    JOptionPane.showMessageDialog(null, "정보 삭제 버튼 클릭");
+                    break;
+                case "프로그램 종료":
+                    // JOptionPane을 사용하여 확인 대화상자 표시
+                    int response = JOptionPane.showConfirmDialog(null, "프로그램을 종료하시겠습니까?", "프로그램 종료 확인", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                    // 사용자가 "OK"를 클릭했다면 프로그램 종료
+                    if (response == JOptionPane.OK_OPTION) {
+                        System.exit(0);
+                    }
+                    break;
+            }
+        };
     }
 
 
