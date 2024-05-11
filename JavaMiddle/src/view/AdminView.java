@@ -2,7 +2,7 @@ package view;
 
 import controller.CustomerController;
 import models.CustomerDTO;
-import utils.DummyData;
+import view.abstractView.IView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -105,10 +105,10 @@ public class AdminView extends IView {
         return e -> {
             switch (label) {
                 case "정보 등록":
-                    JOptionPane.showMessageDialog(null, "정보 등록 버튼 클릭");
+                    new CustomerRegistrationView();
                     break;
                 case "정보 변경":
-                    JOptionPane.showMessageDialog(null, "정보 변경 버튼 클릭");
+                    new CustomerChangeInfoView();
                     break;
                 case "정보 삭제":
                     JOptionPane.showMessageDialog(null, "정보 삭제 버튼 클릭");
