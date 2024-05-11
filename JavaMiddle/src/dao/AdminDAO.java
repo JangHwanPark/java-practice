@@ -43,20 +43,6 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
 
     @Override
     public AdminDTO insertModel(AdminDTO admin) {
-        /*String sql = "INSERT INTO db2451506_user_management.admin (name, email, phone, address, role) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = ConnProvider.getConnection(); Statement pstmt = conn.createStatement()) {
-            pstmt.executeUpdate(sql);
-            try (ResultSet rset = pstmt.getGeneratedKeys()) {
-                if (rset.next()) {
-                    model.getUserId(rset.getInt(1));
-                }
-            }
-            return model;
-        } catch (SQLException e) {
-            System.err.println("Error executing query: " + e.getMessage());
-            e.getStackTrace();
-        }*/
         String sql = """
                 INSERT INTO db2451506_user_management.admin (name, email, phone, address, role) VALUES (?, ?, ?, ?, 'admin')
                 """;
