@@ -1,6 +1,7 @@
 package view;
 
 import controller.CustomerController;
+import dao.CustomerDAO;
 import models.CustomerDTO;
 import view.abstractView.IView;
 
@@ -10,9 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import static controller.CustomerController.getColumnNames;
-import static dao.CustomerDAO.selectCustomerAll;
+
 
 public class AdminView extends IView {
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
@@ -47,14 +47,9 @@ public class AdminView extends IView {
     private JTable createTable() {
         // DAO 메소드를 호출하여 모든 고객 데이터를 가져옴.
         ArrayList<CustomerDTO> customers = null;
-        try {
-            customers = selectCustomerAll();
-            JOptionPane.showMessageDialog(null, "전체 사용자 조회 작업이 완료되었습니다.");
-        } catch (SQLException e) {
-            e.getStackTrace();
-            JOptionPane.showMessageDialog(null, "데이터 조회중 오류가 발생했습니다.");
-            return null;
-        }
+        CustomerDAO customerDAO = new CustomerDAO();
+        customers = customerDAO.getAllModels();
+        JOptionPane.showMessageDialog(null, "전체 사용자 조회 작업이 완료되었습니다.");
 
         Object[][] tableData = CustomerController.prepareTableData(customers);
         String[] columnNames = getColumnNames();
@@ -111,7 +106,8 @@ public class AdminView extends IView {
                     new CustomerChangeInfoView();
                     break;
                 case "정보 삭제":
-                    JOptionPane.showMessageDialog(null, "정보 삭제 버튼 클릭");
+                    DeleteView deleteView = new DeleteView();
+                    deleteView.DeleteUser();
                     break;
                 case "프로그램 종료":
                     // JOptionPane을 사용하여 확인 대화상자 표시

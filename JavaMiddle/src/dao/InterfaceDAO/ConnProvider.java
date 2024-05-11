@@ -1,4 +1,4 @@
-package dao;
+package dao.InterfaceDAO;
 
 import utils.ConnectDB;
 

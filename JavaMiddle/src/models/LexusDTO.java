@@ -1,7 +1,7 @@
 package models;
 
 public class LexusDTO {
-    private String product_id;
+    private int product_id;
     private String make;
     private String model;
     private int year;
@@ -9,7 +9,7 @@ public class LexusDTO {
     private String vin;
 
     // Constructors
-    public LexusDTO(String product_id, String make, String model, int year, String color, String vin) {
+    public LexusDTO(int product_id, String make, String model, int year, String color, String vin) {
         this.product_id = product_id;
         this.make = make;
         this.model = model;
@@ -19,11 +19,11 @@ public class LexusDTO {
     }
 
     // Getters and Setters
-    public String getProductId() {
+    public int getProductId() {
         return product_id;
     }
 
-    public void setProductId(String product_id) {
+    public void setProductId(int product_id) {
         this.product_id = product_id;
     }
 

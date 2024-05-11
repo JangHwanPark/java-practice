@@ -1,8 +1,6 @@
 package models;
 
-import java.time.LocalDateTime;
-
-public abstract class IUser {
+public abstract class IModels {
     private int userId;
     // 사용자 필드
     private String name;
@@ -12,7 +10,7 @@ public abstract class IUser {
     private String role;
 
     // 생성자
-    public IUser(int userId, String name, String email, String phone, String address, String role) {
+    public IModels(int userId, String name, String email, String phone, String address, String role) {
         this.userId = userId;
         this.name = name;
         this.email = email;

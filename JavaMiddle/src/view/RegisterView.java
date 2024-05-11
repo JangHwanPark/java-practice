@@ -1,8 +1,8 @@
 package view;
 
-import view.components.InputPanelComponent;
 import controller.RegisterController;
 import models.AdminDTO;
+import view.components.InputPanelComponent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,15 +17,16 @@ public class RegisterView {
 
     /* ******************** 생성자 ******************** */
     public RegisterView() {
-        /* *************** 모델과 컨트롤러 객체 생성 *************** */
-        AdminDTO userModel = new AdminDTO(0, "", "", "", "", "");
-        controller = new RegisterController(userModel);
-
         /* *************** 회원가입 View 생성 *************** */
+        //super("회원가입", 400, 430);
         frame = new JFrame("회원가입");
         frame.setSize(400, 430);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+
+        /* *************** 모델과 컨트롤러 객체 생성 *************** */
+        AdminDTO userModel = new AdminDTO(0, "", "", "", "", "");
+        controller = new RegisterController(userModel);
 
         /* ******************** 패널 설정 ******************** */
         JPanel panel = new JPanel();
@@ -38,7 +39,7 @@ public class RegisterView {
 
         /* ******************** 입력 필드 ******************** */
         String[] labels = {"이름: ", "이메일: ", "전화번호: ", "주소: ", "비밀번호: "};
-        inputFields  = new InputPanelComponent[labels.length];
+        inputFields = new InputPanelComponent[labels.length];
         for (int i = 0; i < labels.length; i++) {
             inputFields[i] = new InputPanelComponent(labels[i], 200, 30, 10, font);
         }
@@ -117,8 +118,8 @@ public class RegisterView {
         frame.setVisible(true);
     }
 
+    // 사용자 입력을 콘솔에 출력
     public void printUser(String name, String email, String phone, String address) {
-        // 사용자 입력을 콘솔에 출력
         System.out.println("사용자 입력 정보");
         System.out.println("이름: " + name);
         System.out.println("이메일: " + email);

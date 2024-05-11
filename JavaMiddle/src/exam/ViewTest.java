@@ -8,7 +8,7 @@ import java.util.List;
 public class ViewTest {
     public static void main(String[] args) {
         LexusDAO repository = new LexusDAO();
-        List<LexusDTO> lexusCars = repository.getAllLexus();
+        List<LexusDTO> lexusCars = repository.getAllModels();
         System.out.println(repository.toString());
         System.out.println(lexusCars);
 
