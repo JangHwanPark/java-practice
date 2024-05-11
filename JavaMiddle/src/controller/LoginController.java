@@ -1,16 +1,31 @@
 package controller;
 
+import dao.AdminDAO;
 import models.AdminDTO;
 import javax.swing.*;
 
-public class LoginController {
+public class LoginController extends IValidateController {
     private AdminDTO userModel;
+    private AdminDAO adminDAO;
+    private String email;
+    private String password;
+
 
     public LoginController(AdminDTO userModel) {
+        super(userModel);
         this.userModel = userModel;
+        this.adminDAO = new AdminDAO();
     }
 
-    // 사용자 입력 유효성 검사 로직
+    public LoginController(String email, String password) {
+        super(null);
+        this.email = email;
+        this.password = password;
+        this.adminDAO = new AdminDAO();
+    }
+
+
+    /* ********** 사용자 입력 유효성 검사 로직 ********** */
     private boolean validateUserInput(String password, String email) {
         // 유효성 검사 실패시 경고팝업 출력
         if (email == null || email.isEmpty()) {
@@ -24,18 +39,21 @@ public class LoginController {
         return true;
     }
 
-    public void loginUser(String email, String name) {
-        // 임시 테스트 사용자
 
-        AdminDTO testUser = new AdminDTO(1, "Test User", "a1", "123-456-7890", "123 Test Street", "admin");
-
-        if (validateUserInput(email, name)) {
-            if (email.equals(testUser.getEmail()) && name.equals("1234")) { // 테스트용 비밀번호
-                userModel = testUser;
+    public void loginUser(String email, String password) {
+        if (validateUserInput(email, password)) {
+            AdminDTO userFromDb = adminDAO.selectLoginUser(email, password);
+            if (userFromDb != null) {
+                this.userModel = userFromDb;
                 JOptionPane.showMessageDialog(null, "로그인 성공!", "로그인 성공", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "로그인 실패: 이메일 또는 비밀번호가 잘못되었습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    // 현재 로그인된 사용자 정보 가져오기
+    public AdminDTO getUserModel() {
+        return userModel;
     }
 }

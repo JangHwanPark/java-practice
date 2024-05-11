@@ -6,20 +6,24 @@ import javax.swing.*;
 public class RegisterController extends IValidateController {
     private AdminDTO userModel;
 
-    // 생성자
+
+    /* *************** 생성자 *************** */
     public RegisterController(AdminDTO userModel) {
         super(userModel);
         this.userModel = userModel;
     }
 
-    // 사용자 입력 유효성 검사 로직
+
+    /* ********** 사용자 입력 유효성 검사 로직 ********** */
     protected boolean isEmptyUserEmail(String email) {
         return email != null && !email.isEmpty();
     }
 
+
     protected boolean isEmptyUserNumber(String studentId) {
         return studentId != null && !studentId.isEmpty();
     }
+
 
     public boolean validate(String name, String email, String phone, String address, String password) {
         if (!isEmptyUserName(name)) {
@@ -42,8 +46,9 @@ public class RegisterController extends IValidateController {
             System.out.println("유효하지 않은 주소: 주소를 입력해주세요.");
             return false;
         }
-        return true; // 모든 검증이 통과되면 true 반환
+        return true;
     }
+
 
     public void registerUser(String name, String email, String phone, String address, String password, String role) {
         if (validate(name, email, phone, address, password)) {
@@ -52,9 +57,9 @@ public class RegisterController extends IValidateController {
             userModel.setPhone(phone);
             userModel.setAddress(address);
             userModel.setRole(role);
-            System.out.println("사용자 등록이 성공적으로 완료되었습니다.");
+            JOptionPane.showMessageDialog(null, "사용자 등록이 성공적으로 완료되었습니다.");
         } else {
-            System.out.println("사용자 등록에 실패했습니다. 입력 정보를 확인해주세요.");
+            JOptionPane.showMessageDialog(null, "사용자 등록에 실패했습니다. 입력 정보를 확인해주세요.");
         }
     }
 }

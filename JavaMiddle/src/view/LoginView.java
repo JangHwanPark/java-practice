@@ -1,5 +1,6 @@
 package view;
 
+import models.AdminDTO;
 import view.components.InputPanelComponent;
 import controller.LoginController;
 
@@ -21,6 +22,7 @@ public class LoginView extends JFrame {
         setTitle("로그인");
         setSize(350, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         /* ******************** 패널 생성 ******************** */
         panel = new JPanel(new GridBagLayout());
@@ -92,16 +94,19 @@ public class LoginView extends JFrame {
         setVisible(false);
     }
 
+    //validateUserInput
     /* *************** 로그인 버튼 클릭 시 이벤트 처리 ****************/
     private void onSubmit() {
         System.out.println("로그인 버튼 클릭됨");
         // Note: 이메일과 비밀번호를 입력받아 로그인 처리하는 로직이 필요
-        /*String email = emailField.getText();
-        String name = nameField.getText();
-        controller.loginUser(email, name);*/
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
-        JOptionPane.showMessageDialog(panel, "로그인 성공");
-        new AdminView();
+        controller = new LoginController(email, password);
+        controller.loginUser(email, password);
+
+        System.out.println("로그인 성공");
+        new AdminView().setVisible(true);
         setVisible(false);
     }
 }

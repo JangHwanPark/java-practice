@@ -30,7 +30,9 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
 
     @Override
     public CustomerDTO insertModel(CustomerDTO customer) {
-        String sql = "INSERT INTO db2451506_user_management.customer (name, email, phone, address, role) VALUES (?, ?, ?, ?, ?)";
+        String sql = """
+            INSERT INTO db2451506_user_management.customer (name, email, phone, address, role) VALUES (?, ?, ?, ?, 'customer')
+            """;
 
         try (Connection conn = ConnProvider.getConnection();
              Statement pstmt = conn.createStatement()) {
