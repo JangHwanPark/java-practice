@@ -2,7 +2,6 @@ package dao;
 
 import models.AdminDTO;
 import models.CustomerDTO;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,13 +41,5 @@ public class CustomerDAO {
             e.getStackTrace();
         }
         return customers;
-    }
-
-    public static void main(String[] args) throws SQLException {
-        ArrayList<CustomerDTO> customers = selectCustomerAll();
-        System.out.println("Retrieved " + customers.size() + " admins:");
-        for (CustomerDTO customer : customers) {
-            System.out.println(customer);
-        }
     }
 }
