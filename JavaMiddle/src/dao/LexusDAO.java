@@ -1,6 +1,7 @@
 package dao;
 
 import dao.abstractDAO.IModelDAO;
+import models.CustomerDTO;
 import models.LexusDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,16 @@ public class LexusDAO extends IModelDAO<LexusDTO> {
 
     @Override
     public LexusDTO insertModel(LexusDTO model) {
+        return null;
+    }
+
+    @Override
+    public LexusDTO deleteModel(LexusDTO model) {
+        return null;
+    }
+
+    @Override
+    public LexusDTO updateModel(LexusDTO model) {
         return null;
     }
 }

@@ -27,6 +27,16 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
         return null;
     }
 
+    @Override
+    public AdminDTO deleteModel(AdminDTO model) {
+        return null;
+    }
+
+    @Override
+    public AdminDTO updateModel(AdminDTO model) {
+        return null;
+    }
+
     public static void main (String[]args) throws SQLException {
         AdminDAO adminDAO = new AdminDAO();
         ArrayList<AdminDTO> admins = adminDAO.getAllModels();

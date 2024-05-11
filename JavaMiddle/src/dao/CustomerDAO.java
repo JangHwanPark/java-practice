@@ -2,6 +2,7 @@ package dao;
 
 import dao.InterfaceDAO.ConnProvider;
 import dao.abstractDAO.IModelDAO;
+import models.AdminDTO;
 import models.CustomerDTO;
 
 import java.sql.Connection;
@@ -39,5 +40,15 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
             e.getStackTrace();
         }
         return customer;
+    }
+
+    @Override
+    public CustomerDTO deleteModel(CustomerDTO model) {
+        return null;
+    }
+
+    @Override
+    public CustomerDTO updateModel(CustomerDTO model) {
+        return null;
     }
 }
