@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -155,10 +156,43 @@ public class AdminView extends IView {
     /* *************** 입력 패널 생성 *************** */
     private JPanel createInputPanel() {
         JPanel inputPanel = new JPanel(new BorderLayout());
+        JButton submitButton = new JButton("검색");
+        JTextField searchField = new JTextField(20);
+
+        // 검색 입력 필드
         inputPanel.add(new JComboBox<>(new String[]{"Dropdown"}), BorderLayout.WEST);
-        inputPanel.add(new JTextField(20), BorderLayout.CENTER);
-        inputPanel.add(new JButton("검색"), BorderLayout.EAST);
+        inputPanel.add(searchField, BorderLayout.CENTER);
+        searchField.addKeyListener(userInputKeyListener());
+
+        // 검색 버튼
+        inputPanel.add(submitButton, BorderLayout.EAST);
+        submitButton.addActionListener(onSubmitActionListener());
         return inputPanel;
+    }
+
+    private KeyListener userInputKeyListener() {
+        return new KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent e) {
+                System.out.println("키 입력됨");
+            }
+
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                System.out.println("키 눌림");
+            }
+
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) {
+                System.out.println("키 놓임");
+            }
+        };
+    }
+
+    private ActionListener onSubmitActionListener() {
+        return e -> {
+            JOptionPane.showMessageDialog(null, "검색버튼 클릭", "검색", JOptionPane.INFORMATION_MESSAGE);
+        };
     }
 
 
