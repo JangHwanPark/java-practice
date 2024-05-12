@@ -1,7 +1,6 @@
 package view;
 
 import dao.OrdersDAO;
-import models.CustomerDTO;
 import models.OrdersDTO;
 import view.abstractView.IView;
 
@@ -13,19 +12,22 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import static controller.AdminViewController.getColumnNames;
 import static controller.AdminViewController.prepareTableData;
 
 
 public class AdminView extends IView {
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
-    private CustomerDTO selectedCustomer;
-    private OrdersDTO selectedOrder;
+    private CustomerChangeInfoView customerChangeInfoView;
+    private Object[] selectedRowData;
 
 
     /* *************** 생성자 *************** */
     public AdminView() {
         super("관리자 페이지", 1200, 600);
+        initComponents();
     }
 
     @Override
@@ -49,48 +51,29 @@ public class AdminView extends IView {
     }
 
 
-    /* *************** 셀 클릭 이벤트 *************** */
-    private void onClickCellEvent(MouseEvent e) {
-        // 선택한 셀의 행번호 계산
-        int row = createTable().getSelectedRow();
-
-        if (row == -1) {
-            System.out.println("유효하지 않은 행 선택");
-        }
-
-        System.out.println("클릭한 셀의 행번호: " + row);
-        System.out.println("클릭한 셀의 데이터: " + createTable().getValueAt(row, 0));
-    }
-
-
     /* *************** 테이블 생성 *************** */
     private JTable createTable() {
-        // DAO 메소드를 호출하여 모든 고객 데이터를 가져옴.
         OrdersDAO ordersDAO = new OrdersDAO();
         ArrayList<OrdersDTO> orders = ordersDAO.getAllModels();
         Object[][] tableData = prepareTableData(orders);
         String[] columnNames = getColumnNames();
 
-        // JTable 객체를 생성하고 초기화
-        JPanel tablePanel = new JPanel();
         JTable table = new JTable(tableData, columnNames);
-        tablePanel.add(table);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //onClickCellEvent(e);
-                JTable target = (JTable)e.getSource();
-                int row = target.rowAtPoint(e.getPoint());
-                int column = target.columnAtPoint(e.getPoint());
-
-                if (row >= 0 && column >= 0) {
-                    System.out.println("Clicked value: " + target.getValueAt(row, column));
+                int row = table.getSelectedRow();
+                if (row >= 0) {
+                    selectedRowData = new Object[table.getColumnCount()];
+                    System.out.println("createTable MouseE : " + Arrays.toString(selectedRowData));
+                    for (int i = 0; i < table.getColumnCount(); i++) {
+                        selectedRowData[i] = table.getValueAt(row, i);
+                        System.out.println("createTable MouseE Loop : " + Arrays.toString(selectedRowData));
+                    }
                 }
             }
         });
 
-        // JTable의 모든 컬럼을 프레임 크기에 맞추도록 설정
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         return table;
     }
 
@@ -122,9 +105,18 @@ public class AdminView extends IView {
             switch (label) {
                 case "정보 등록":
                     new CustomerRegistrationView();
+                    JOptionPane.showMessageDialog(null, "정보등록 클릭");
                     break;
                 case "정보 변경":
-                    new CustomerChangeInfoView();
+                    if (selectedRowData != null) {
+                        if (customerChangeInfoView == null) {  // 인스턴스가 null일 경우에만 새로 생성
+                            customerChangeInfoView = new CustomerChangeInfoView();
+                        }
+                        customerChangeInfoView.displayRowDataInInputFields(selectedRowData);
+                        customerChangeInfoView.setVisible(true);  // 사용자가 버튼을 클릭했을 때만 창을 보이게 함
+                    } else {
+                        JOptionPane.showMessageDialog(null, "변경할 데이터를 선택해주세요.", "변경할 데이터 선택", JOptionPane.WARNING_MESSAGE);
+                    }
                     break;
                 case "정보 삭제":
                     DeleteView deleteView = new DeleteView();

@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/ch07/ch07.iml" filepath="$PROJECT_DIR$/ch07/ch07.iml" />
       <module fileurl="file://$PROJECT_DIR$/ch09/ch09.iml" filepath="$PROJECT_DIR$/ch09/ch09.iml" />
       <module fileurl="file://$PROJECT_DIR$/java-practice.iml" filepath="$PROJECT_DIR$/java-practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-swing-Exam/java-swing-Exam.iml" filepath="$PROJECT_DIR$/java-swing-Exam/java-swing-Exam.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaFx-Exam/javaFx-Exam.iml" filepath="$PROJECT_DIR$/javaFx-Exam/javaFx-Exam.iml" />
     </modules>
   </component>
