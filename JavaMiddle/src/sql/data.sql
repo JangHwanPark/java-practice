@@ -72,7 +72,17 @@ VALUES
     ('Kang Min', '135 Ulsan Way', 'kangmin@example.com', '010-7777-8888', 'Customer'),
     ('Moon Ji', '246 Jeju Street', 'moonji@example.com', '010-8888-9999', 'Customer'),
     ('Kwon Bo', '357 Suwon Lane', 'kwonbo@example.com', '010-9999-1111', 'Customer'),
-    ('Han Seo', '468 Changwon Blvd', 'hanseo@example.com', '010-1111-9999', 'Customer');
+    ('Han Seo', '468 Changwon Blvd', 'hanseo@example.com', '010-1111-9999', 'Customer'),
+    ('Son Heung-min', '101 London St', 'sonhm@example.com', '010-1010-2020', 'Customer'),
+    ('Hwang Hee-chan', '102 Wolverhampton St', 'hwanghc@example.com', '010-2020-3030', 'Customer'),
+    ('Kim Min-jae', '103 Napoli St', 'kimminj@example.com', '010-3030-4040', 'Customer'),
+    ('Lee Kang-in', '104 Mallorca St', 'leeki@example.com', '010-4040-5050', 'Customer'),
+    ('Park Ji-sung', '105 Manchester St', 'parkjs@example.com', '010-5050-6060', 'Customer'),
+    ('Koo Ja-cheol', '106 Mainz St', 'koojc@example.com', '010-6060-7070', 'Customer'),
+    ('Ki Sung-yueng', '107 Swansea St', 'kisys@example.com', '010-7070-8080', 'Customer'),
+    ('Lee Chung-yong', '108 Bolton St', 'leecy@example.com', '010-8080-9090', 'Customer'),
+    ('Ji So-yun', '109 Chelsea St', 'jisoy@example.com', '010-9090-1010', 'Customer'),
+    ('Yoon Bit-garam', '110 Jeju St', 'yoonbg@example.com', '010-0101-1111', 'Customer');
 
 INSERT INTO product (make, model, year, color, vin, price)
 VALUES
@@ -85,7 +95,17 @@ VALUES
     ('Lexus', 'Lexus LS 500', 2022, 'Black', 'VIN007', 75000.00),
     ('Lexus', 'Lexus RC 350', 2021, 'White', 'VIN008', 44000.00),
     ('Lexus', 'Lexus UX 200', 2020, 'Blue', 'VIN009', 32000.00),
-    ('Lexus', 'Lexus LC 500', 2023, 'Gold', 'VIN010', 92000.00);
+    ('Lexus', 'Lexus LC 500', 2023, 'Gold', 'VIN010', 92000.00),
+    ('BMW', '3 Series', 2020, 'White', 'VIN011', 42000.00),
+    ('Audi', 'A4', 2020, 'Blue', 'VIN012', 43000.00),
+    ('Mercedes', 'C Class', 2020, 'Black', 'VIN013', 44000.00),
+    ('Tesla', 'Model S', 2021, 'Red', 'VIN014', 75000.00),
+    ('Honda', 'Accord', 2020, 'Silver', 'VIN015', 30000.00),
+    ('Toyota', 'Camry', 2021, 'Grey', 'VIN016', 35000.00),
+    ('Nissan', 'Altima', 2021, 'White', 'VIN017', 32000.00),
+    ('Chevrolet', 'Malibu', 2020, 'Black', 'VIN018', 31000.00),
+    ('Ford', 'Fusion', 2021, 'Blue', 'VIN019', 33000.00),
+    ('Hyundai', 'Sonata', 2021, 'Red', 'VIN020', 34000.00);
 
 INSERT INTO orders (customer_id, product_id, admin_id, purchase_date, service_due_date, payment_status)
 VALUES (1, 1, 1, '2023-05-01', '2024-05-01', TRUE),
@@ -94,4 +114,17 @@ VALUES (1, 1, 1, '2023-05-01', '2024-05-01', TRUE),
        (4, 4, 4, '2023-08-01', '2024-08-01', TRUE),
        (5, 5, 5, '2023-09-01', '2024-09-01', FALSE),
        (6, 6, 6, '2023-10-01', '2024-10-01', TRUE),
-       (7, 7, 7, '2023-11-01', '2024-11-01', TRUE);
+       (7, 7, 7, '2023-11-01', '2024-11-01', TRUE),
+       (8, 8, 8, '2023-11-10', '2024-11-10', TRUE),
+       (9, 9, 9, '2023-11-15', '2024-11-15', FALSE),
+       (10, 10, 10, '2023-11-20', '2024-11-20', TRUE),
+       (1, 1, 1, '2023-11-25', '2024-11-25', FALSE),
+       (2, 2, 2, '2023-11-30', '2024-11-30', TRUE),
+       (3, 3, 3, '2023-12-05', '2024-12-05', FALSE),
+       (4, 4, 4, '2023-12-10', '2024-12-10', TRUE),
+       (5, 5, 5, '2023-12-15', '2024-12-15', FALSE),
+       (6, 6, 6, '2023-12-20', '2024-12-20', TRUE),
+       (7, 7, 7, '2023-12-25', '2024-12-25', FALSE),
+       (8, 8, 8, '2023-12-30', '2024-12-30', TRUE),
+       (9, 9, 9, '2024-01-04', '2025-01-04', FALSE),
+       (10, 10, 10, '2024-01-09', '2025-01-09', TRUE);
