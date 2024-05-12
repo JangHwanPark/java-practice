@@ -2,13 +2,9 @@ package dao;
 
 import dao.InterfaceDAO.ConnProvider;
 import dao.abstractDAO.IModelDAO;
-import models.AdminDTO;
 import models.CustomerDTO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class CustomerDAO extends IModelDAO<CustomerDTO> {
     public CustomerDAO() {
@@ -51,6 +47,27 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
 
     @Override
     public CustomerDTO updateModel(CustomerDTO model) {
+        return null;
+    }
+
+    // TODO: 추상 메서드로 구현
+    public CustomerDTO findByProductId(int id) {
+        String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
+        try (
+                Connection conn = ConnProvider.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return modelsResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.getStackTrace();
+        }
+
         return null;
     }
 }

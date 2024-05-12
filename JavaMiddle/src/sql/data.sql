@@ -40,10 +40,12 @@ CREATE TABLE orders
     admin_id         INT,
     purchase_date    DATE,
     service_due_date DATE,
+    payment_status   BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (customer_id) REFERENCES customer (customer_id),
     FOREIGN KEY (product_id) REFERENCES product (product_id),
     FOREIGN KEY (admin_id) REFERENCES admin (admin_id)
 );
+
 
 -- Insert Dummy data
 INSERT INTO admin (name, email, phone, address, role, password)
@@ -85,11 +87,11 @@ VALUES
     ('Lexus', 'Lexus UX 200', 2020, 'Blue', 'VIN009', 32000.00),
     ('Lexus', 'Lexus LC 500', 2023, 'Gold', 'VIN010', 92000.00);
 
-INSERT INTO orders (customer_id, product_id, admin_id, purchase_date, service_due_date)
-VALUES (1, 1, 1, '2023-05-01', '2024-05-01'),
-       (2, 2, 2, '2023-06-01', '2024-06-01'),
-       (3, 3, 3, '2023-07-01', '2024-07-01'),
-       (4, 4, 4, '2023-08-01', '2024-08-01'),
-       (5, 5, 5, '2023-09-01', '2024-09-01'),
-       (6, 6, 6, '2023-10-01', '2024-10-01'),
-       (7, 7, 7, '2023-11-01', '2024-11-01');
+INSERT INTO orders (customer_id, product_id, admin_id, purchase_date, service_due_date, payment_status)
+VALUES (1, 1, 1, '2023-05-01', '2024-05-01', TRUE),
+       (2, 2, 2, '2023-06-01', '2024-06-01', FALSE),
+       (3, 3, 3, '2023-07-01', '2024-07-01', TRUE),
+       (4, 4, 4, '2023-08-01', '2024-08-01', TRUE),
+       (5, 5, 5, '2023-09-01', '2024-09-01', FALSE),
+       (6, 6, 6, '2023-10-01', '2024-10-01', TRUE),
+       (7, 7, 7, '2023-11-01', '2024-11-01', TRUE);

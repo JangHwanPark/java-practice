@@ -1,21 +1,23 @@
 package models;
 
-public class LexusDTO {
+public class ProductDTO {
     private int product_id;
     private String make;
     private String model;
     private int year;
     private String color;
     private String vin;
+    private int price;
 
     // Constructors
-    public LexusDTO(int product_id, String make, String model, int year, String color, String vin) {
+    public ProductDTO(int product_id, String make, String model, int year, String color, String vin, int price) {
         this.product_id = product_id;
         this.make = make;
         this.model = model;
         this.year = year;
         this.color = color;
         this.vin = vin;
+        this.price = price;
     }
 
     // Getters and Setters
@@ -67,6 +69,14 @@ public class LexusDTO {
         this.vin = vin;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     // toString Method
     @Override
     public String toString() {
@@ -77,6 +87,7 @@ public class LexusDTO {
                 ", year=" + year +
                 ", color='" + color + '\'' +
                 ", vin='" + vin + '\'' +
+                ", price=" + price +
                 '}';
     }
 }

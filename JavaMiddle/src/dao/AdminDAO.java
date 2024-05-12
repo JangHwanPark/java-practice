@@ -3,6 +3,7 @@ package dao;
 import dao.InterfaceDAO.ConnProvider;
 import dao.abstractDAO.IModelDAO;
 import models.AdminDTO;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -32,12 +33,12 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
     @Override
     protected AdminDTO modelsResultSet(ResultSet rset) throws SQLException {
         return new AdminDTO(
-            rset.getInt("admin_id"),
-            rset.getString("name"),
-            rset.getString("email"),
-            rset.getString("phone"),
-            rset.getString("address"),
-            rset.getString("role")
+                rset.getInt("admin_id"),
+                rset.getString("name"),
+                rset.getString("email"),
+                rset.getString("phone"),
+                rset.getString("address"),
+                rset.getString("role")
         );
     }
 
@@ -67,13 +68,30 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
         return null;
     }
 
-    public static void main (String[]args) throws SQLException {
+
+    public AdminDTO findByAdminId(int id) {
+        String sql = "SELECT * FROM db2451506_user_management.admin WHERE admin_id = ?";
+        try (
+                Connection conn = ConnProvider.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return modelsResultSet(rs);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.getStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void main(String[] args) throws SQLException {
         AdminDAO adminDAO = new AdminDAO();
         ArrayList<AdminDTO> admins = adminDAO.getAllModels();
-        System.out.println("Retrieved " + admins.size() + " admins:");
-
-        for (AdminDTO admin : admins) {
-            System.out.println(admin);
-        }
+        System.out.println(adminDAO.findByAdminId(1));
     }
 }

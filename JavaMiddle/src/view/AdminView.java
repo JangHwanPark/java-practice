@@ -1,21 +1,26 @@
 package view;
 
-import controller.CustomerController;
-import dao.CustomerDAO;
+import dao.OrdersDAO;
 import models.CustomerDTO;
+import models.OrdersDTO;
 import view.abstractView.IView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import static controller.CustomerController.getColumnNames;
+import static controller.AdminViewController.getColumnNames;
+import static controller.AdminViewController.prepareTableData;
 
 
 public class AdminView extends IView {
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
+    private CustomerDTO selectedCustomer;
+    private OrdersDTO selectedOrder;
+
 
     /* *************** 생성자 *************** */
     public AdminView() {
@@ -43,21 +48,45 @@ public class AdminView extends IView {
     }
 
 
+    /* *************** 셀 클릭 이벤트 *************** */
+    private void onClickCellEvent(MouseEvent e) {
+        // 선택한 셀의 행번호 계산
+        int row = createTable().getSelectedRow();
+
+        if (row == -1) {
+            System.out.println("유효하지 않은 행 선택");
+        }
+
+        System.out.println("클릭한 셀의 행번호: " + row);
+        System.out.println("클릭한 셀의 데이터: " + createTable().getValueAt(row, 0));
+    }
+
+
     /* *************** 테이블 생성 *************** */
     private JTable createTable() {
         // DAO 메소드를 호출하여 모든 고객 데이터를 가져옴.
-        ArrayList<CustomerDTO> customers = null;
-        CustomerDAO customerDAO = new CustomerDAO();
-        customers = customerDAO.getAllModels();
-        JOptionPane.showMessageDialog(null, "전체 사용자 조회 작업이 완료되었습니다.");
-
-        Object[][] tableData = CustomerController.prepareTableData(customers);
+        OrdersDAO ordersDAO = new OrdersDAO();
+        ArrayList<OrdersDTO> orders = ordersDAO.getAllModels();
+        Object[][] tableData = prepareTableData(orders);
         String[] columnNames = getColumnNames();
 
         // JTable 객체를 생성하고 초기화
         JPanel tablePanel = new JPanel();
         JTable table = new JTable(tableData, columnNames);
         tablePanel.add(table);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //onClickCellEvent(e);
+                JTable target = (JTable)e.getSource();
+                int row = target.rowAtPoint(e.getPoint());
+                int column = target.columnAtPoint(e.getPoint());
+
+                if (row >= 0 && column >= 0) {
+                    System.out.println("Clicked value: " + target.getValueAt(row, column));
+                }
+            }
+        });
 
         // JTable의 모든 컬럼을 프레임 크기에 맞추도록 설정
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -83,15 +112,6 @@ public class AdminView extends IView {
         // 마지막 버튼 간격 제거 및 반환
         buttonPanel.remove(buttonPanel.getComponentCount() - 1);
         return buttonPanel;
-    }
-
-
-    /* *************** 버튼 생성 *************** */
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setMaximumSize(new Dimension(150, 50));
-        button.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return button;
     }
 
 
@@ -123,6 +143,15 @@ public class AdminView extends IView {
     }
 
 
+    /* *************** 버튼 생성 *************** */
+    private JButton createButton(String label) {
+        JButton button = new JButton(label);
+        button.setMaximumSize(new Dimension(150, 50));
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return button;
+    }
+
+
     /* *************** 입력 패널 생성 *************** */
     private JPanel createInputPanel() {
         JPanel inputPanel = new JPanel(new BorderLayout());
@@ -131,6 +160,7 @@ public class AdminView extends IView {
         inputPanel.add(new JButton("검색"), BorderLayout.EAST);
         return inputPanel;
     }
+
 
     public static void main(String[] args) {
         new AdminView();

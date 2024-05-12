@@ -1,7 +1,6 @@
 package view;
 
 import view.abstractView.ICustomerView;
-
 import javax.swing.*;
 
 public class CustomerChangeInfoView extends ICustomerView {
