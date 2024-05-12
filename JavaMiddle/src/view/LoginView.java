@@ -106,7 +106,13 @@ public class LoginView extends JFrame {
         controller.loginUser(email, password);
 
         System.out.println("로그인 성공");
-        new AdminView().setVisible(true);
+        AdminView adminView= AdminView.getInstance();
+        adminView.refreshTableData();
         setVisible(false);
+    }
+
+    // Test
+    public static void main(String[] args) {
+        new LoginView();
     }
 }

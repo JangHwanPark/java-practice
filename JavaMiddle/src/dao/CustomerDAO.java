@@ -23,12 +23,11 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
         );
     }
 
-
     @Override
     public CustomerDTO insertModel(CustomerDTO customer) {
         String sql = """
-            INSERT INTO db2451506_user_management.customer (name, email, phone, address, role) VALUES (?, ?, ?, ?, 'customer')
-            """;
+                INSERT INTO db2451506_user_management.customer (name, email, phone, address, role) VALUES (?, ?, ?, ?, 'customer')
+                """;
 
         try (Connection conn = ConnProvider.getConnection();
              Statement pstmt = conn.createStatement()) {
@@ -42,6 +41,25 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
 
     @Override
     public CustomerDTO deleteModel(CustomerDTO model) {
+        String sql = """
+                DELETE FROM db2451506_user_management.orders
+                WHERE customer_id = ?;
+        """;
+        /*IN (SELECT customer_id FROM db2451506_user_management.customer WHERE customer_id = ?);*/
+        try (
+                Connection conn = ConnProvider.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            // 파라미터 설정
+            pstmt.setInt(1, model.getUserId());
+
+            // 쿼리 실행
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("삭제된 행의 수: " + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.getStackTrace();
+        }
         return null;
     }
 

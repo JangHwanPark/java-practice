@@ -1,11 +1,12 @@
 package view;
 
+import controller.AdminViewController;
 import dao.OrdersDAO;
 import models.OrdersDTO;
 import view.abstractView.IView;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -19,15 +20,22 @@ import static controller.AdminViewController.prepareTableData;
 
 
 public class AdminView extends IView {
+    private  static AdminView instance;
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
     private CustomerChangeInfoView customerChangeInfoView;
     private Object[] selectedRowData;
+    private JTable table;
 
 
     /* *************** 생성자 *************** */
     public AdminView() {
         super("관리자 페이지", 1200, 600);
         initComponents();
+    }
+
+    public static AdminView getInstance() {
+        if (instance == null) instance = new AdminView();
+        return instance;
     }
 
     @Override
@@ -58,14 +66,16 @@ public class AdminView extends IView {
         Object[][] tableData = prepareTableData(orders);
         String[] columnNames = getColumnNames();
 
-        JTable table = new JTable(tableData, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(tableData, columnNames);
+        table = new JTable(tableModel);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = table.getSelectedRow();
+
                 if (row >= 0) {
                     selectedRowData = new Object[table.getColumnCount()];
-                    System.out.println("createTable MouseE : " + Arrays.toString(selectedRowData));
+
                     for (int i = 0; i < table.getColumnCount(); i++) {
                         selectedRowData[i] = table.getValueAt(row, i);
                         System.out.println("createTable MouseE Loop : " + Arrays.toString(selectedRowData));
@@ -75,6 +85,21 @@ public class AdminView extends IView {
         });
 
         return table;
+    }
+
+
+    /* *************** 테이블 갱신 *************** */
+    public void refreshTableData() {
+        OrdersDAO ordersDAO = new OrdersDAO();
+        ArrayList<OrdersDTO> ordersDTOS = ordersDAO.getAllModels();
+        Object[][] tableData = prepareTableData(ordersDTOS);
+
+        // 테이블 모델 업데이트
+        DefaultTableModel tableModel = (DefaultTableModel) this.table.getModel();
+        tableModel.setDataVector(tableData, getColumnNames());
+
+        // 테이블 뷰 갱신
+        tableModel.fireTableDataChanged();
     }
 
 
@@ -99,7 +124,7 @@ public class AdminView extends IView {
     }
 
 
-    /* *************** 버튼 액션 리스너 생성 *************** */
+    /* *************** 네비게이션 메뉴 *************** */
     private ActionListener createActionListener(String label) {
         return e -> {
             switch (label) {
@@ -109,7 +134,8 @@ public class AdminView extends IView {
                     break;
                 case "정보 변경":
                     if (selectedRowData != null) {
-                        if (customerChangeInfoView == null) {  // 인스턴스가 null일 경우에만 새로 생성
+                        // 인스턴스가 null일 경우에만 새로 생성
+                        if (customerChangeInfoView == null) {
                             customerChangeInfoView = new CustomerChangeInfoView();
                         }
                         customerChangeInfoView.displayRowDataInInputFields(selectedRowData);
@@ -119,8 +145,8 @@ public class AdminView extends IView {
                     }
                     break;
                 case "정보 삭제":
-                    DeleteView deleteView = new DeleteView();
-                    deleteView.DeleteUser();
+                    AdminViewController adminViewController = new AdminViewController();
+                    adminViewController.deleteCustomerOrder(selectedRowData);
                     break;
                 case "프로그램 종료":
                     // JOptionPane을 사용하여 확인 대화상자 표시
@@ -162,6 +188,7 @@ public class AdminView extends IView {
         return inputPanel;
     }
 
+    /* *************** 검색 이벤트 *************** */
     private KeyListener userInputKeyListener() {
         return new KeyListener() {
             @Override
@@ -185,10 +212,5 @@ public class AdminView extends IView {
         return e -> {
             JOptionPane.showMessageDialog(null, "검색버튼 클릭", "검색", JOptionPane.INFORMATION_MESSAGE);
         };
-    }
-
-
-    public static void main(String[] args) {
-        new AdminView();
     }
 }
