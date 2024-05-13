@@ -195,11 +195,14 @@ public class AdminView extends IView {
         return e -> {
             switch (label) {
                 case "정보 등록":
-                    new CustomerRegistrationView();
-                    JOptionPane.showMessageDialog(null, "정보등록 클릭");
+                    CustomerRegistrationView customerRegistrationView = new CustomerRegistrationView();
+                    customerRegistrationView.setButtonEvent();
                     break;
                 case "정보 변경":
-                    if (selectedRowData != null) {
+                    customerChangeInfoView = new CustomerChangeInfoView();
+                    customerChangeInfoView.setSelectedRowData(selectedRowData);
+                    customerChangeInfoView.setButtonEvent();
+                    /*if (selectedRowData != null) {
                         // 인스턴스가 null일 경우에만 새로 생성
                         if (customerChangeInfoView == null) {
                             customerChangeInfoView = new CustomerChangeInfoView();
@@ -208,7 +211,7 @@ public class AdminView extends IView {
                         customerChangeInfoView.setVisible(true);  // 사용자가 버튼을 클릭했을 때만 창을 보이게 함
                     } else {
                         JOptionPane.showMessageDialog(null, "변경할 데이터를 선택해주세요.", "변경할 데이터 선택", JOptionPane.WARNING_MESSAGE);
-                    }
+                    }*/
                     break;
                 case "정보 삭제":
                     AdminViewController adminViewController = new AdminViewController();
@@ -226,6 +229,7 @@ public class AdminView extends IView {
             }
         };
     }
+    /* ************************************************************************************ */
 
     public static void main(String[] args) {
         new AdminView();

@@ -2,13 +2,13 @@ package view;
 
 import view.abstractView.ICustomerView;
 import javax.swing.*;
-import java.awt.*;
 import java.util.Arrays;
 
 public class CustomerChangeInfoView extends ICustomerView {
+    private Object[] selectedRowData;
+
     public CustomerChangeInfoView() {
         super("고객 정보 변경", 300, 400);
-        setVisible(true);
     }
 
     @Override
@@ -50,13 +50,26 @@ public class CustomerChangeInfoView extends ICustomerView {
         System.out.println(nameField.getText() + " " + addressField.getText() + " " + emailField.getText() + " " + phoneField.getText() + " " + carField.getText() + " " + purchaseDateField.getText());
         System.out.println("displayRowDataInInputFields() called");
     }
+    /* ************************************************************ */
 
+
+    /**/
+    public void setSelectedRowData(Object[] selectedRowData) {
+        this.selectedRowData = selectedRowData;
+    }
+    /* ************************************************************ */
+
+
+    /**/
     @Override
     protected void setButtonEvent() {
         JOptionPane.showMessageDialog(null, "변경 버튼 클릭");
+        if (this.selectedRowData != null) {
+            this.displayRowDataInInputFields(this.selectedRowData);
+            this.setVisible(true);  // 사용자가 버튼을 클릭했을 때만 창을 보이게 함
+        } else {
+            JOptionPane.showMessageDialog(null, "변경할 데이터를 선택해주세요.", "변경할 데이터 선택", JOptionPane.WARNING_MESSAGE);
+        }
     }
-
-    public static void main(String[] args) {
-        new CustomerChangeInfoView();
-    }
+    /* ************************************************************ */
 }

@@ -86,6 +86,7 @@ public class LoginView extends JFrame {
             }
         });
     }
+
     private void onClickRegister() {
         System.out.println("회원가입 링크 클릭됨");
         new RegisterView();
