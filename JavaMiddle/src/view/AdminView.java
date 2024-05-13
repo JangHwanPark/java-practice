@@ -6,6 +6,8 @@ import models.OrdersDTO;
 import view.abstractView.IView;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +23,10 @@ public class AdminView extends IView {
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
     private CustomerChangeInfoView customerChangeInfoView;
     private Object[] selectedRowData;
+    private JPanel centerPanel, inputPanel, buttonPanel;
     private JTable table;
+    private JButton submitButton, button;
+    private JTextField searchField;
 
 
     /* *************** 생성자 *************** */
@@ -37,33 +42,15 @@ public class AdminView extends IView {
 
     @Override
     protected void initComponents() {
-        // 각 패널 생성 및 추가
-        mainPanel.add(createButtonPanel(), BorderLayout.WEST);
-        mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
-    }
-
-    /*@Override
-    protected void addComponents() {}*/
-
-
-    /* *************** 중앙 패널 생성 *************** */
-    private JPanel createCenterPanel() {
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        centerPanel.add(createInputPanel(), BorderLayout.NORTH);
-        centerPanel.add(new JScrollPane(createTable()), BorderLayout.CENTER);
-        return centerPanel;
-    }
-
-
-    /* *************** 버튼 패널 생성 *************** */
-    private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel();
+        /* *********************************** 버튼 패널 생성 *********************************** */
+        buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20)); // 공통 패딩
 
         for (String BUTTON_LABEL : BUTTON_LABELS) {
-            JButton button = createButton(BUTTON_LABEL);
+            button = new JButton(BUTTON_LABEL);
+            button.setMaximumSize(new Dimension(150, 50));
+            button.setAlignmentX(Component.LEFT_ALIGNMENT);
             button.addActionListener(createActionListener(BUTTON_LABEL));
 
             buttonPanel.add(button);
@@ -73,12 +60,62 @@ public class AdminView extends IView {
 
         // 마지막 버튼 간격 제거 및 반환
         buttonPanel.remove(buttonPanel.getComponentCount() - 1);
-        return buttonPanel;
-    }
+        mainPanel.add(buttonPanel, BorderLayout.WEST);
+        /* ************************************************************************************ */
 
 
-    /* *************** 테이블 생성 *************** */
-    private JTable createTable() {
+        /* *********************************** 입력 패널 생성 *********************************** */
+        inputPanel = new JPanel(new BorderLayout());
+        searchField = new JTextField(20);
+        submitButton = new JButton("검색");
+        // 패널에 부착
+        inputPanel.add(new JComboBox<>(new String[]{"Dropdown"}), BorderLayout.WEST);
+        inputPanel.add(searchField, BorderLayout.CENTER);
+        inputPanel.add(submitButton, BorderLayout.EAST);    // 검색 버튼
+
+        // 이벤트 리스너 연결
+        submitButton.addActionListener(this::onSubmitActionListener);
+
+        searchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                System.out.println("키 입력됨: " + e.getKeyChar());
+            }
+        });
+
+        searchField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                System.out.println("포커스 잃음: " + searchField.getText());
+            }
+        });
+
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            private void logDocumentChange() {
+                System.out.println("문서 변경됨: " + searchField.getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                logDocumentChange();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                logDocumentChange();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                logDocumentChange();
+            }
+        });
+        /* ************************************************************************************ */
+
+
+        /* *********************************** 테이블 생성 *************************************** */
         OrdersDAO ordersDAO = new OrdersDAO();
         ArrayList<OrdersDTO> orders = ordersDAO.getAllModels();
         Object[][] tableData = prepareTableData(orders);
@@ -90,10 +127,8 @@ public class AdminView extends IView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = table.getSelectedRow();
-
                 if (row >= 0) {
                     selectedRowData = new Object[table.getColumnCount()];
-
                     for (int i = 0; i < table.getColumnCount(); i++) {
                         selectedRowData[i] = table.getValueAt(row, i);
                         System.out.println("createTable MouseE Loop : " + Arrays.toString(selectedRowData));
@@ -101,12 +136,45 @@ public class AdminView extends IView {
                 }
             }
         });
+        /* ************************************************************************************ */
 
-        return table;
+
+        /* *********************************** 중앙 패널 생성 *********************************** */
+        centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        centerPanel.add(inputPanel, BorderLayout.NORTH);
+        centerPanel.add(new JScrollPane(table), BorderLayout.CENTER);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        /* ************************************************************************************ */
     }
 
+    /*@Override
+    protected void addComponents() {}*/
 
-    /* *************** 테이블 갱신 *************** */
+
+    /* *********************************** 검색 버튼 클릭 이벤트 ****************************** */
+    private void onSubmitActionListener(ActionEvent e) {
+        // 직접 필드에서 값을 읽기 전에 출력
+        System.out.println("버튼 클릭됨, 입력값 확인 전: " + searchField.getText());
+
+        // 검색 필드의 텍스트 가져오기
+        String inputText = searchField.getText();
+        System.out.println("검색어: " + inputText);
+
+        // 입력값이 비어있는지 확인
+        if (inputText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "검색어를 입력해주세요.", "검색어 누락", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 입력값 출력
+        System.out.println("버튼 클릭됨, 입력값: " + inputText);
+        JOptionPane.showMessageDialog(null, "입력값 : " + inputText, "검색어", JOptionPane.INFORMATION_MESSAGE);
+    }
+    /* ************************************************************************************ */
+
+
+    /* *********************************** 테이블 갱신 ************************************** */
     public void refreshTableData() {
         OrdersDAO ordersDAO = new OrdersDAO();
         ArrayList<OrdersDTO> ordersDTOS = ordersDAO.getAllModels();
@@ -119,9 +187,10 @@ public class AdminView extends IView {
         // 테이블 뷰 갱신
         tableModel.fireTableDataChanged();
     }
+    /* ************************************************************************************ */
 
 
-    /* *************** 네비게이션 메뉴 *************** */
+    /* *********************************** 네비게이션 메뉴 *********************************** */
     private ActionListener createActionListener(String label) {
         return e -> {
             switch (label) {
@@ -158,49 +227,7 @@ public class AdminView extends IView {
         };
     }
 
-
-    /* *************** 버튼 생성 *************** */
-    private JButton createButton(String label) {
-        JButton button = new JButton(label);
-        button.setMaximumSize(new Dimension(150, 50));
-        button.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return button;
-    }
-
-
-    /* *************** 입력 패널 생성 *************** */
-    private JPanel createInputPanel() {
-        JPanel inputPanel = new JPanel(new BorderLayout());
-        JButton submitButton = new JButton("검색");
-        JTextField searchField = new JTextField(20);
-
-        // 검색 입력 필드
-        inputPanel.add(new JComboBox<>(new String[]{"Dropdown"}), BorderLayout.WEST);
-        inputPanel.add(searchField, BorderLayout.CENTER);
-        searchField.addKeyListener(userInputKeyListener());
-
-        // 검색 버튼
-        inputPanel.add(submitButton, BorderLayout.EAST);
-        submitButton.addActionListener(onSubmitActionListener());
-        return inputPanel;
-    }
-
-    /* *************** 검색 이벤트 *************** */
-    private KeyListener userInputKeyListener() {
-        return new KeyAdapter() {
-            @Override
-            public void keyTyped(java.awt.event.KeyEvent e) {
-                System.out.println("키 입력됨");
-                System.out.println("입력값" + e.getKeyChar());
-            }
-        };
-    }
-
-    private ActionListener onSubmitActionListener() {
-        return e -> {
-            AdminViewController adminViewController = new AdminViewController();
-            adminViewController.searchByName();
-            JOptionPane.showMessageDialog(null, "검색버튼 클릭", "검색", JOptionPane.INFORMATION_MESSAGE);
-        };
+    public static void main(String[] args) {
+        new AdminView();
     }
 }

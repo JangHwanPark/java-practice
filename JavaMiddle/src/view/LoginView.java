@@ -99,6 +99,7 @@ public class LoginView extends JFrame {
         // Note: 이메일과 비밀번호를 입력받아 로그인 처리하는 로직이 필요
         String email = emailField.getText();
         String password = passwordField.getText();
+        System.out.println("email: " + email + ", password: " + password);
 
         controller = new LoginController(email, password);
         controller.loginUser(email, password);
