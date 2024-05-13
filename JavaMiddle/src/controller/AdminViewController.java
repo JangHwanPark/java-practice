@@ -69,4 +69,8 @@ public class AdminViewController {
             JOptionPane.showMessageDialog(null, "삭제되었습니다.");
         }
     }
+
+    public void searchByName() {
+        System.out.println("searchByName 호출됨");
+    }
 }

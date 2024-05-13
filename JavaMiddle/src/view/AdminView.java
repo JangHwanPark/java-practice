@@ -8,10 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -59,6 +56,27 @@ public class AdminView extends IView {
     }
 
 
+    /* *************** 버튼 패널 생성 *************** */
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20)); // 공통 패딩
+
+        for (String BUTTON_LABEL : BUTTON_LABELS) {
+            JButton button = createButton(BUTTON_LABEL);
+            button.addActionListener(createActionListener(BUTTON_LABEL));
+
+            buttonPanel.add(button);
+            buttonPanel.add(Box.createVerticalStrut(30)); // 버튼 사이에 10 픽셀 간격 추가
+            System.out.println(BUTTON_LABEL);
+        }
+
+        // 마지막 버튼 간격 제거 및 반환
+        buttonPanel.remove(buttonPanel.getComponentCount() - 1);
+        return buttonPanel;
+    }
+
+
     /* *************** 테이블 생성 *************** */
     private JTable createTable() {
         OrdersDAO ordersDAO = new OrdersDAO();
@@ -100,27 +118,6 @@ public class AdminView extends IView {
 
         // 테이블 뷰 갱신
         tableModel.fireTableDataChanged();
-    }
-
-
-    /* *************** 버튼 패널 생성 *************** */
-    private JPanel createButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20)); // 공통 패딩
-
-        for (String BUTTON_LABEL : BUTTON_LABELS) {
-            JButton button = createButton(BUTTON_LABEL);
-            button.addActionListener(createActionListener(BUTTON_LABEL));
-
-            buttonPanel.add(button);
-            buttonPanel.add(Box.createVerticalStrut(30)); // 버튼 사이에 10 픽셀 간격 추가
-            System.out.println(BUTTON_LABEL);
-        }
-
-        // 마지막 버튼 간격 제거 및 반환
-        buttonPanel.remove(buttonPanel.getComponentCount() - 1);
-        return buttonPanel;
     }
 
 
@@ -190,26 +187,19 @@ public class AdminView extends IView {
 
     /* *************** 검색 이벤트 *************** */
     private KeyListener userInputKeyListener() {
-        return new KeyListener() {
+        return new KeyAdapter() {
             @Override
             public void keyTyped(java.awt.event.KeyEvent e) {
                 System.out.println("키 입력됨");
-            }
-
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                System.out.println("키 눌림");
-            }
-
-            @Override
-            public void keyReleased(java.awt.event.KeyEvent e) {
-                System.out.println("키 놓임");
+                System.out.println("입력값" + e.getKeyChar());
             }
         };
     }
 
     private ActionListener onSubmitActionListener() {
         return e -> {
+            AdminViewController adminViewController = new AdminViewController();
+            adminViewController.searchByName();
             JOptionPane.showMessageDialog(null, "검색버튼 클릭", "검색", JOptionPane.INFORMATION_MESSAGE);
         };
     }

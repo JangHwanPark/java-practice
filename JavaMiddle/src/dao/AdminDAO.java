@@ -68,7 +68,7 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
         return null;
     }
 
-
+    // TODO: 추상 메서드로 구현
     public AdminDTO findByAdminId(int id) {
         String sql = "SELECT * FROM db2451506_user_management.admin WHERE admin_id = ?";
         try (

@@ -4,11 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class InputPanelComponent extends JPanel {
-    private JLabel label;
-    private JTextField textField;
+public class InputPanel extends JPanel {
+    private final JLabel label;
+    private final JTextField textField;
 
-    public InputPanelComponent(String labelText, int width, int height, int padding, Font font) {
+    public InputPanel(String labelText, int width, int height, int padding, Font font) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(new EmptyBorder(10, 0, 10, 0));
 

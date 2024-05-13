@@ -37,7 +37,8 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
         );
     }
 
-    public OrdersDTO searchByCustomerID(int customer_id) {
+    // TODO: 추상 메서드로 구현
+    public OrdersDTO findByCustomerID(int customer_id) {
         String sql = """
                 SELECT
                     c.customer_id,

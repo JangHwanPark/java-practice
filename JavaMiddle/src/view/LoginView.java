@@ -1,7 +1,5 @@
 package view;
 
-import models.AdminDTO;
-import view.components.InputPanelComponent;
 import controller.LoginController;
 
 import javax.swing.*;

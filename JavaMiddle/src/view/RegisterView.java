@@ -2,7 +2,7 @@ package view;
 
 import controller.RegisterController;
 import models.AdminDTO;
-import view.components.InputPanelComponent;
+import view.components.InputPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class RegisterView {
     /* ******************** 필드 ******************** */
-    private final InputPanelComponent[] inputFields;
+    private final InputPanel[] inputFields;
     private final RegisterController controller;
     private final JFrame frame;
     private JButton signUpButton;
@@ -44,9 +44,9 @@ public class RegisterView {
 
         /* ******************** 입력 필드 ******************** */
         String[] labels = {"이름: ", "이메일: ", "전화번호: ", "주소: ", "비밀번호: "};
-        inputFields = new InputPanelComponent[labels.length];
+        inputFields = new InputPanel[labels.length];
         for (int i = 0; i < labels.length; i++) {
-            inputFields[i] = new InputPanelComponent(labels[i], 200, 30, 10, font);
+            inputFields[i] = new InputPanel(labels[i], 200, 30, 10, font);
         }
 
 
@@ -64,7 +64,7 @@ public class RegisterView {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        for (InputPanelComponent field : inputFields) {
+        for (InputPanel field : inputFields) {
             panel.add(field, gbc);
             gbc.gridy++;
         }
@@ -97,7 +97,7 @@ public class RegisterView {
 
     private void onSubmit() {
         /* ********** 컨트롤러 메소드 호출을 위해 사용자 입력값을 가져옴 ********** */
-        for (InputPanelComponent field : inputFields) {
+        for (InputPanel field : inputFields) {
             System.out.println(field.getText() + " " + field.getText());
         }
 
