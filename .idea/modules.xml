@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JavaHTTP/JavaHTTP.iml" filepath="$PROJECT_DIR$/JavaHTTP/JavaHTTP.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaMiddle/JavaMiddle.iml" filepath="$PROJECT_DIR$/JavaMiddle/JavaMiddle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bridge/bridge.iml" filepath="$PROJECT_DIR$/bridge/bridge.iml" />
       <module fileurl="file://$PROJECT_DIR$/ch02/ch02.iml" filepath="$PROJECT_DIR$/ch02/ch02.iml" />
       <module fileurl="file://$PROJECT_DIR$/ch05/ch05.iml" filepath="$PROJECT_DIR$/ch05/ch05.iml" />
       <module fileurl="file://$PROJECT_DIR$/ch06/ch06.iml" filepath="$PROJECT_DIR$/ch06/ch06.iml" />
