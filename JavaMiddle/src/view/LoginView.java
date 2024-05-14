@@ -8,8 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LoginView extends JFrame {
-    //private InputPanelComponent emailField;
-    private JTextField  emailField;
+    private JTextField emailField;
     private JPasswordField passwordField;
     private LoginController controller;
     private JButton loginButton;
@@ -22,14 +21,19 @@ public class LoginView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+
         /* ******************** 패널 생성 ******************** */
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         getContentPane().add(panel);
+        /* ************************************************* */
+
 
         /* ******************** 라벨 설정 ******************** */
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10); // 각 구성 요소 사이의 여백
+        gbc.insets = new Insets(10, 10, 10, 10);
+        /* ************************************************* */
+
 
         // 이메일 라벨
         JLabel emailLabel = new JLabel("이메일:");
@@ -55,19 +59,19 @@ public class LoginView extends JFrame {
         gbc.gridy = 1;
         panel.add(passwordField, gbc);
 
-        // 회원가입 링크
-        registerLink = new JLabel("회원가입");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        panel.add(registerLink, gbc);
-
         // 로그인 버튼
         loginButton = new JButton("로그인");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2; // 버튼을 두 칼럼에 걸쳐 배치
         panel.add(loginButton, gbc);
+
+        // 회원가입 링크
+        registerLink = new JLabel("회원가입", SwingConstants.CENTER); // 텍스트 중앙 정렬
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        panel.add(registerLink, gbc);
 
         // 이벤트 핸들러 등록
         bindEventHandlers();
@@ -93,23 +97,24 @@ public class LoginView extends JFrame {
         setVisible(false);
     }
 
-    //validateUserInput
+
     /* *************** 로그인 버튼 클릭 시 이벤트 처리 ****************/
     private void onSubmit() {
         System.out.println("로그인 버튼 클릭됨");
-        // Note: 이메일과 비밀번호를 입력받아 로그인 처리하는 로직이 필요
         String email = emailField.getText();
-        String password = passwordField.getText();
+        String password = new String(passwordField.getPassword());
         System.out.println("email: " + email + ", password: " + password);
 
         controller = new LoginController(email, password);
         controller.loginUser(email, password);
 
         System.out.println("로그인 성공");
-        AdminView adminView= AdminView.getInstance();
+        AdminView adminView = AdminView.getInstance();
         adminView.refreshTableData();
         setVisible(false);
     }
+    /* ********************************************************** */
+
 
     // Test
     public static void main(String[] args) {

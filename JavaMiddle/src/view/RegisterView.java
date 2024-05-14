@@ -10,10 +10,11 @@ import java.awt.*;
 
 public class RegisterView {
     /* ******************** 필드 ******************** */
+    private final JFrame frame;
     private final InputPanel[] inputFields;
     private final RegisterController controller;
-    private final JFrame frame;
     private JButton signUpButton;
+    /* ********************************************** */
 
 
     /* ******************** 생성자 ******************** */
@@ -32,67 +33,54 @@ public class RegisterView {
 
 
         /* ******************** 패널 설정 ******************** */
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
         panel.setBorder(new EmptyBorder(20, 30, 20, 30));
-        panel.setBackground(new Color(245, 245, 245));
+        frame.add(panel);
 
+        // Test : 패널 BG
+        panel.setBackground(Color.BLUE);
 
         /* ******************** 폰트 설정 ******************** */
         Font font = new Font("맑은 고딕", Font.PLAIN, 14);
-
 
         /* ******************** 입력 필드 ******************** */
         String[] labels = {"이름: ", "이메일: ", "전화번호: ", "주소: ", "비밀번호: "};
         inputFields = new InputPanel[labels.length];
         for (int i = 0; i < labels.length; i++) {
             inputFields[i] = new InputPanel(labels[i], 200, 30, 10, font);
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            gbc.gridwidth = 2;
+            panel.add(inputFields[i], gbc);
         }
-
-
-        /* ******************** 버튼 ******************** */
-        signUpButton = new JButton("회원가입");
-        signUpButton.setFont(font);
-        signUpButton.setBackground(new Color(100, 149, 237));
-        signUpButton.setForeground(Color.WHITE);
-
-
-        /* ******************** 레이아웃 설정 ******************** */
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-        for (InputPanel field : inputFields) {
-            panel.add(field, gbc);
-            gbc.gridy++;
-        }
-
 
         /* ******************** 체크 박스 설정 ******************** */
-        String[] checkBokLabels = {"서비스의 이용 약관 동의", "관리자 권한 부여"};
-        for (String checkBokLabel : checkBokLabels) {
-            JCheckBox checkBox = new JCheckBox(checkBokLabel);
+        String[] checkBoxLabels = {"서비스의 이용 약관 동의", "관리자 권한 부여"};
+        for (int i = 0; i < checkBoxLabels.length; i++) {
+            JCheckBox checkBox = new JCheckBox(checkBoxLabels[i]);
             checkBox.setFont(font);
+            gbc.gridx = 0;
+            gbc.gridy = labels.length + i;
+            gbc.gridwidth = 2;
             panel.add(checkBox, gbc);
-            gbc.gridy++;
         }
 
+        /* ******************** 회원가입 버튼 ******************** */
         signUpButton = new JButton("회원가입");
         signUpButton.setFont(font);
         signUpButton.setBackground(new Color(100, 149, 237));
         signUpButton.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = labels.length + checkBoxLabels.length;
+        gbc.gridwidth = 2;
         panel.add(signUpButton, gbc);
-
-        frame.add(panel);
-        frame.setVisible(true);
-
 
         /* ******************** 이벤트 호출 ******************** */
         bindEventHandlers();
-        finalizeFrame();
+        frame.setVisible(true);
     }
+    /* ******************************************************* */
 
 
     private void onSubmit() {
@@ -110,11 +98,9 @@ public class RegisterView {
         // DebugLog
         printUser(name, email, phone, address);
 
-
         /* ********** 컨트롤러의 메소드를 호출하여 사용자 등록 처리 ********** */
         controller.registerUser(name, email, phone, address, password, "admin");
         int response = JOptionPane.showConfirmDialog(frame, "회원가입 ok");
-
 
         /* ********** 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동 ********** */
         if (response == JOptionPane.YES_OPTION) {
@@ -123,16 +109,9 @@ public class RegisterView {
         }
     }
 
-
     private void bindEventHandlers() {
         signUpButton.addActionListener(e -> onSubmit());
     }
-
-
-    private void finalizeFrame() {
-        frame.setVisible(true);
-    }
-
 
     // 사용자 입력을 콘솔에 출력
     public void printUser(String name, String email, String phone, String address) {
@@ -141,5 +120,9 @@ public class RegisterView {
         System.out.println("이메일: " + email);
         System.out.println("전화번호: " + phone);
         System.out.println("주소: " + address);
+    }
+
+    public static void main(String[] args) {
+        new RegisterView();
     }
 }

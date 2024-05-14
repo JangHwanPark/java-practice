@@ -18,6 +18,7 @@ public class InputPanel extends JPanel {
 
         textField = new JTextField();
         Dimension size = new Dimension(width, height);
+        textField.setBackground(Color.WHITE);
         textField.setPreferredSize(size);
         textField.setMinimumSize(size);
         textField.setMaximumSize(size);

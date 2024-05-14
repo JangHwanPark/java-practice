@@ -69,7 +69,7 @@ public class AdminView extends IView {
         searchField = new JTextField(20);
         submitButton = new JButton("검색");
         // 패널에 부착
-        inputPanel.add(new JComboBox<>(new String[]{"Dropdown"}), BorderLayout.WEST);
+        inputPanel.add(new JComboBox<>(new String[]{"전체","이름","전화번호"}), BorderLayout.WEST);
         inputPanel.add(searchField, BorderLayout.CENTER);
         inputPanel.add(submitButton, BorderLayout.EAST);    // 검색 버튼
 
