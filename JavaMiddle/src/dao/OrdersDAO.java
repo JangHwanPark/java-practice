@@ -7,10 +7,7 @@ import models.CustomerDTO;
 import models.OrdersDTO;
 import models.ProductDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class OrdersDAO extends IModelDAO<OrdersDTO> {
     public OrdersDAO() {
@@ -37,7 +34,6 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
         );
     }
 
-    // TODO: 추상 메서드로 구현
     public OrdersDTO findByCustomerID(int customer_id) {
         String sql = """
                 SELECT
@@ -60,9 +56,8 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
 
         try (
                 Connection conn = ConnProvider.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
+                PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
-            System.out.println("데이터 조회 성공");
             pstmt.setInt(1, customer_id);
             ResultSet rs = pstmt.executeQuery();
 
@@ -71,28 +66,25 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
             }
         } catch (SQLException e) {
             System.err.println("Error executing query: " + e.getMessage());
-            e.getStackTrace();
+            e.printStackTrace();
         }
 
         return null;
     }
 
-
     @Override
     public OrdersDTO insertModel(OrdersDTO model) {
         String sql = """
                 INSERT INTO db2451506_user_management.orders 
-                (customer_id, product_id, admin_id, purchase_date, service_due_date) 
-                VALUES (?, ?, ?, ?, ?)
+                (customer_id, product_id, admin_id, purchase_date, service_due_date, payment_status) 
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
-        try (
-                Connection conn = ConnProvider.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.setInt(3, model.getAdmin().getUserId());
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, model.getCustomer().getUserId());
             pstmt.setInt(2, model.getProduct().getProductId());
+            pstmt.setInt(3, model.getAdmin().getUserId());
             pstmt.setDate(4, new java.sql.Date(model.getPurchaseDate().getTime()));
             pstmt.setDate(5, new java.sql.Date(model.getServiceDueDate().getTime()));
             pstmt.setBoolean(6, model.isPaymentStatus());
@@ -101,14 +93,14 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        System.out.println("Insertion successful, new order ID: " + generatedKeys.getInt(1));
+                        model.setOrderId(generatedKeys.getInt(1));
                     }
                 }
             }
             return model;
         } catch (SQLException e) {
             System.err.println("Error executing query: " + e.getMessage());
-            e.getStackTrace();
+            e.printStackTrace();
         }
 
         return null;
@@ -116,12 +108,42 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
 
     @Override
     public OrdersDTO deleteModel(OrdersDTO model) {
+        String sql = "DELETE FROM db2451506_user_management.orders WHERE order_id = ?";
+
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, model.getOrderId());
+
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("삭제된 행의 수: " + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public OrdersDTO updateModel(OrdersDTO model) {
-        return null;
+        String sql = "UPDATE db2451506_user_management.orders SET customer_id = ?, product_id = ?, admin_id = ?, purchase_date = ?, service_due_date = ?, payment_status = ? WHERE order_id = ?";
+
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, model.getCustomer().getUserId());
+            pstmt.setInt(2, model.getProduct().getProductId());
+            pstmt.setInt(3, model.getAdmin().getUserId());
+            pstmt.setDate(4, new java.sql.Date(model.getPurchaseDate().getTime()));
+            pstmt.setDate(5, new java.sql.Date(model.getServiceDueDate().getTime()));
+            pstmt.setBoolean(6, model.isPaymentStatus());
+            pstmt.setInt(7, model.getOrderId());
+
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("수정된 행의 수: " + rowsAffected);
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return model;
     }
 
     public static void main(String[] args) {

@@ -21,7 +21,7 @@ import static controller.AdminViewController.prepareTableData;
 public class AdminView extends IView {
     private  static AdminView instance;
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
-    private CustomerChangeInfoView customerChangeInfoView;
+    private CustomerChangeInfo customerChangeInfo;
     private Object[] selectedRowData;
     private JPanel centerPanel, inputPanel, buttonPanel;
     private JTable table;
@@ -148,9 +148,6 @@ public class AdminView extends IView {
         /* ************************************************************************************ */
     }
 
-    /*@Override
-    protected void addComponents() {}*/
-
 
     /* *********************************** 검색 버튼 클릭 이벤트 ****************************** */
     private void onSubmitActionListener(ActionEvent e) {
@@ -195,23 +192,13 @@ public class AdminView extends IView {
         return e -> {
             switch (label) {
                 case "정보 등록":
-                    CustomerRegistrationView customerRegistrationView = new CustomerRegistrationView();
-                    customerRegistrationView.setButtonEvent();
+                    CustomerRegistration customerRegistration = CustomerRegistration.getInstance();
+                    customerRegistration.setButtonEvent();
                     break;
                 case "정보 변경":
-                    customerChangeInfoView = new CustomerChangeInfoView();
-                    customerChangeInfoView.setSelectedRowData(selectedRowData);
-                    customerChangeInfoView.setButtonEvent();
-                    /*if (selectedRowData != null) {
-                        // 인스턴스가 null일 경우에만 새로 생성
-                        if (customerChangeInfoView == null) {
-                            customerChangeInfoView = new CustomerChangeInfoView();
-                        }
-                        customerChangeInfoView.displayRowDataInInputFields(selectedRowData);
-                        customerChangeInfoView.setVisible(true);  // 사용자가 버튼을 클릭했을 때만 창을 보이게 함
-                    } else {
-                        JOptionPane.showMessageDialog(null, "변경할 데이터를 선택해주세요.", "변경할 데이터 선택", JOptionPane.WARNING_MESSAGE);
-                    }*/
+                    customerChangeInfo = CustomerChangeInfo.getInstance();
+                    customerChangeInfo.setSelectedRowData(selectedRowData);
+                    customerChangeInfo.setButtonEvent();
                     break;
                 case "정보 삭제":
                     AdminViewController adminViewController = new AdminViewController();

@@ -4,11 +4,16 @@ import view.abstractView.ICustomerView;
 import javax.swing.*;
 import java.util.Arrays;
 
-public class CustomerChangeInfoView extends ICustomerView {
+public class CustomerChangeInfo extends ICustomerView {
+    private static final CustomerChangeInfo customerChangeInfo = new CustomerChangeInfo();
     private Object[] selectedRowData;
 
-    public CustomerChangeInfoView() {
+    private CustomerChangeInfo() {
         super("고객 정보 변경", 300, 400);
+    }
+
+    public static CustomerChangeInfo getInstance() {
+        return customerChangeInfo;
     }
 
     @Override

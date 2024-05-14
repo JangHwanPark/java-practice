@@ -5,6 +5,7 @@ import dao.OrdersDAO;
 import java.sql.Date;
 
 public class OrdersDTO {
+    private int orderId;
     private AdminDTO admin;
     private CustomerDTO customer;
     private ProductDTO product;
@@ -22,7 +23,14 @@ public class OrdersDTO {
         this.payment_status = payment_status;
     }
 
+    // 필드를 개별적으로 설정할 수 있는 생성자
+    public OrdersDTO() {}
+
     // Getters
+    public int getOrderId() {
+        return orderId;
+    }
+
     public CustomerDTO getCustomer() { return customer; }
     public ProductDTO getProduct() { return product; }
     public AdminDTO getAdmin() { return admin; }
@@ -38,6 +46,22 @@ public class OrdersDTO {
     }
 
     // Setters
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setAdmin(AdminDTO admin) {
+        this.admin = admin;
+    }
+
+    public void setCustomer(CustomerDTO customer) {
+        this.customer = customer;
+    }
+
+    public void setProduct(ProductDTO product) {
+        this.product = product;
+    }
+
     public void setPurchaseDate(Date purchase_date) {
         this.purchase_date = purchase_date;
     }

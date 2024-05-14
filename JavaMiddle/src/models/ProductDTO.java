@@ -20,6 +20,11 @@ public class ProductDTO {
         this.price = price;
     }
 
+    // productId만 받는 생성자
+    public ProductDTO(int product_id) {
+        this.product_id = product_id;
+    }
+
     // Getters and Setters
     public int getProductId() {
         return product_id;

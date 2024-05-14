@@ -3,6 +3,7 @@ package dao;
 import dao.InterfaceDAO.ConnProvider;
 import dao.abstractDAO.IModelDAO;
 import models.CustomerDTO;
+import models.OrdersDTO;
 
 import java.sql.*;
 
@@ -26,16 +27,31 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
 
     @Override
     public CustomerDTO insertModel(CustomerDTO customer) {
-        String sql = """
-                INSERT INTO db2451506_user_management.customer (name, email, phone, address, role) VALUES (?, ?, ?, ?, 'customer')
-                """;
+        String sql = "INSERT INTO db2451506_user_management.customer (name, email, phone, address, role) VALUES (?, ?, ?, ?, 'customer')";
 
         try (Connection conn = ConnProvider.getConnection();
-             Statement pstmt = conn.createStatement()) {
-            pstmt.executeUpdate(sql);
-            System.out.println("사용자 추가 작업이 완료되었습니다. 연결이 종료되었습니다.");
-        } catch (Exception e) {
-            e.getStackTrace();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, customer.getName());
+            pstmt.setString(2, customer.getEmail());
+            pstmt.setString(3, customer.getPhone());
+            pstmt.setString(4, customer.getAddress());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating customer failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    customer.setUserId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating customer failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
         return customer;
     }

@@ -9,10 +9,8 @@ public class TextInput extends JFrame {
     JTextField name,age;
 
     public TextInput() {
-        //new JFrame();생략됨 나자신이니까 쓸수 없음
-
-        this.setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE);//프레임 완전하게 끄기
+        //프레임 완전하게 끄기
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(300,200);
         this.setVisible(true);
 

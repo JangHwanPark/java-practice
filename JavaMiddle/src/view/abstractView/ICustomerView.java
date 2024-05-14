@@ -7,6 +7,8 @@ import java.awt.*;
 public abstract class ICustomerView extends IView {
     private JPanel formPanel;
     protected JTextField idField, nameField, addressField, emailField, phoneField, carField, purchaseDateField;
+    protected JTextField roleField, productIdField, adminIdField, serviceDueDateField;
+    protected JCheckBox paymentStatusField;
 
     public JPanel getFormPanel() {
         return formPanel;
@@ -30,9 +32,14 @@ public abstract class ICustomerView extends IView {
         phoneField = new JTextField(10);
         carField = new JTextField(10);
         purchaseDateField = new JTextField(10);
+        roleField = new JTextField(10);
+        productIdField = new JTextField(10);
+        adminIdField = new JTextField(10);
+        serviceDueDateField = new JTextField(10);
+        paymentStatusField = new JCheckBox("결제 상태");
 
-        JTextField[] fields = {idField, nameField, addressField, emailField, phoneField, carField, purchaseDateField};
-        String[] fieldNames = {"고객ID", "이름", "주소", "이메일", "전화번호", "구매 차량", "구매 날짜"};
+        JTextField[] fields = {idField, nameField, addressField, emailField, phoneField, carField, purchaseDateField, roleField, productIdField, adminIdField, serviceDueDateField};
+        String[] fieldNames = {"고객ID", "이름", "주소", "이메일", "전화번호", "구매 차량", "구매 날짜", "역할", "제품 ID", "관리자 ID", "서비스 예정일"};
 
         for (int i = 0; i < fields.length; i++) {
             gbc.gridx = 0;
@@ -42,6 +49,61 @@ public abstract class ICustomerView extends IView {
             gbc.gridx = 1;
             formPanel.add(fields[i], gbc);
         }
+
+        gbc.gridx = 0;
+        gbc.gridy = fields.length;
+        formPanel.add(new JLabel("결제 상태:"), gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(paymentStatusField, gbc);
+    }
+
+    public JTextField getIdField() {
+        return idField;
+    }
+
+    public JTextField getNameField() {
+        return nameField;
+    }
+
+    public JTextField getAddressField() {
+        return addressField;
+    }
+
+    public JTextField getEmailField() {
+        return emailField;
+    }
+
+    public JTextField getPhoneField() {
+        return phoneField;
+    }
+
+    public JTextField getCarField() {
+        return carField;
+    }
+
+    public JTextField getPurchaseDateField() {
+        return purchaseDateField;
+    }
+
+    public JTextField getRoleField() {
+        return roleField;
+    }
+
+    public JTextField getProductIdField() {
+        return productIdField;
+    }
+
+    public JTextField getAdminIdField() {
+        return adminIdField;
+    }
+
+    public JTextField getServiceDueDateField() {
+        return serviceDueDateField;
+    }
+
+    public JCheckBox getPaymentStatusField() {
+        return paymentStatusField;
     }
 
     public void createButtonPanel(String setButtonName, String backButtonName) {
