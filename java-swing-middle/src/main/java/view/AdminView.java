@@ -41,6 +41,13 @@ public class AdminView extends IView {
     }
 
     @Override
+    protected void setupMainPanel() {
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        getContentPane().add(mainPanel);
+    }
+
+    @Override
     protected void initComponents() {
         /* *********************************** 버튼 패널 생성 *********************************** */
         buttonPanel = new JPanel();

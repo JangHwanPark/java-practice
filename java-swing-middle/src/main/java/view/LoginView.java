@@ -59,7 +59,6 @@ public class LoginView extends JFrame {
         gbc.gridwidth = 2;
         panel.add(passwordField, gbc);
 
-        // 로그인 버튼
         // 로그인 버튼 설정
         loginButton = new JButton("로그인");
         loginButton.setBackground(new Color(51, 51, 204)); // 배경색 설정
@@ -125,10 +124,4 @@ public class LoginView extends JFrame {
         setVisible(false);
     }
     /* ********************************************************** */
-
-
-    // Test
-    public static void main(String[] args) {
-        new LoginView();
-    }
 }

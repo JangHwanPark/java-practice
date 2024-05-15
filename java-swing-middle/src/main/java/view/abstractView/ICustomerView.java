@@ -19,6 +19,13 @@ public abstract class ICustomerView extends IView {
     }
 
     @Override
+    protected void setupMainPanel() {
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        getContentPane().add(mainPanel);
+    }
+
+    @Override
     public void initComponents() {
         formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

@@ -2,6 +2,7 @@ package view;
 
 import view.abstractView.ICustomerView;
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 
 public class CustomerChangeInfo extends ICustomerView {
@@ -9,7 +10,7 @@ public class CustomerChangeInfo extends ICustomerView {
     private Object[] selectedRowData;
 
     private CustomerChangeInfo() {
-        super("고객 정보 변경", 300, 400);
+        super("고객 정보 변경", 300, 500);
     }
 
     public static CustomerChangeInfo getInstance() {
@@ -19,6 +20,11 @@ public class CustomerChangeInfo extends ICustomerView {
     @Override
     public JPanel getFormPanel() {
         return super.getFormPanel();
+    }
+
+    @Override
+    protected void setupMainPanel() {
+        super.setupMainPanel();
     }
 
     @Override
@@ -68,7 +74,7 @@ public class CustomerChangeInfo extends ICustomerView {
     /**/
     @Override
     protected void setButtonEvent() {
-        JOptionPane.showMessageDialog(null, "변경 버튼 클릭");
+        System.out.println("DebugLog: 변경 버튼 클릭됨");
         if (this.selectedRowData != null) {
             this.displayRowDataInInputFields(this.selectedRowData);
             this.setVisible(true);  // 사용자가 버튼을 클릭했을 때만 창을 보이게 함

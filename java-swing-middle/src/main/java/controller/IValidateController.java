@@ -3,11 +3,7 @@ package controller;
 import models.AdminDTO;
 
 public abstract class IValidateController {
-    private final AdminDTO userModel;
-
-    public IValidateController(AdminDTO userModel) {
-        this.userModel = userModel;
-    }
+    public IValidateController(AdminDTO userModel) {}
 
     protected boolean isEmptyUserName(String name) {
         if (name == null || name.isEmpty()) {
