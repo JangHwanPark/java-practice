@@ -5,7 +5,6 @@ import models.AdminDTO;
 import utils.Constructor;
 import utils.EventMethod;
 import utils.Field;
-import view.abstractView.IView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

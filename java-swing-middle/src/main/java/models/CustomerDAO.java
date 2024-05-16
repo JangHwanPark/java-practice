@@ -1,9 +1,6 @@
-package dao;
+package models;
 
-import dao.InterfaceDAO.ConnProvider;
-import dao.abstractDAO.IModelDAO;
-import models.CustomerDTO;
-import models.OrdersDTO;
+import utils.ConnProvider;
 
 import java.sql.*;
 
@@ -106,6 +103,30 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
         return null;
     }
 
+    @Override
+    public CustomerDTO findByModelId(int customerId) {
+        String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, customerId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new CustomerDTO(
+                        rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // TODO: 추상 메서드로 구현
     public CustomerDTO findByProductId(int id) {
         String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
@@ -132,55 +153,4 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
         // 오류가 발생하거나 쿼리결과가 없다면 null 반환
         return null;
     }
-
-    // 사용자 이름으로 검색
-    public CustomerDTO findByCustomerName(String name) {
-        String sql = "SELECT * FROM db2451506_user_management.customer WHERE name = ?";
-
-        // 자동 리소스 관리를 사용해 DB 연결, PreparedStatement 객체 생성 (쿼리 실행)
-        try (
-                Connection conn = ConnProvider.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)
-        ) {
-            // 쿼리 파라미터에 값 할당
-            pstmt.setString(1, name);
-
-            // 쿼리 실행 후 결과 ResultSet 객체에 저장
-            ResultSet rs = pstmt.executeQuery();
-
-            // 쿼리 결과가 존재한다면 DTO 객체로 변환하여 반환
-            if (rs.next()) return modelsResultSet(rs);
-        } catch (SQLException e) {
-            // 쿼리 실행중 오류가 발생하면 메세지 출력
-            System.err.println("Error executing query: " + e.getMessage());
-            e.getStackTrace();
-        }
-        
-        // 오류가 발생하거나 쿼리결과가 없다면 null 반환
-        return null;
-    }
-
-    public CustomerDTO findById(int customerId) {
-        String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
-        try (Connection conn = ConnProvider.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, customerId);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return new CustomerDTO(
-                        rs.getInt("customer_id"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("address"),
-                        rs.getString("role")
-                );
-            }
-        } catch (SQLException e) {
-            System.err.println("Error executing query: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }

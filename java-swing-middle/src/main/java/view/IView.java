@@ -1,7 +1,6 @@
-package view.abstractView;
+package view;
 
 import javax.swing.*;
-import java.awt.*;
 
 public abstract class IView extends JFrame {
     protected JPanel mainPanel;

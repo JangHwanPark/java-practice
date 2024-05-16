@@ -1,11 +1,6 @@
-package dao;
+package models;
 
-import dao.InterfaceDAO.ConnProvider;
-import dao.abstractDAO.IModelDAO;
-import models.AdminDTO;
-import models.CustomerDTO;
-import models.OrdersDTO;
-import models.ProductDTO;
+import utils.ConnProvider;
 
 import java.sql.*;
 
@@ -20,9 +15,9 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
         CustomerDAO customerDAO = new CustomerDAO();
         ProductDAO productDAO = new ProductDAO();
 
-        AdminDTO admin = adminDAO.findByAdminId(rset.getInt("admin_id"));
+        AdminDTO admin = adminDAO.findByModelId(rset.getInt("admin_id"));
         CustomerDTO customer = customerDAO.findByProductId(rset.getInt("customer_id"));
-        ProductDTO product = productDAO.findByProductId(rset.getInt("product_id"));
+        ProductDTO product = productDAO.findByModelId(rset.getInt("product_id"));
 
         return new OrdersDTO(
                 admin,
@@ -32,44 +27,6 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
                 rset.getDate("service_due_date"),
                 rset.getBoolean("payment_status")
         );
-    }
-
-    public OrdersDTO findByCustomerID(int customer_id) {
-        String sql = """
-                SELECT
-                    c.customer_id,
-                    c.name,
-                    c.email,
-                    c.phone,
-                    c.address,
-                    p.make AS purchase_vehicle,
-                    p.vin,
-                    p.color,
-                    o.purchase_date,
-                    p.price,
-                    (CASE WHEN o.purchase_date IS NOT NULL THEN 'Paid' ELSE 'Not Paid' END) AS payment_status
-                FROM db2451506_user_management.customer c
-                JOIN db2451506_user_management.orders o ON c.customer_id = o.customer_id
-                JOIN db2451506_user_management.product p ON o.product_id = p.product_id
-                WHERE c.customer_id = ?
-                """;
-
-        try (
-                Connection conn = ConnProvider.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)
-        ) {
-            pstmt.setInt(1, customer_id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return modelsResultSet(rs);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error executing query: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     @Override
@@ -146,8 +103,25 @@ public class OrdersDAO extends IModelDAO<OrdersDTO> {
         return model;
     }
 
-    public static void main(String[] args) {
-        OrdersDAO ordersDAO = new OrdersDAO();
-        System.out.println(ordersDAO.getAllModels());
+    @Override
+    public OrdersDTO findByModelId(int id) {
+        String sql = """
+                SELECT * FROM db2451506_user_management.orders WHERE order_id = ?
+                """;
+
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return modelsResultSet(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

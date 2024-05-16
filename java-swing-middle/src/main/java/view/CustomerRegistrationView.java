@@ -7,16 +7,15 @@ import models.OrdersDTO;
 import models.ProductDTO;
 import utils.Constructor;
 import utils.Method;
-import view.abstractView.ICustomerView;
 
 import javax.swing.*;
 import java.sql.Date;
 
-public class CustomerRegistration extends ICustomerView {
-    private static final CustomerRegistration customerRegister = new CustomerRegistration();
+public class CustomerRegistrationView extends ICustomerView {
+    private static final CustomerRegistrationView customerRegister = new CustomerRegistrationView();
 
     @Constructor
-    private CustomerRegistration() {
+    private CustomerRegistrationView() {
         super("고객 등록", 300, 500);
         initMainPanel();
         initComponents();
@@ -24,7 +23,7 @@ public class CustomerRegistration extends ICustomerView {
     }
 
     @Method
-    public static CustomerRegistration getInstance() {
+    public static CustomerRegistrationView getInstance() {
         return customerRegister;
     }
 

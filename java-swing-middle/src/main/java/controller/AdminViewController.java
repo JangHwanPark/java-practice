@@ -1,14 +1,14 @@
 package controller;
 
-import dao.CustomerDAO;
-import dao.OrdersDAO;
+import models.CustomerDAO;
+import models.OrdersDAO;
 import models.CustomerDTO;
 import models.OrdersDTO;
 import models.ProductDTO;
 import utils.*;
 import view.AdminView;
-import view.CustomerChangeInfo;
-import view.CustomerRegistration;
+import view.ChangeInfoView;
+import view.CustomerRegistrationView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +21,7 @@ public class AdminViewController {
     @Field
     private CustomerDAO customerDAO;
     private OrdersDAO ordersDAO;
-    private CustomerChangeInfo customerChangeInfo;
+    private ChangeInfoView customerChangeInfo;
     private static final String[] columnNames = {"고객 ID", "이름", "이메일", "전화번호", "주소", "주문 ID", "주문 날짜", "주문 상태"};
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -60,6 +60,19 @@ public class AdminViewController {
         return data;
     }
 
+    @Method("테이블 데이터 생성")
+    public void createTableData(DefaultTableModel tableModel) {
+        OrdersDAO ordersDAO = new OrdersDAO();
+        ArrayList<OrdersDTO> ordersDTOS = ordersDAO.getAllModels();
+        Object[][] tableData = prepareTableData(ordersDTOS);
+
+        // 테이블 모델 업데이트
+        tableModel.setDataVector(tableData, getColumnNames());
+
+        // 테이블 뷰 갱신
+        tableModel.fireTableDataChanged();
+    }
+
     @Method("고객 등록 및 주문 등록")
     public boolean registerCustomerAndOrder(CustomerDTO customer, OrdersDTO order) {
         // 고객 등록
@@ -89,7 +102,7 @@ public class AdminViewController {
 
         // 데이터베이스에서 customerId를 사용하여 상세 정보 조회
         int customerId = Integer.parseInt(rowData[0].toString());
-        CustomerDTO customer = customerDAO.findById(customerId);
+        CustomerDTO customer = customerDAO.findByModelId(customerId);
         if (customer != null) {
             System.out.println("고객 상세 정보: " + customer.toString());
         } else {
@@ -123,34 +136,16 @@ public class AdminViewController {
         }
     }
 
-    @Method("테이블 데이터 생성")
-    public void createTableData(DefaultTableModel tableModel) {
-        OrdersDAO ordersDAO = new OrdersDAO();
-        ArrayList<OrdersDTO> ordersDTOS = ordersDAO.getAllModels();
-        Object[][] tableData = prepareTableData(ordersDTOS);
-
-        // 테이블 모델 업데이트
-        tableModel.setDataVector(tableData, getColumnNames());
-
-        // 테이블 뷰 갱신
-        tableModel.fireTableDataChanged();
-    }
-
-    @Method("이름으로 검색")
-    public void searchByName() {
-        System.out.println("searchByName 호출됨");
-    }
-
     @Method("네비게이션 메뉴")
     public ActionListener showNavigationMenu(String label, Object[] selectedRowData) {
         return e -> {
             switch (label) {
                 case "정보 등록":
-                    CustomerRegistration showRegistration = CustomerRegistration.getInstance();
+                    CustomerRegistrationView showRegistration = CustomerRegistrationView.getInstance();
                     showRegistration.setButtonEvent();
                     break;
                 case "정보 변경":
-                    customerChangeInfo = CustomerChangeInfo.getInstance();
+                    customerChangeInfo = ChangeInfoView.getInstance();
                     customerChangeInfo.setButtonEvent();
                     break;
                 case "정보 삭제":
@@ -170,21 +165,16 @@ public class AdminViewController {
     }
 
     @EventMethod("검색 버튼 클릭")
-    public void onSubmitActionListener(ActionListener e, JTextField searchField) {
-        System.out.println("onSubmitActionListener 호출됨");
+    public void onSubmitActionListener(JTextField searchField) {
         // 검색 필드의 텍스트 가져오기
         String inputText = searchField.getText();
-        System.out.println("검색어: " + inputText);
+        System.out.println("onSubmitActionListener 호출됨");
 
         // 입력값이 비어있는지 확인
         if (inputText.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "검색어를 입력해주세요.",
-                    "검색어 누락",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
+            JOptionPane.showMessageDialog(null, "검색어를 입력해주세요.", "검색어 누락", JOptionPane.WARNING_MESSAGE);
+        } else {
+            System.out.println("검색 실행: " + inputText);
         }
     }
 

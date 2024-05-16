@@ -3,17 +3,15 @@ package view;
 import utils.Constructor;
 import utils.Field;
 import utils.Method;
-import view.abstractView.ICustomerView;
 
 import javax.swing.*;
-import java.util.Arrays;
 
-public class CustomerChangeInfo extends ICustomerView {
+public class ChangeInfoView extends ICustomerView {
     @Field
-    private static final CustomerChangeInfo customerChangeInfo = new CustomerChangeInfo();
+    private static final ChangeInfoView customerChangeInfo = new ChangeInfoView();
 
     @Constructor
-    private CustomerChangeInfo() {
+    private ChangeInfoView() {
         super("고객 정보 변경", 300, 500);
         initMainPanel();
         initMainPanel();
@@ -21,7 +19,7 @@ public class CustomerChangeInfo extends ICustomerView {
     }
 
     @Method
-    public static CustomerChangeInfo getInstance() {
+    public static ChangeInfoView getInstance() {
         return customerChangeInfo;
     }
 

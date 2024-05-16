@@ -1,6 +1,6 @@
 package exam;
 
-import dao.ProductDAO;
+import models.ProductDAO;
 import models.ProductDTO;
 
 import java.util.List;

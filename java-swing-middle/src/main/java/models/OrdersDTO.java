@@ -1,7 +1,5 @@
 package models;
 
-import dao.OrdersDAO;
-
 import java.sql.Date;
 
 public class OrdersDTO {

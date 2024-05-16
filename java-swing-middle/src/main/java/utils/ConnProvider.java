@@ -1,6 +1,4 @@
-package dao.InterfaceDAO;
-
-import utils.ConnectDB;
+package utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;

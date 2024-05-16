@@ -1,8 +1,12 @@
 package models;
 
+import utils.Constructor;
+import utils.Field;
+import utils.Method;
+
 public abstract class IModels {
+    @Field
     private int userId;
-    // 사용자 필드
     private String name;
     private String email;
     private String phone;
@@ -10,7 +14,7 @@ public abstract class IModels {
     private String role;
     private String password;
 
-    // 생성자
+    @Constructor
     public IModels(int userId, String name, String email, String phone, String address, String role) {
         this.userId = userId;
         this.name = name;
@@ -20,6 +24,7 @@ public abstract class IModels {
         this.role = role;
     }
 
+    @Constructor
     public IModels(String name, String email, String phone, String address, String password, String role) {
         this.name = name;
         this.email = email;
@@ -29,7 +34,7 @@ public abstract class IModels {
         this.role = role;
     }
 
-    // 게터 (Getters)
+    @Method("게터 (Getters)")
     public int getUserId() {
         return userId;
     }
@@ -49,6 +54,7 @@ public abstract class IModels {
     public String getAddress() {
         return address;
     }
+
     public String getPassword() {
         return password;
     }
@@ -57,7 +63,7 @@ public abstract class IModels {
         return role;
     }
 
-    // 세터 (Setters)
+    @Method("세터 (Setters)")
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -77,6 +83,7 @@ public abstract class IModels {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -85,7 +92,6 @@ public abstract class IModels {
         this.role = role;
     }
 
-    // 메소드
     @Override
     public String toString() {
         return "IUser {" +
@@ -93,6 +99,8 @@ public abstract class IModels {
                 ", email: '" + email + '\'' +
                 ", phone: '" + phone + '\'' +
                 ", address: '" + address + '\'' +
+                ", password: '" + password + '\'' +
+                ", role: '" + role + '\'' +
                 '}';
     }
 }

@@ -1,8 +1,6 @@
-package dao;
+package models;
 
-import dao.InterfaceDAO.ConnProvider;
-import dao.abstractDAO.IModelDAO;
-import models.ProductDTO;
+import utils.ConnProvider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,8 +40,8 @@ public class ProductDAO extends IModelDAO<ProductDTO> {
         return null;
     }
 
-    // TODO: 추상 메서드로 구현
-    public ProductDTO findByProductId(int id) {
+    @Override
+    public ProductDTO findByModelId(int id) {
         String sql = "SELECT * FROM db2451506_user_management.product WHERE product_id = ?";
         try (
                 Connection conn = ConnProvider.getConnection();

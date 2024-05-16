@@ -3,7 +3,6 @@ package view;
 import controller.AuthController;
 import utils.Constructor;
 import utils.EventMethod;
-import view.abstractView.IView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

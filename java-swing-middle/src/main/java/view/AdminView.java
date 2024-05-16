@@ -1,23 +1,18 @@
 package view;
 
 import controller.AdminViewController;
-import dao.OrdersDAO;
-import models.OrdersDTO;
+import models.OrdersDAO;
 import utils.EventMethod;
 import utils.Field;
 import utils.Method;
-import view.abstractView.IView;
 
 import javax.management.ConstructorParameters;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 import static controller.AdminViewController.getColumnNames;
 import static controller.AdminViewController.prepareTableData;
@@ -110,18 +105,11 @@ public class AdminView extends IView {
 
     @Method("이벤트 연결")
     public void connectEvents() {
-        submitButton.addActionListener(e -> onSubmitActionListener(e, searchField));
+        // Todo: 수정 예정
+        submitButton.addActionListener(e -> onSubmitActionListener(searchField));
 
         // 테이블 행 선택 이벤트 리스너
         table.getSelectionModel().addListSelectionListener(this::onTableDataClicked);
-
-        searchField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                controller.onSearchFieldInput(String.valueOf(e.getKeyChar()));
-            }
-        });
     }
 
     @EventMethod("테이블 데이터 클릭")
@@ -142,8 +130,8 @@ public class AdminView extends IView {
     }
 
     @EventMethod("검색 버튼 클릭")
-    private void onSubmitActionListener(ActionEvent e, JTextField searchField) {
-        controller.onSubmitActionListener((ActionListener) e, searchField);
+    private void onSubmitActionListener(JTextField searchField) {
+        controller.onSubmitActionListener(searchField);
     }
 
     public static void main(String[] args) {

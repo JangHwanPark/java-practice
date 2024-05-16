@@ -1,7 +1,6 @@
-package dao.abstractDAO;
+package models;
 
-import dao.InterfaceDAO.ConnProvider;
-import dao.InterfaceDAO.GenericDAO;
+import utils.ConnProvider;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,16 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public abstract class IModelDAO<T> implements ConnProvider, GenericDAO<T> {
+public abstract class IModelDAO<T> implements ConnProvider {
     private String tableName;
 
     public IModelDAO(String tableName) {
         this.tableName = tableName;
     }
 
-    protected abstract T modelsResultSet(ResultSet rset) throws SQLException;
-
-    @Override
     public ArrayList<T> getAllModels() {
         ArrayList<T> models = new ArrayList<>();
         String sql = "SELECT * FROM " + tableName;
@@ -38,6 +34,13 @@ public abstract class IModelDAO<T> implements ConnProvider, GenericDAO<T> {
         return models;
     }
 
-    @Override
     public abstract T insertModel(T model);
+
+    public abstract T deleteModel(T model);
+
+    public abstract T updateModel(T model);
+
+    public abstract T findByModelId(int userId);
+
+    protected abstract T modelsResultSet(ResultSet rset) throws SQLException;
 }

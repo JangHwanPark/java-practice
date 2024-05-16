@@ -1,6 +1,6 @@
 package controller;
 
-import dao.AdminDAO;
+import models.AdminDAO;
 import models.AdminDTO;
 import utils.Constructor;
 import utils.Method;
@@ -54,6 +54,46 @@ public class AuthController extends IValidateController {
         return true;
     }
 
+    @Method("사용자 입력 유효성 검사 로직")
+    protected boolean isEmptyUserNumber(String studentId) {
+        return studentId != null && !studentId.isEmpty();
+    }
+
+    @Method("사용자 입력 유효성 검사 로직")
+    protected boolean isEmptyUserEmail(String email) {
+        return email != null && !email.isEmpty();
+    }
+
+    @Method
+    private void showMessage(String message, String title, int messageType) {
+        JOptionPane.showMessageDialog(null, message, title, messageType);
+    }
+
+    @Method
+    public boolean isEmptyInputValidate(String name, String email, String phone, String address, String password) {
+        if (!isEmptyUserName(name)) {
+            System.out.println("유효하지 않은 이름: 이름을 입력해주세요.");
+            return false;
+        }
+        if (!isEmptyPassword(phone)) {
+            System.out.println("유효하지 않은 전화번호: 전화번호를 입력해주세요.");
+            return false;
+        }
+        if (!isEmptyUserEmail(email)) {
+            System.out.println("유효하지 않은 이메일: 이메일을 입력해주세요.");
+            return false;
+        }
+        if (!isEmptyUserNumber(password)) {
+            System.out.println("유효하지 않은 비밀번호: 비밀번호를 입력해주세요.");
+            return false;
+        }
+        if (address.isEmpty()) {
+            System.out.println("유효하지 않은 주소: 주소를 입력해주세요.");
+            return false;
+        }
+        return true;
+    }
+
     @Method("사용자 로그인 로직")
     public void loginUser(String email, String password) {
         if (validateUserInput(email, password)) {
@@ -82,45 +122,10 @@ public class AuthController extends IValidateController {
         }
     }
 
-    @Method("사용자 입력 유효성 검사 로직")
-    protected boolean isEmptyUserEmail(String email) {
-        return email != null && !email.isEmpty();
-    }
-
-    @Method("사용자 입력 유효성 검사 로직")
-    protected boolean isEmptyUserNumber(String studentId) {
-        return studentId != null && !studentId.isEmpty();
-    }
-
     @Method
-    public boolean validate(String name, String email, String phone, String address, String password) {
-        if (!isEmptyUserName(name)) {
-            System.out.println("유효하지 않은 이름: 이름을 입력해주세요.");
-            return false;
-        }
-        if (!isEmptyPassword(phone)) {
-            System.out.println("유효하지 않은 전화번호: 전화번호를 입력해주세요.");
-            return false;
-        }
-        if (!isEmptyUserEmail(email)) {
-            System.out.println("유효하지 않은 이메일: 이메일을 입력해주세요.");
-            return false;
-        }
-        if (!isEmptyUserNumber(password)) {
-            System.out.println("유효하지 않은 비밀번호: 비밀번호를 입력해주세요.");
-            return false;
-        }
-        if (address.isEmpty()) {
-            System.out.println("유효하지 않은 주소: 주소를 입력해주세요.");
-            return false;
-        }
-        return true;
-    }
-
-    @Method
-    public void registerUser(String name, String email, String phone, String address, String password, String role) {
-        if (validate(name, email, phone, address, password)) {
-            adminDAO.registerDBUser(name, email, phone, address, password, "admin");
+    public void registerUser(String name, String email, String phone, String address, String password, String admin) {
+        if (isEmptyInputValidate(name, email, phone, address, password)) {
+            adminDAO.registerDBUser(name, email, phone, address, password, admin);
         } else {
             JOptionPane.showMessageDialog(null, "사용자 등록에 실패했습니다. 입력 정보를 확인해주세요.");
         }
