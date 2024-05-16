@@ -120,10 +120,6 @@ public class AuthController extends IValidateController {
     @Method
     public void registerUser(String name, String email, String phone, String address, String password, String role) {
         if (validate(name, email, phone, address, password)) {
-            AdminDTO adminDTO = new AdminDTO(name, email, phone, address, password, role);
-            System.out.println("AdminDTO: " + adminDTO.toString());
-            System.out.println(adminDTO.getUserId());
-            System.out.println(adminDTO.getName());
             adminDAO.registerDBUser(name, email, phone, address, password, "admin");
         } else {
             JOptionPane.showMessageDialog(null, "사용자 등록에 실패했습니다. 입력 정보를 확인해주세요.");

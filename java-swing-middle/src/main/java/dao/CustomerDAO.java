@@ -37,7 +37,6 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
             pstmt.setString(4, customer.getAddress());
 
             int affectedRows = pstmt.executeUpdate();
-
             if (affectedRows == 0) {
                 throw new SQLException("Creating customer failed, no rows affected.");
             }
@@ -160,4 +159,28 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
         // 오류가 발생하거나 쿼리결과가 없다면 null 반환
         return null;
     }
+
+    public CustomerDTO findById(int customerId) {
+        String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, customerId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new CustomerDTO(
+                        rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getString("role")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

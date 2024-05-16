@@ -75,29 +75,27 @@ public class AdminViewController {
     public void updateRowData(Object[] rowData) {
         // 선택된 데이터가 없는 경우
         if (rowData == null || rowData.length == 0) {
-            JOptionPane.showMessageDialog(null, "선택된 데이터가 없습니다.", "데이터 선택 오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "선택된 데이터가 없습니다.",
+                    "데이터 선택 오류",
+                    JOptionPane.ERROR_MESSAGE
+            );
             return;
         }
 
         // 선택된 데이터 출력
         System.out.println("선택된 데이터: " + Arrays.toString(rowData));
 
-        // 데이터 소스에서 최신 데이터를 가져옴
-        OrdersDAO ordersDAO = new OrdersDAO();
-        ArrayList<OrdersDTO> orders = ordersDAO.getAllModels();
-        System.out.println("orders: " + orders);
-
-        // 테이블 데이터 설정
-        Object[][] data = prepareTableData(orders);
-        System.out.println("테이블 데이터: " + Arrays.deepToString(data));
-
-        // 테이블 모델 업데이트
-        //tableModel.setDataVector(data, getColumnNames());
-
-        // 테이블 뷰 갱신
-        //tableModel.fireTableDataChanged();
+        // 데이터베이스에서 customerId를 사용하여 상세 정보 조회
+        int customerId = Integer.parseInt(rowData[0].toString());
+        CustomerDTO customer = customerDAO.findById(customerId);
+        if (customer != null) {
+            System.out.println("고객 상세 정보: " + customer.toString());
+        } else {
+            System.out.println("고객 정보를 찾을 수 없습니다.");
+        }
     }
-
 
     @Method("사용자 삭제")
     public void deleteCustomerOrder(Object[] rowData) {
@@ -119,7 +117,6 @@ public class AdminViewController {
             customerDAO.deleteModel(customer);
 
             // 데이터 삭제 후 테이블 갱신
-            //AdminView adminView= AdminView.getInstance();
             AdminView adminView= AdminView.getInstance();
             adminView.createTableData();
             JOptionPane.showMessageDialog(null, "삭제되었습니다.");

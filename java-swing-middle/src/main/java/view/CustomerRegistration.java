@@ -71,14 +71,31 @@ public class CustomerRegistration extends ICustomerView {
             boolean success = controller.registerCustomerAndOrder(customer, order);
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "고객 및 주문 등록 성공");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "고객 및 주문 등록 성공"
+                );
             } else {
-                JOptionPane.showMessageDialog(this, "고객 및 주문 등록 실패", "오류", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        this,
+                        "고객 및 주문 등록 실패",
+                        "오류", JOptionPane.ERROR_MESSAGE
+                );
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "제품 ID와 관리자 ID는 숫자로 입력해야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "제품 ID와 관리자 ID는 숫자로 입력해야 합니다.",
+                    "입력 오류",
+                    JOptionPane.ERROR_MESSAGE
+            );
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "날짜 형식이 잘못되었습니다. YYYY-MM-DD 형식으로 입력하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "날짜 형식이 잘못되었습니다. YYYY-MM-DD 형식으로 입력하세요.",
+                    "입력 오류",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 }

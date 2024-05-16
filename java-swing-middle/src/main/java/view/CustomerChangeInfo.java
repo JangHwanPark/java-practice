@@ -11,14 +11,13 @@ import java.util.Arrays;
 public class CustomerChangeInfo extends ICustomerView {
     @Field
     private static final CustomerChangeInfo customerChangeInfo = new CustomerChangeInfo();
-    private Object[] selectedRowData;
 
     @Constructor
     private CustomerChangeInfo() {
         super("고객 정보 변경", 300, 500);
         initMainPanel();
         initMainPanel();
-        //setVisible(true);
+        setVisible(true);
     }
 
     @Method
