@@ -1,6 +1,6 @@
 package view;
 
-import controller.RegisterController;
+import controller.AuthController;
 import models.AdminDTO;
 import utils.Constructor;
 import utils.EventMethod;
@@ -16,7 +16,7 @@ public class RegisterView extends IView {
     @Field
     private static RegisterView instance;
     private JTextField nameField, emailField, phoneField, addressField, passwordField;
-    private RegisterController controller;
+    private AuthController controller;
     private JPanel mainPanel;
 
     @Constructor
@@ -47,7 +47,7 @@ public class RegisterView extends IView {
 
         // 모델과 컨트롤러 객체 생성
         AdminDTO userModel = new AdminDTO(0, "", "", "", "", "");
-        controller = new RegisterController(userModel);
+        controller = new AuthController(userModel);
 
         // 폰트 설정
         Font font = new Font("맑은 고딕", Font.PLAIN, 14);

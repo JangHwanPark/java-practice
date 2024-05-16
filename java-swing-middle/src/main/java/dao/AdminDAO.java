@@ -88,10 +88,4 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
 
         return null;
     }
-
-    public static void main(String[] args) throws SQLException {
-        AdminDAO adminDAO = new AdminDAO();
-        ArrayList<AdminDTO> admins = adminDAO.getAllModels();
-        System.out.println(adminDAO.findByAdminId(1));
-    }
 }

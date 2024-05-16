@@ -1,6 +1,6 @@
 package view;
 
-import controller.LoginController;
+import controller.AuthController;
 import utils.Constructor;
 import utils.EventMethod;
 import view.abstractView.IView;
@@ -15,7 +15,7 @@ public class LoginView extends IView {
     private RegisterView registerView;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private LoginController controller;
+    private AuthController controller;
     private JButton loginButton;
     private JPanel panel;
     private JLabel registerLink;
@@ -123,7 +123,7 @@ public class LoginView extends IView {
         System.out.println("로그인 버튼 클릭됨");
         System.out.println("email: " + email + ", password: " + password);
 
-        controller = new LoginController(email, password);
+        controller = new AuthController(email, password);
         controller.loginUser(email, password);
 
         if (controller.getUserModel() != null) {
