@@ -5,7 +5,6 @@ import dao.abstractDAO.IModelDAO;
 import models.AdminDTO;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class AdminDAO extends IModelDAO<AdminDTO> {
     public AdminDAO() {
@@ -56,6 +55,28 @@ public class AdminDAO extends IModelDAO<AdminDTO> {
             e.getStackTrace();
         }
         return admin;
+    }
+
+    public void registerDBUser(String name, String email, String phone, String address, String password, String role) {
+        String sql = """
+                INSERT INTO db2451506_user_management.admin (name, email, phone, address, role, password) VALUES (?, ?, ?, ?, 'admin', ?)
+                """;
+        try (Connection conn = ConnProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            String[] values = {name, email, phone, address, password, role};
+            for (int i = 0; i < values.length; i++) {
+                pstmt.setString(i + 1, values[i]);
+            }
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("사용자 추가 작업이 완료되었습니다. 연결이 종료되었습니다.");
+            } else {
+                System.out.println("사용자 추가 실패.");
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
     }
 
     @Override

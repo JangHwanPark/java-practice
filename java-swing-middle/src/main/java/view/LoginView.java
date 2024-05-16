@@ -119,11 +119,9 @@ public class LoginView extends IView {
     private void onSubmit() {
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
+        System.out.println("로그인 버튼 클릭됨: email: " + email + ", password: " + password);
 
-        System.out.println("로그인 버튼 클릭됨");
-        System.out.println("email: " + email + ", password: " + password);
-
-        controller = new AuthController(email, password);
+        controller = new AuthController();
         controller.loginUser(email, password);
 
         if (controller.getUserModel() != null) {

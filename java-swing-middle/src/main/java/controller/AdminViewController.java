@@ -64,9 +64,7 @@ public class AdminViewController {
     public boolean registerCustomerAndOrder(CustomerDTO customer, OrdersDTO order) {
         // 고객 등록
         CustomerDTO registeredCustomer = customerDAO.insertModel(customer);
-        if (registeredCustomer == null) {
-            return false;
-        }
+        if (registeredCustomer == null) return false;
 
         // 주문 등록
         order.setCustomer(registeredCustomer);
@@ -191,9 +189,6 @@ public class AdminViewController {
             );
             return;
         }
-
-        // 입력값 출력
-        System.out.println("버튼 클릭됨, 입력값: " + inputText);
     }
 
     @EventMethod("검색 텍스트필드 값 입력")

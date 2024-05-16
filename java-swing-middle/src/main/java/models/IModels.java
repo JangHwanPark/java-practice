@@ -8,6 +8,7 @@ public abstract class IModels {
     private String phone;
     private String address;
     private String role;
+    private String password;
 
     // 생성자
     public IModels(int userId, String name, String email, String phone, String address, String role) {
@@ -16,6 +17,15 @@ public abstract class IModels {
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.role = role;
+    }
+
+    public IModels(String name, String email, String phone, String address, String password, String role) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.password = password;
         this.role = role;
     }
 
@@ -38,6 +48,9 @@ public abstract class IModels {
 
     public String getAddress() {
         return address;
+    }
+    public String getPassword() {
+        return password;
     }
 
     public String getRole() {
@@ -64,11 +77,14 @@ public abstract class IModels {
     public void setAddress(String address) {
         this.address = address;
     }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public void setRole(String role) {
         this.role = role;
     }
-    
+
     // 메소드
     @Override
     public String toString() {

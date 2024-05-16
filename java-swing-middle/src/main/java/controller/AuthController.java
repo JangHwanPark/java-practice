@@ -20,7 +20,7 @@ public class AuthController extends IValidateController {
     }
 
     @Constructor("생성자")
-    public AuthController(String email, String password) {
+    public AuthController() {
         super(null);
         this.adminDAO = new AdminDAO();
     }
@@ -98,7 +98,7 @@ public class AuthController extends IValidateController {
             System.out.println("유효하지 않은 이름: 이름을 입력해주세요.");
             return false;
         }
-        if (!isEmptyPassword(phone)) { // 예제 코드에서 전화번호를 비밀번호 검증 메소드로 검증하고 있었습니다. 이는 수정이 필요할 수 있습니다.
+        if (!isEmptyPassword(phone)) {
             System.out.println("유효하지 않은 전화번호: 전화번호를 입력해주세요.");
             return false;
         }
@@ -120,12 +120,11 @@ public class AuthController extends IValidateController {
     @Method
     public void registerUser(String name, String email, String phone, String address, String password, String role) {
         if (validate(name, email, phone, address, password)) {
-            userModel.setName(name);
-            userModel.setEmail(email);
-            userModel.setPhone(phone);
-            userModel.setAddress(address);
-            userModel.setRole(role);
-            JOptionPane.showMessageDialog(null, "사용자 등록이 성공적으로 완료되었습니다.");
+            AdminDTO adminDTO = new AdminDTO(name, email, phone, address, password, role);
+            System.out.println("AdminDTO: " + adminDTO.toString());
+            System.out.println(adminDTO.getUserId());
+            System.out.println(adminDTO.getName());
+            adminDAO.registerDBUser(name, email, phone, address, password, "admin");
         } else {
             JOptionPane.showMessageDialog(null, "사용자 등록에 실패했습니다. 입력 정보를 확인해주세요.");
         }

@@ -5,7 +5,6 @@ import models.AdminDTO;
 import utils.Constructor;
 import utils.EventMethod;
 import utils.Field;
-import utils.Method;
 import view.abstractView.IView;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import java.awt.*;
 
 public class RegisterView extends IView {
     @Field
-    private static RegisterView instance;
     private JTextField nameField, emailField, phoneField, addressField, passwordField;
     private AuthController controller;
     private JPanel mainPanel;
@@ -25,12 +23,6 @@ public class RegisterView extends IView {
         initMainPanel();
         initComponents();
         setVisible(true);
-    }
-
-    @Method("getInstance - 싱글톤")
-    public static RegisterView getInstance() {
-        if (instance == null) instance = new RegisterView();
-        return instance;
     }
 
     @Override
@@ -127,7 +119,7 @@ public class RegisterView extends IView {
         signUpButton.addActionListener(e -> onSubmit());
     }
 
-    @EventMethod
+    @EventMethod("회원가입 버튼 클릭 이벤트")
     private void onSubmit() {
         System.out.println("회원가입 버튼 클릭");
 
@@ -137,7 +129,6 @@ public class RegisterView extends IView {
         String phone = phoneField.getText();
         String address = addressField.getText();
         String password = passwordField.getText();
-        System.out.println(name + " " + email + " " + phone + " " + address + " " + password);
 
         // 컨트롤러의 메소드를 호출하여 사용자 등록 처리
         controller.registerUser(name, email, phone, address, password, "admin");
@@ -148,10 +139,10 @@ public class RegisterView extends IView {
 
         // 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동
         if (response == JOptionPane.YES_OPTION) {
-            this.dispose();    // 프레임 종료
+            this.dispose();
             new LoginView().setVisible(true);
         } else {
-            this.dispose();    // 프레임 종료
+            this.dispose();
         }
     }
 }
