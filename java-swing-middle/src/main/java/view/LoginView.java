@@ -55,7 +55,7 @@ public class LoginView extends IView {
         panel.add(emailLabel, gbc);
 
         // 이메일 필드
-        emailField = new JTextField("admin@ansan.ac.kr",20);
+        emailField = new JTextField("a1", 20);
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -69,7 +69,7 @@ public class LoginView extends IView {
         panel.add(passwordLabel, gbc);
 
         // 비밀번호 필드
-        passwordField = new JPasswordField("admin",20);
+        passwordField = new JPasswordField("a1", 20);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
@@ -109,7 +109,6 @@ public class LoginView extends IView {
         registerLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("회원가입 링크 클릭됨");
                 new RegisterView();
                 setVisible(false);
             }
@@ -127,8 +126,8 @@ public class LoginView extends IView {
         controller = new LoginController(email, password);
         controller.loginUser(email, password);
 
-        AdminView adminView = AdminView.getInstance();
-        adminView.createTableData();
-        setVisible(false);
+        if (controller.getUserModel() != null) {
+            setVisible(false);
+        }
     }
 }

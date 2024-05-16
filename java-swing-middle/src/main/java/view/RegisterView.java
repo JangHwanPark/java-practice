@@ -131,7 +131,7 @@ public class RegisterView extends IView {
     private void onSubmit() {
         System.out.println("회원가입 버튼 클릭");
 
-        /* ********** 컨트롤러 메소드 호출을 위해 사용자 입력값을 가져옴 ********** */
+        // 컨트롤러 메소드 호출을 위해 사용자 입력값을 가져옴
         String name = nameField.getText();
         String email = emailField.getText();
         String phone = phoneField.getText();
@@ -139,14 +139,14 @@ public class RegisterView extends IView {
         String password = passwordField.getText();
         System.out.println(name + " " + email + " " + phone + " " + address + " " + password);
 
-        /* ********** 컨트롤러의 메소드를 호출하여 사용자 등록 처리 ********** */
+        // 컨트롤러의 메소드를 호출하여 사용자 등록 처리
         controller.registerUser(name, email, phone, address, password, "admin");
         int response = JOptionPane.showConfirmDialog(
                 this,
                 "회원가입이 완료되었습니다. 바로 로그인 하시겠습니까?"
         );
 
-        /* ********** 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동 ********** */
+        // 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동
         if (response == JOptionPane.YES_OPTION) {
             this.dispose();    // 프레임 종료
             new LoginView().setVisible(true);
