@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectDB {
+    @Constructor
     public ConnectDB() {}
 
+    @Method("DB 연결")
     public static Connection initDB() {
         Connection conn = null;
 
@@ -21,8 +23,9 @@ public class ConnectDB {
                     System.getenv("DB_USER"),
                     System.getenv("DB_PASS")
             );
-            System.out.println("DB Connection Reference Value: " + conn);
-            System.out.println("DB 연결 OK");
+
+            //System.out.println("DB Connection Reference Value: " + conn);
+            //System.out.println("DB 연결 OK");
         } catch (ClassNotFoundException e) {
             System.out.println("MySQL JDBC 드라이버를 찾을 수 없습니다.");
             e.getStackTrace();

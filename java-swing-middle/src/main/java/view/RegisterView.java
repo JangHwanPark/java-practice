@@ -2,6 +2,10 @@ package view;
 
 import controller.RegisterController;
 import models.AdminDTO;
+import utils.Constructor;
+import utils.EventMethod;
+import utils.Field;
+import utils.Method;
 import view.abstractView.IView;
 
 import javax.swing.*;
@@ -9,20 +13,28 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class RegisterView extends IView {
-    /* ******************** 필드 ******************** */
+    @Field
+    private static RegisterView instance;
     private JTextField nameField, emailField, phoneField, addressField, passwordField;
     private RegisterController controller;
-    private JButton signUpButton;
     private JPanel mainPanel;
 
-    /* ******************** 생성자 ******************** */
+    @Constructor
     public RegisterView() {
         super("회원가입", 400, 430);
+        initMainPanel();
         initComponents();
+        setVisible(true);
+    }
+
+    @Method("getInstance - 싱글톤")
+    public static RegisterView getInstance() {
+        if (instance == null) instance = new RegisterView();
+        return instance;
     }
 
     @Override
-    protected void setupMainPanel() {
+    protected void initMainPanel() {
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(new EmptyBorder(20, 30, 20, 30));
         this.add(mainPanel);
@@ -31,7 +43,7 @@ public class RegisterView extends IView {
     @Override
     public void initComponents() {
         // 컴포넌트 객체 초기화
-        signUpButton = new JButton();
+        JButton signUpButton = new JButton();
 
         // 모델과 컨트롤러 객체 생성
         AdminDTO userModel = new AdminDTO(0, "", "", "", "", "");
@@ -47,7 +59,7 @@ public class RegisterView extends IView {
 
         // 입력 필드 라벨 및 텍스트필드
         JLabel nameLabel = new JLabel("이름: ");
-        JTextField nameField = new JTextField(20);
+        nameField = new JTextField("admin",20);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -57,7 +69,7 @@ public class RegisterView extends IView {
         mainPanel.add(nameField, gbc);
 
         JLabel emailLabel = new JLabel("이메일: ");
-        JTextField emailField = new JTextField(20);
+        emailField = new JTextField("admin@ansan.ac.kr",20);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -67,7 +79,7 @@ public class RegisterView extends IView {
         mainPanel.add(emailField, gbc);
 
         JLabel phoneLabel = new JLabel("전화번호: ");
-        JTextField phoneField = new JTextField(20);
+        phoneField = new JTextField("010-1234-1234",20);
         gbc.gridx = 0;
         gbc.gridy = 2;
         mainPanel.add(phoneLabel, gbc);
@@ -75,7 +87,7 @@ public class RegisterView extends IView {
         mainPanel.add(phoneField, gbc);
 
         JLabel addressLabel = new JLabel("주소: ");
-        JTextField addressField = new JTextField(20);
+        addressField = new JTextField("안산대학교",20);
         gbc.gridx = 0;
         gbc.gridy = 3;
         mainPanel.add(addressLabel, gbc);
@@ -83,7 +95,7 @@ public class RegisterView extends IView {
         mainPanel.add(addressField, gbc);
 
         JLabel passwordLabel = new JLabel("비밀번호: ");
-        JTextField passwordField = new JTextField(20);
+        passwordField = new JTextField("admin",20);
         gbc.gridx = 0;
         gbc.gridy = 4;
         mainPanel.add(passwordLabel, gbc);
@@ -115,6 +127,7 @@ public class RegisterView extends IView {
         signUpButton.addActionListener(e -> onSubmit());
     }
 
+    @EventMethod
     private void onSubmit() {
         System.out.println("회원가입 버튼 클릭");
 
@@ -124,23 +137,21 @@ public class RegisterView extends IView {
         String phone = phoneField.getText();
         String address = addressField.getText();
         String password = passwordField.getText();
+        System.out.println(name + " " + email + " " + phone + " " + address + " " + password);
 
         /* ********** 컨트롤러의 메소드를 호출하여 사용자 등록 처리 ********** */
         controller.registerUser(name, email, phone, address, password, "admin");
-        int response = JOptionPane.showConfirmDialog(this, "회원가입 ok");
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "회원가입이 완료되었습니다. 바로 로그인 하시겠습니까?"
+        );
 
         /* ********** 팝업의 확인 버튼 클릭시 회원가입 윈도우로 이동 ********** */
         if (response == JOptionPane.YES_OPTION) {
             this.dispose();    // 프레임 종료
             new LoginView().setVisible(true);
+        } else {
+            this.dispose();    // 프레임 종료
         }
-    }
-
-    private void eventTest() {
-        System.out.println("eventTest");
-    }
-
-    public static void main(String[] args) {
-        new RegisterView();
     }
 }

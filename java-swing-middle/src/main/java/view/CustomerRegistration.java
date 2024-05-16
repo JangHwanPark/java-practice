@@ -1,10 +1,12 @@
 package view;
 
-import controller.CustomerController;
+import controller.AdminViewController;
 import models.AdminDTO;
 import models.CustomerDTO;
 import models.OrdersDTO;
 import models.ProductDTO;
+import utils.Constructor;
+import utils.Method;
 import view.abstractView.ICustomerView;
 
 import javax.swing.*;
@@ -13,11 +15,15 @@ import java.sql.Date;
 public class CustomerRegistration extends ICustomerView {
     private static final CustomerRegistration customerRegister = new CustomerRegistration();
 
+    @Constructor
     private CustomerRegistration() {
         super("고객 등록", 300, 500);
+        initMainPanel();
+        initComponents();
         setVisible(true);
     }
 
+    @Method
     public static CustomerRegistration getInstance() {
         return customerRegister;
     }
@@ -61,7 +67,7 @@ public class CustomerRegistration extends ICustomerView {
             order.setServiceDueDate(serviceDueDate);
             order.setPaymentStatus(paymentStatus);
 
-            CustomerController controller = new CustomerController();
+            AdminViewController controller = new AdminViewController();
             boolean success = controller.registerCustomerAndOrder(customer, order);
 
             if (success) {

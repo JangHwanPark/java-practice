@@ -1,13 +1,18 @@
 package view;
 
 import controller.LoginController;
+import utils.Constructor;
+import utils.EventMethod;
+import view.abstractView.IView;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class LoginView extends JFrame {
+public class LoginView extends IView {
+    private RegisterView registerView;
     private JTextField emailField;
     private JPasswordField passwordField;
     private LoginController controller;
@@ -15,13 +20,24 @@ public class LoginView extends JFrame {
     private JPanel panel;
     private JLabel registerLink;
 
+    @Constructor
     public LoginView() {
-        setTitle("로그인");
-        setSize(350, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("로그인", 400, 300);
+        initMainPanel();
+        initComponents();
+        bindEventHandlers();
+        setVisible(true);
+    }
 
+    @Override
+    protected void initMainPanel() {
+        mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBorder(new EmptyBorder(20, 30, 20, 30));
+        this.add(mainPanel);
+    }
 
+    @Override
+    protected void initComponents() {
         // 패널 생성
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -39,7 +55,7 @@ public class LoginView extends JFrame {
         panel.add(emailLabel, gbc);
 
         // 이메일 필드
-        emailField = new JTextField(20);
+        emailField = new JTextField("admin@ansan.ac.kr",20);
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -53,7 +69,7 @@ public class LoginView extends JFrame {
         panel.add(passwordLabel, gbc);
 
         // 비밀번호 필드
-        passwordField = new JPasswordField(20);
+        passwordField = new JPasswordField("admin",20);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
@@ -82,12 +98,9 @@ public class LoginView extends JFrame {
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.EAST;
         panel.add(registerLink, gbc);
-
-        // 이벤트 핸들러 등록
-        bindEventHandlers();
-        setVisible(true);
     }
 
+    @EventMethod
     private void bindEventHandlers() {
         // 로그인 버튼 클릭 시 이벤트 처리
         loginButton.addActionListener(e -> onSubmit());
@@ -96,32 +109,26 @@ public class LoginView extends JFrame {
         registerLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                onClickRegister();
+                System.out.println("회원가입 링크 클릭됨");
+                new RegisterView();
+                setVisible(false);
             }
         });
     }
 
-    private void onClickRegister() {
-        System.out.println("회원가입 링크 클릭됨");
-        new RegisterView();
-        setVisible(false);
-    }
-
-
-    /* *************** 로그인 버튼 클릭 시 이벤트 처리 ****************/
+    @EventMethod("로그인 버튼 클릭 시 이벤트 처리")
     private void onSubmit() {
-        System.out.println("로그인 버튼 클릭됨");
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
+
+        System.out.println("로그인 버튼 클릭됨");
         System.out.println("email: " + email + ", password: " + password);
 
         controller = new LoginController(email, password);
         controller.loginUser(email, password);
 
-        System.out.println("로그인 성공");
         AdminView adminView = AdminView.getInstance();
-        adminView.refreshTableData();
+        adminView.createTableData();
         setVisible(false);
     }
-    /* ********************************************************** */
 }

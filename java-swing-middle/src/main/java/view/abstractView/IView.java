@@ -11,13 +11,9 @@ public abstract class IView extends JFrame {
         setSize(width, height);  // 기본 크기 설정
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);  // 창을 화면 중앙에 배치
-
-        setupMainPanel();  // 메인 패널 설정
-        initComponents();  // 컴포넌트 초기화
-        setVisible(true);
     }
 
-    protected abstract void setupMainPanel();
+    protected abstract void initMainPanel();
 
     protected abstract void initComponents();
 }

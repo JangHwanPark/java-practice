@@ -19,7 +19,7 @@ public abstract class ICustomerView extends IView {
     }
 
     @Override
-    protected void setupMainPanel() {
+    protected void initMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         getContentPane().add(mainPanel);
