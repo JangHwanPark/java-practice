@@ -1,7 +1,7 @@
-package tv;
+package Factory.tv;
 
-import framework.Factory;
-import framework.Product;
+import Factory.framework.Factory;
+import Factory.framework.Product;
 
 public class ModelTVFactory extends Factory {
     int modelNumber = 1000;

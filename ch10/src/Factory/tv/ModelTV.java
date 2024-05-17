@@ -1,5 +1,5 @@
-package tv;
-import framework.Product;
+package Factory.tv;
+import Factory.framework.Product;
 
 public class ModelTV extends Product {
     private String model;

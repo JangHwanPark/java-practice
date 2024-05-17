@@ -11,6 +11,7 @@ import view.ChangeInfoView;
 import view.CustomerRegistrationView;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -169,6 +170,7 @@ public class AdminViewController {
         // 검색 필드의 텍스트 가져오기
         String inputText = searchField.getText();
         System.out.println("onSubmitActionListener 호출됨");
+        onComboBoxSelected("이름", searchField);
 
         // 입력값이 비어있는지 확인
         if (inputText.isEmpty()) {
@@ -178,9 +180,27 @@ public class AdminViewController {
         }
     }
 
-    @EventMethod("검색 텍스트필드 값 입력")
-    public void onSearchFieldInput(String inputText) {
-        System.out.println("onSearchFieldInput 호출됨");
-        System.out.println("검색어: " + inputText);
+    @EventMethod("콤보박스 값 읽어오기")
+    public void onComboBoxSelected(String selectedValue, JTextField searchField) {
+        System.out.println("onComboBoxValueRead 호출됨");
+        System.out.println("선택된 값: " + selectedValue);
+        System.out.println("입력된 값: " + searchField);
+    }
+
+    @EventMethod("테이블 데이터 클릭")
+    public void onTableDataClicked(ListSelectionEvent e, JTable table, Object[] selectedRowData) {
+        if (!e.getValueIsAdjusting()) {         // 이벤트가 두 번 발생하는 것을 방지
+            if (table.getSelectedRow() != -1) { // 선택된 행이 있는지 확인
+                int selectedRow = table.getSelectedRow();
+                selectedRowData = new Object[table.getColumnCount()];
+
+                for (int i = 0; i < table.getColumnCount(); i++) {
+                    selectedRowData[i] = table.getValueAt(selectedRow, i);
+                }
+
+                // 선택된 행의 데이터를 콘솔에 출력
+                updateRowData(selectedRowData);
+            }
+        }
     }
 }

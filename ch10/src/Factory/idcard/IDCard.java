@@ -1,6 +1,6 @@
-package idcard;
+package Factory.idcard;
 
-import framework.Product;
+import Factory.framework.Product;
 
 // 구현부
 public class IDCard extends Product {

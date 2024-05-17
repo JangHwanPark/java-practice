@@ -1,7 +1,7 @@
-package idcard;
+package Factory.idcard;
 
-import framework.Factory;
-import framework.Product;
+import Factory.framework.Factory;
+import Factory.framework.Product;
 
 public class IDCardFactory extends Factory {
     // 아이디카드 2000 부터 시작

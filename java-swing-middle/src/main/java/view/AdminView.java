@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
 
 import static controller.AdminViewController.getColumnNames;
 import static controller.AdminViewController.prepareTableData;
@@ -25,6 +25,7 @@ public class AdminView extends IView {
 
     private Object[] selectedRowData;
     private JPanel centerPanel, inputPanel, buttonPanel;
+    JComboBox<String> comboBox;
     private JTable table;
     private JButton submitButton, button;
     private JTextField searchField;
@@ -81,7 +82,8 @@ public class AdminView extends IView {
         submitButton = new JButton("검색");
 
         // 패널에 부착
-        inputPanel.add(new JComboBox<>(new String[]{"전체","이름","전화번호"}), BorderLayout.WEST);
+        comboBox = new JComboBox<>(new String[]{"전체","이름","전화번호"});
+        inputPanel.add(comboBox, BorderLayout.WEST);
         inputPanel.add(searchField, BorderLayout.CENTER);
         inputPanel.add(submitButton, BorderLayout.EAST);
 
@@ -105,33 +107,23 @@ public class AdminView extends IView {
 
     @Method("이벤트 연결")
     public void connectEvents() {
-        // Todo: 수정 예정
-        submitButton.addActionListener(e -> onSubmitActionListener(searchField));
+        // 검색 버튼
+        submitButton.addActionListener(e -> {
+            controller.onSubmitActionListener(searchField);
+        });
 
         // 테이블 행 선택 이벤트 리스너
-        table.getSelectionModel().addListSelectionListener(this::onTableDataClicked);
-    }
+        table.getSelectionModel().addListSelectionListener(e ->{
+            controller.onTableDataClicked(e, table, selectedRowData);
+        });
 
-    @EventMethod("테이블 데이터 클릭")
-    private void onTableDataClicked(ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {         // 이벤트가 두 번 발생하는 것을 방지
-            if (table.getSelectedRow() != -1) { // 선택된 행이 있는지 확인
-                int selectedRow = table.getSelectedRow();
-                selectedRowData = new Object[table.getColumnCount()];
-
-                for (int i = 0; i < table.getColumnCount(); i++) {
-                    selectedRowData[i] = table.getValueAt(selectedRow, i);
-                }
-
-                // 선택된 행의 데이터를 콘솔에 출력
-                controller.updateRowData(selectedRowData);
+        // 콤보박스
+        comboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selected = (String) e.getItem();
+                controller.onComboBoxSelected(selected, searchField);
             }
-        }
-    }
-
-    @EventMethod("검색 버튼 클릭")
-    private void onSubmitActionListener(JTextField searchField) {
-        controller.onSubmitActionListener(searchField);
+        });
     }
 
     public static void main(String[] args) {

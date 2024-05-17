@@ -1,4 +1,4 @@
-package framework;
+package Factory.framework;
 
 public abstract class Factory {
     // 구현된 메서드

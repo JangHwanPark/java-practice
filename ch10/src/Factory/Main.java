@@ -1,7 +1,9 @@
-import framework.Factory;
-import framework.Product;
-import idcard.IDCardFactory;
-import tv.ModelTVFactory;
+package Factory;
+
+import Factory.framework.Factory;
+import Factory.framework.Product;
+import Factory.idcard.IDCardFactory;
+import Factory.tv.ModelTVFactory;
 
 public class Main {
     public static void main(String[] args) {
