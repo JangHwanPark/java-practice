@@ -105,7 +105,24 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
 
     @Override
     public CustomerDTO findByModelId(int customerId) {
-        String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
+        // SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?
+        String sql = "SELECT\n" +
+                "    c.customer_id,\n" +
+                "    c.name,\n" +
+                "    c.address,\n" +
+                "    c.email,\n" +
+                "    c.phone,\n" +
+                "    c.role,\n" +
+                "    o.order_id as product_id,\n" +
+                "    o.admin_id,\n" +
+                "    o.service_due_date,\n" +
+                "    o.payment_status\n" +
+                "FROM\n" +
+                "    db2451506_user_management.customer c\n" +
+                "LEFT JOIN db2451506_user_management.orders o ON c.customer_id = o.customer_id\n" +
+                "LEFT JOIN db2451506_user_management.product p ON o.product_id = p.product_id\n" +
+                "WHERE\n" +
+                "    c.customer_id = ?;\n";
         try (Connection conn = ConnProvider.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, customerId);

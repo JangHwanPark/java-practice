@@ -11,8 +11,7 @@ import java.awt.*;
 public abstract class ICustomerView extends IView {
     @Field
     private JPanel formPanel;
-    protected JTextField idField, nameField, addressField, emailField, phoneField, carField, purchaseDateField;
-    protected JTextField roleField, productIdField, adminIdField, serviceDueDateField;
+    protected JTextField idField, nameField, addressField, emailField, phoneField, carField, purchaseDateField, roleField, productIdField, adminIdField, serviceDueDateField;
     protected JCheckBox paymentStatusField;
 
     @Constructor

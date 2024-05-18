@@ -1,11 +1,10 @@
 package controller;
 
-import models.CustomerDAO;
-import models.OrdersDAO;
-import models.CustomerDTO;
-import models.OrdersDTO;
-import models.ProductDTO;
-import utils.*;
+import models.*;
+import utils.Constructor;
+import utils.EventMethod;
+import utils.Field;
+import utils.Method;
 import view.AdminView;
 import view.ChangeInfoView;
 import view.CustomerRegistrationView;
@@ -22,7 +21,8 @@ public class AdminViewController {
     @Field
     private CustomerDAO customerDAO;
     private OrdersDAO ordersDAO;
-    private ChangeInfoView customerChangeInfo;
+    CustomerDTO customer;
+    OrdersDTO order;
     private static final String[] columnNames = {"고객 ID", "이름", "이메일", "전화번호", "주소", "주문 ID", "주문 날짜", "주문 상태"};
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -103,8 +103,12 @@ public class AdminViewController {
 
         // 데이터베이스에서 customerId를 사용하여 상세 정보 조회
         int customerId = Integer.parseInt(rowData[0].toString());
-        CustomerDTO customer = customerDAO.findByModelId(customerId);
+        customer = customerDAO.findByModelId(customerId);
+        order = ordersDAO.findByModelId(customerId);
+
+        // Test
         if (customer != null) {
+            System.out.println("주문정보: " + order.toString());
             System.out.println("고객 상세 정보: " + customer.toString());
         } else {
             System.out.println("고객 정보를 찾을 수 없습니다.");
@@ -119,10 +123,10 @@ public class AdminViewController {
 
         // 삭제 확인 대화상자 출력
         int deleteRes = JOptionPane.showConfirmDialog(null, "정말로 삭제하시겠습니까?", "삭제 확인", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-        
+
         if (deleteRes == JOptionPane.OK_OPTION) {
             System.out.println("deleteRes: " + deleteRes);
-            
+
             // DTO 로 객체 생성 후, DAO 를 이용해 삭제 작업 수행
             CustomerDTO customer = new CustomerDTO(customerId);
             customer.setUserId(customerId);
@@ -131,7 +135,7 @@ public class AdminViewController {
             customerDAO.deleteModel(customer);
 
             // 데이터 삭제 후 테이블 갱신
-            AdminView adminView= AdminView.getInstance();
+            AdminView adminView = AdminView.getInstance();
             adminView.createTableData();
             JOptionPane.showMessageDialog(null, "삭제되었습니다.");
         }
@@ -146,8 +150,8 @@ public class AdminViewController {
                     showRegistration.setButtonEvent();
                     break;
                 case "정보 변경":
-                    customerChangeInfo = ChangeInfoView.getInstance();
-                    customerChangeInfo.setButtonEvent();
+                    ChangeInfoView customerChangeInfo = ChangeInfoView.getInstance();
+                    customerChangeInfo.setCustomerData(customer, order);
                     break;
                 case "정보 삭제":
                     deleteCustomerOrder(selectedRowData);
@@ -188,11 +192,11 @@ public class AdminViewController {
     }
 
     @EventMethod("테이블 데이터 클릭")
-    public void onTableDataClicked(ListSelectionEvent e, JTable table, Object[] selectedRowData) {
+    public void onTableDataClicked(ListSelectionEvent e, JTable table) {
         if (!e.getValueIsAdjusting()) {         // 이벤트가 두 번 발생하는 것을 방지
             if (table.getSelectedRow() != -1) { // 선택된 행이 있는지 확인
                 int selectedRow = table.getSelectedRow();
-                selectedRowData = new Object[table.getColumnCount()];
+                Object[] selectedRowData = new Object[table.getColumnCount()];
 
                 for (int i = 0; i < table.getColumnCount(); i++) {
                     selectedRowData[i] = table.getValueAt(selectedRow, i);

@@ -2,14 +2,12 @@ package view;
 
 import controller.AdminViewController;
 import models.OrdersDAO;
-import utils.EventMethod;
 import utils.Field;
 import utils.Method;
 
 import javax.management.ConstructorParameters;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -114,7 +112,7 @@ public class AdminView extends IView {
 
         // 테이블 행 선택 이벤트 리스너
         table.getSelectionModel().addListSelectionListener(e ->{
-            controller.onTableDataClicked(e, table, selectedRowData);
+            controller.onTableDataClicked(e, table);
         });
 
         // 콤보박스
