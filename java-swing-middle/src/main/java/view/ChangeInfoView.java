@@ -25,6 +25,7 @@ public class ChangeInfoView extends ICustomerView {
         return customerChangeInfo;
     }
 
+    @Method
     public void setCustomerData(CustomerDTO customer, OrdersDTO order) {
         if (customer != null) {
             // 각 필드에 데이터 설정
@@ -63,7 +64,5 @@ public class ChangeInfoView extends ICustomerView {
     }
 
     @Override
-    public void setButtonEvent() {
-        System.out.println("고객 정보 변경 버튼 클릭");
-    }
+    public void setButtonEvent() {}
 }

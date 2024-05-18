@@ -105,24 +105,7 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
 
     @Override
     public CustomerDTO findByModelId(int customerId) {
-        // SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?
-        String sql = "SELECT\n" +
-                "    c.customer_id,\n" +
-                "    c.name,\n" +
-                "    c.address,\n" +
-                "    c.email,\n" +
-                "    c.phone,\n" +
-                "    c.role,\n" +
-                "    o.order_id as product_id,\n" +
-                "    o.admin_id,\n" +
-                "    o.service_due_date,\n" +
-                "    o.payment_status\n" +
-                "FROM\n" +
-                "    db2451506_user_management.customer c\n" +
-                "LEFT JOIN db2451506_user_management.orders o ON c.customer_id = o.customer_id\n" +
-                "LEFT JOIN db2451506_user_management.product p ON o.product_id = p.product_id\n" +
-                "WHERE\n" +
-                "    c.customer_id = ?;\n";
+        String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
         try (Connection conn = ConnProvider.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, customerId);
@@ -144,7 +127,7 @@ public class CustomerDAO extends IModelDAO<CustomerDTO> {
         return null;
     }
 
-    // TODO: 추상 메서드로 구현
+    // 상품 ID로 고객 정보 조회
     public CustomerDTO findByProductId(int id) {
         String sql = "SELECT * FROM db2451506_user_management.customer WHERE customer_id = ?";
 

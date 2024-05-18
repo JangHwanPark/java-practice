@@ -17,18 +17,19 @@ import static controller.AdminViewController.prepareTableData;
 
 
 public class AdminView extends IView {
-    @Field("instance")
+    @Field
     private  static AdminView instance;
     private static final String[] BUTTON_LABELS = {"정보 등록", "정보 변경", "정보 삭제", "프로그램 종료"};
-
     private Object[] selectedRowData;
-    private JPanel centerPanel, inputPanel, buttonPanel;
-    JComboBox<String> comboBox;
+    private JPanel centerPanel;
+    private JPanel inputPanel;
+    private JPanel buttonPanel;
+    private JComboBox<String> comboBox;
     private JTable table;
-    private JButton submitButton, button;
+    private JButton submitButton;
     private JTextField searchField;
     private DefaultTableModel tableModel;
-    private AdminViewController controller;
+    private final AdminViewController controller;
 
     @ConstructorParameters({"title", "width", "height"})
     private AdminView() {
@@ -61,7 +62,7 @@ public class AdminView extends IView {
         buttonPanel.setBorder(new EmptyBorder(50, 20, 50, 20));
 
         for (String BUTTON_LABEL : BUTTON_LABELS) {
-            button = new JButton(BUTTON_LABEL);
+            JButton button = new JButton(BUTTON_LABEL);
             button.setMaximumSize(new Dimension(150, 50));
             button.setAlignmentX(Component.LEFT_ALIGNMENT);
             button.addActionListener(controller.showNavigationMenu(BUTTON_LABEL, selectedRowData));
